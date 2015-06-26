@@ -156,7 +156,7 @@ public class TitleScene extends PixelScene {
 		source.y = h - source.height();
 		add( source );
 		
-		BitmapText sourceShattered = new BitmapText("Shattered PD v 0.3.0d", font1x);
+		BitmapText sourceShattered = new BitmapText("Shattered PD v 0.3.0e", font1x);
 		sourceShattered.measure();
 		sourceShattered.hardlight(0x00FF00);
 		sourceShattered.x = w -sourceShattered.width();

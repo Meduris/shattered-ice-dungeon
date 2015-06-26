@@ -51,7 +51,8 @@ public class WelcomeScene extends PixelScene {
 	private static final String TXT_Update =
 			"Current differences from Shattered Pixel Dungeon\n" +
 			"changed the graphics of the first five floors\n\n" +
-			"Shattered Pixel Dungeon v0.3.0d:\n" +
+			"Shattered Pixel Dungeon v0.3.0e & v0.3.0d:\n" +
+					"Performance improvements\n" +
 					"- Various bugfixes\n" +
 					"\n" +
 					"v0.3.0c:\n" +
