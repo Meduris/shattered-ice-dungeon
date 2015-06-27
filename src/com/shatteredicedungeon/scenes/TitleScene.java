@@ -42,148 +42,157 @@ import com.watabou.noosa.ui.Button;
 
 public class TitleScene extends PixelScene {
 
-	private static final String TXT_PLAY		= "Play";
-	private static final String TXT_HIGHSCORES	= "Rankings";
-	private static final String TXT_BADGES		= "Badges";
-	private static final String TXT_ABOUT		= "About";
-	
+	private static final String TXT_PLAY = "Play";
+	private static final String TXT_HIGHSCORES = "Rankings";
+	private static final String TXT_BADGES = "Badges";
+	private static final String TXT_ABOUT = "About";
+
 	@Override
 	public void create() {
-		
+
 		super.create();
-
-
 
 		int gameversion = ShatteredIceDungeon.version();
 
 		if (gameversion != Game.versionCode) {
-			//new intro, make older players see it again.
+			// new intro, make older players see it again.
 			if (gameversion < 9)
 				ShatteredIceDungeon.intro(true);
 			Game.switchScene(WelcomeScene.class);
 		}
-		
-		Music.INSTANCE.play( Assets.THEME, true );
-		Music.INSTANCE.volume( 1f );
-		
+
+		Music.INSTANCE.play(Assets.THEME, true);
+		Music.INSTANCE.volume(1f);
+
 		uiCamera.visible = false;
-		
+
 		int w = Camera.main.width;
 		int h = Camera.main.height;
-		
-		Archs archs = new Archs();
-		archs.setSize( w, h );
-		add( archs );
-		
-		Image title = BannerSprites.get( BannerSprites.Type.PIXEL_DUNGEON );
-		add( title );
 
-		float height = title.height +
-				(ShatteredIceDungeon.landscape() ? DashboardItem.SIZE : DashboardItem.SIZE * 2);
+		Archs archs = new Archs();
+		archs.setSize(w, h);
+		add(archs);
+
+		Image title = BannerSprites.get(BannerSprites.Type.PIXEL_DUNGEON);
+		add(title);
+
+		float height = title.height
+				+ (ShatteredIceDungeon.landscape() ? DashboardItem.SIZE
+						: DashboardItem.SIZE * 2);
 
 		title.x = (w - title.width()) / 2;
 		title.y = (h - height) / 2;
-		
-		placeTorch( title.x + 18, title.y + 20 );
-		placeTorch( title.x + title.width - 18, title.y + 20 );
 
-		Image signs = new Image( BannerSprites.get( BannerSprites.Type.PIXEL_DUNGEON_SIGNS ) ) {
+		placeTorch(title.x + 18, title.y + 20);
+		placeTorch(title.x + title.width - 18, title.y + 20);
+
+		Image signs = new Image(
+				BannerSprites.get(BannerSprites.Type.PIXEL_DUNGEON_SIGNS)) {
 			private float time = 0;
+
 			@Override
 			public void update() {
 				super.update();
-				am = (float)Math.sin( -(time += Game.elapsed) );
+				am = (float) Math.sin(-(time += Game.elapsed));
 			}
+
 			@Override
 			public void draw() {
-				GLES20.glBlendFunc( GL10.GL_SRC_ALPHA, GL10.GL_ONE );
+				GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 				super.draw();
-				GLES20.glBlendFunc( GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA );
+				GLES20.glBlendFunc(GL10.GL_SRC_ALPHA,
+						GL10.GL_ONE_MINUS_SRC_ALPHA);
 			}
 		};
 		signs.x = title.x;
 		signs.y = title.y;
-		add( signs );
-		
-		DashboardItem btnBadges = new DashboardItem( TXT_BADGES, 3 ) {
+		add(signs);
+
+		DashboardItem btnBadges = new DashboardItem(TXT_BADGES, 3) {
 			@Override
 			protected void onClick() {
-				ShatteredIceDungeon.switchNoFade( BadgesScene.class );
+				ShatteredIceDungeon.switchNoFade(BadgesScene.class);
 			}
 		};
-		add( btnBadges );
-		
-		DashboardItem btnAbout = new DashboardItem( TXT_ABOUT, 1 ) {
+		add(btnBadges);
+
+		DashboardItem btnAbout = new DashboardItem(TXT_ABOUT, 1) {
 			@Override
 			protected void onClick() {
-				ShatteredIceDungeon.switchNoFade( AboutScene.class );
+				ShatteredIceDungeon.switchNoFade(AboutScene.class);
 			}
 		};
-		add( btnAbout );
-		
-		DashboardItem btnPlay = new DashboardItem( TXT_PLAY, 0 ) {
+		add(btnAbout);
+
+		DashboardItem btnPlay = new DashboardItem(TXT_PLAY, 0) {
 			@Override
 			protected void onClick() {
-				ShatteredIceDungeon.switchNoFade( StartScene.class );
+				ShatteredIceDungeon.switchNoFade(StartScene.class);
 			}
 		};
-		add( btnPlay );
-		
-		DashboardItem btnHighscores = new DashboardItem( TXT_HIGHSCORES, 2 ) {
+		add(btnPlay);
+
+		DashboardItem btnHighscores = new DashboardItem(TXT_HIGHSCORES, 2) {
 			@Override
 			protected void onClick() {
-				ShatteredIceDungeon.switchNoFade( RankingsScene.class );
+				ShatteredIceDungeon.switchNoFade(RankingsScene.class);
 			}
 		};
-		add( btnHighscores );
+		add(btnHighscores);
 
 		if (ShatteredIceDungeon.landscape()) {
 			float y = (h + height) / 2 - DashboardItem.SIZE;
-			btnHighscores    .setPos( w / 2 - btnHighscores.width(), y );
-			btnBadges        .setPos( w / 2, y );
-			btnPlay            .setPos( btnHighscores.left() - btnPlay.width(), y );
-			btnAbout        .setPos( btnBadges.right(), y );
+			btnHighscores.setPos(w / 2 - btnHighscores.width(), y);
+			btnBadges.setPos(w / 2, y);
+			btnPlay.setPos(btnHighscores.left() - btnPlay.width(), y);
+			btnAbout.setPos(btnBadges.right(), y);
 		} else {
-			btnBadges.setPos( w / 2 - btnBadges.width(), (h + height) / 2 - DashboardItem.SIZE );
-			btnAbout.setPos( w / 2, (h + height) / 2 - DashboardItem.SIZE );
-			btnPlay.setPos( w / 2 - btnPlay.width(), btnAbout.top() - DashboardItem.SIZE );
-			btnHighscores.setPos( w / 2, btnPlay.top() );
+			btnBadges.setPos(w / 2 - btnBadges.width(), (h + height) / 2
+					- DashboardItem.SIZE);
+			btnAbout.setPos(w / 2, (h + height) / 2 - DashboardItem.SIZE);
+			btnPlay.setPos(w / 2 - btnPlay.width(), btnAbout.top()
+					- DashboardItem.SIZE);
+			btnHighscores.setPos(w / 2, btnPlay.top());
 		}
 
-		BitmapText source = new BitmapText( "PD v 1.7.5", font1x );
+		BitmapText source = new BitmapText("PD v 1.7.5", font1x);
 		source.measure();
-		source.hardlight( 0x444444 );
+		source.hardlight(0x444444);
 		source.x = w - source.width();
 		source.y = h - source.height();
-		add( source );
-		
-		BitmapText sourceShattered = new BitmapText("Shattered PD v 0.3.0e", font1x);
+		add(source);
+
+		BitmapText sourceShattered = new BitmapText("Shattered PD v 0.3.0e",
+				font1x);
 		sourceShattered.measure();
 		sourceShattered.hardlight(0x00FF00);
 		sourceShattered.x = w - sourceShattered.width();
 		sourceShattered.y = h - sourceShattered.height() - source.height();
 		add(sourceShattered);
 
-		BitmapText version = new BitmapText( "ice PD v " + Game.version + "", font1x );
+		BitmapText version = new BitmapText("ice PD v " + Game.version + "",
+				font1x);
 		version.measure();
-//		version.hardlight( 0xCCCCCC );
+		// version.hardlight( 0xCCCCCC );
 		version.hardlight(0x00FFFF);
 		version.x = w - version.width();
-		version.y = h - version.height() - sourceShattered.height() - source.height();
+		version.y = h - version.height() - sourceShattered.height()
+				- source.height();
 
-		add( version );
-		
+		add(version);
+
 		BitmapText deviceBrand;
 		deviceBrand = new BitmapText(Build.BRAND.toString(), font1x);
 		deviceBrand.measure();
 		deviceBrand.hardlight(0xFF0000);
 		deviceBrand.x = w - deviceBrand.width();
-		deviceBrand.y = h - deviceBrand.height() - version.height() - sourceShattered.height() - source.height();
-		
+		deviceBrand.y = h - deviceBrand.height() - version.height()
+				- sourceShattered.height() - source.height();
+
 		add(deviceBrand);
-		
+
 		BitmapText emulator;
-		if(Build.BRAND.contains("generic")){
+		if (Build.BRAND.contains("generic")) {
 			emulator = new BitmapText("emulator", font1x);
 		} else {
 			emulator = new BitmapText("mobile phone", font1x);
@@ -191,74 +200,76 @@ public class TitleScene extends PixelScene {
 		emulator.measure();
 		emulator.hardlight(0xFF0000);
 		emulator.x = w - emulator.width();
-		emulator.y = h - emulator.height() - deviceBrand.height() - version.height() - sourceShattered.height() - source.height();
-		
+		emulator.y = h - emulator.height() - deviceBrand.height()
+				- version.height() - sourceShattered.height() - source.height();
+
 		add(emulator);
-		
+
 		PrefsButton btnPrefs = new PrefsButton();
-		btnPrefs.setPos( 0, 0 );
-		add( btnPrefs );
+		btnPrefs.setPos(0, 0);
+		add(btnPrefs);
 
 		ExitButton btnExit = new ExitButton();
-		btnExit.setPos( w - btnExit.width(), 0 );
-		add( btnExit );
-		
+		btnExit.setPos(w - btnExit.width(), 0);
+		add(btnExit);
+
 		fadeIn();
 	}
-	
-	private void placeTorch( float x, float y ) {
+
+	private void placeTorch(float x, float y) {
 		Fireball fb = new Fireball();
-		fb.setPos( x, y );
-		add( fb );
+		fb.setPos(x, y);
+		add(fb);
 	}
-	
+
 	private static class DashboardItem extends Button {
-		
-		public static final float SIZE	= 48;
-		
-		private static final int IMAGE_SIZE	= 32;
-		
+
+		public static final float SIZE = 48;
+
+		private static final int IMAGE_SIZE = 32;
+
 		private Image image;
 		private BitmapText label;
-		
-		public DashboardItem( String text, int index ) {
+
+		public DashboardItem(String text, int index) {
 			super();
-			
-			image.frame( image.texture.uvRect( index * IMAGE_SIZE, 0, (index + 1) * IMAGE_SIZE, IMAGE_SIZE ) );
-			this.label.text( text );
+
+			image.frame(image.texture.uvRect(index * IMAGE_SIZE, 0, (index + 1)
+					* IMAGE_SIZE, IMAGE_SIZE));
+			this.label.text(text);
 			this.label.measure();
-			
-			setSize( SIZE, SIZE );
+
+			setSize(SIZE, SIZE);
 		}
-		
+
 		@Override
 		protected void createChildren() {
 			super.createChildren();
-			
-			image = new Image( Assets.DASHBOARD );
-			add( image );
-			
-			label = createText( 9 );
-			add( label );
+
+			image = new Image(Assets.DASHBOARD);
+			add(image);
+
+			label = createText(9);
+			add(label);
 		}
-		
+
 		@Override
 		protected void layout() {
 			super.layout();
-			
-			image.x = align( x + (width - image.width()) / 2 );
-			image.y = align( y );
-			
-			label.x = align( x + (width - label.width()) / 2 );
-			label.y = align( image.y + image.height() +2 );
+
+			image.x = align(x + (width - image.width()) / 2);
+			image.y = align(y);
+
+			label.x = align(x + (width - label.width()) / 2);
+			label.y = align(image.y + image.height() + 2);
 		}
-		
+
 		@Override
 		protected void onTouchDown() {
-			image.brightness( 1.5f );
-			Sample.INSTANCE.play( Assets.SND_CLICK, 1, 1, 0.8f );
+			image.brightness(1.5f);
+			Sample.INSTANCE.play(Assets.SND_CLICK, 1, 1, 0.8f);
 		}
-		
+
 		@Override
 		protected void onTouchUp() {
 			image.resetColor();
