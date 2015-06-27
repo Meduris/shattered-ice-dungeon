@@ -1,1 +1,15 @@
-06-27 08:35:52.797: E/AndroidRuntime(2637): 	at android.opengl.GLSurfaceView$GLThread.run(GLSurfaceView.java:1239)
+06-27 09:35:25.647: D/(8528): HostConnection::get() New Host Connection established 0xae0d39b0, tid 8528
+06-27 09:35:25.693: D/Atlas(8528): Validating map...
+06-27 09:35:25.751: D/(8528): HostConnection::get() New Host Connection established 0xae0d3e60, tid 8547
+06-27 09:35:25.824: I/OpenGLRenderer(8528): Initialized EGL, version 1.4
+06-27 09:35:25.852: D/OpenGLRenderer(8528): Enabling debug mode 0
+06-27 09:35:25.884: W/EGL_emulation(8528): eglSurfaceAttrib not implemented
+06-27 09:35:25.884: W/OpenGLRenderer(8528): Failed to set EGL_SWAP_BEHAVIOR on surface 0xa693c1a0, error=EGL_SUCCESS
+06-27 09:35:25.928: D/(8528): HostConnection::get() New Host Connection established 0xae0d3210, tid 8543
+06-27 09:35:26.012: E/AndroidRuntime(8528): FATAL EXCEPTION: GLThread 337
+06-27 09:35:26.012: E/AndroidRuntime(8528): Process: com.shatteredicedungeon, PID: 8528
+06-27 09:35:26.012: E/AndroidRuntime(8528): java.lang.IllegalArgumentException: No config chosen
+06-27 09:35:26.012: E/AndroidRuntime(8528): 	at android.opengl.GLSurfaceView$BaseConfigChooser.chooseConfig(GLSurfaceView.java:869)
+06-27 09:35:26.012: E/AndroidRuntime(8528): 	at android.opengl.GLSurfaceView$EglHelper.start(GLSurfaceView.java:1023)
+06-27 09:35:26.012: E/AndroidRuntime(8528): 	at android.opengl.GLSurfaceView$GLThread.guardedRun(GLSurfaceView.java:1400)
+06-27 09:35:26.012: E/AndroidRuntime(8528): 	at android.opengl.GLSurfaceView$GLThread.run(GLSurfaceView.java:1239)
