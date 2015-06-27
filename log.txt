@@ -1,0 +1,1 @@
+06-27 08:35:52.797: E/AndroidRuntime(2637): 	at android.opengl.GLSurfaceView$GLThread.run(GLSurfaceView.java:1239)
