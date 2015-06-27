@@ -28,17 +28,14 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.AudioManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 
-import com.shatteredicedungeon.utils.GLog;
 import com.watabou.glscripts.Script;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.input.Keys;
@@ -121,29 +118,14 @@ public class Game extends Activity implements GLSurfaceView.Renderer,
 
 		view = new GLSurfaceView(this);
 		view.setEGLContextClientVersion(2);
-		view.setEGLConfigChooser(false);
+		// view.setEGLConfigChooser( false );
+		// changed to be able to run it on my android emulator
+		view.setEGLConfigChooser(true);
+		view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+
 		view.setRenderer(this);
 		view.setOnTouchListener(this);
 		setContentView(view);
-//		if (Build.BRAND.contains("generic")) {
-//			view = new GLSurfaceView(this);
-//			view.setEGLContextClientVersion(2);
-//			// view.setEGLConfigChooser( false );
-//			// changed to be able to run it on my android emulator
-//			view.setEGLConfigChooser(true);
-//			view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
-//			view.setRenderer(this);
-//			view.setOnTouchListener(this);
-//			setContentView(view);
-//		} else {			
-//			view = new GLSurfaceView(this);
-//			view.setEGLContextClientVersion(2);
-//			view.setEGLConfigChooser(false);
-//			view.setRenderer(this);
-//			view.setOnTouchListener(this);
-//			setContentView(view);
-//		}
-		
 	}
 
 	@Override
