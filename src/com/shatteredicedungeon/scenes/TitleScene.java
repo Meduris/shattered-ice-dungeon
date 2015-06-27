@@ -172,12 +172,14 @@ public class TitleScene extends PixelScene {
 		version.y = h - version.height() - sourceShattered.height() - source.height();
 
 		add( version );
+		
 		BitmapText deviceBrand;
 		deviceBrand = new BitmapText(Build.BRAND.toString(), font1x);
 		deviceBrand.measure();
 		deviceBrand.hardlight(0xFF0000);
 		deviceBrand.x = w - deviceBrand.width();
 		deviceBrand.y = h - deviceBrand.height() - version.height() - sourceShattered.height() - source.height();
+		
 		add(deviceBrand);
 		
 		BitmapText emulator;
@@ -190,6 +192,7 @@ public class TitleScene extends PixelScene {
 		emulator.hardlight(0xFF0000);
 		emulator.x = w - emulator.width();
 		emulator.y = h - emulator.height() - deviceBrand.height() - version.height() - sourceShattered.height() - source.height();
+		
 		add(emulator);
 		
 		PrefsButton btnPrefs = new PrefsButton();
