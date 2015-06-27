@@ -23,14 +23,8 @@ package com.shatteredicedungeon.scenes;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLES20;
+import android.os.Build;
 
-import com.watabou.noosa.BitmapText;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Image;
-import com.watabou.noosa.audio.Music;
-import com.watabou.noosa.audio.Sample;
-import com.watabou.noosa.ui.Button;
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.ShatteredIceDungeon;
 import com.shatteredicedungeon.effects.BannerSprites;
@@ -38,6 +32,13 @@ import com.shatteredicedungeon.effects.Fireball;
 import com.shatteredicedungeon.ui.Archs;
 import com.shatteredicedungeon.ui.ExitButton;
 import com.shatteredicedungeon.ui.PrefsButton;
+import com.watabou.noosa.BitmapText;
+import com.watabou.noosa.Camera;
+import com.watabou.noosa.Game;
+import com.watabou.noosa.Image;
+import com.watabou.noosa.audio.Music;
+import com.watabou.noosa.audio.Sample;
+import com.watabou.noosa.ui.Button;
 
 public class TitleScene extends PixelScene {
 
@@ -159,7 +160,7 @@ public class TitleScene extends PixelScene {
 		BitmapText sourceShattered = new BitmapText("Shattered PD v 0.3.0e", font1x);
 		sourceShattered.measure();
 		sourceShattered.hardlight(0x00FF00);
-		sourceShattered.x = w -sourceShattered.width();
+		sourceShattered.x = w - sourceShattered.width();
 		sourceShattered.y = h - sourceShattered.height() - source.height();
 		add(sourceShattered);
 
@@ -171,6 +172,25 @@ public class TitleScene extends PixelScene {
 		version.y = h - version.height() - sourceShattered.height() - source.height();
 
 		add( version );
+		BitmapText deviceBrand;
+		deviceBrand = new BitmapText(Build.BRAND.toString(), font1x);
+		deviceBrand.measure();
+		deviceBrand.hardlight(0xFF0000);
+		deviceBrand.x = w - deviceBrand.width();
+		deviceBrand.y = h - deviceBrand.height() - version.height() - sourceShattered.height() - source.height();
+		add(deviceBrand);
+		
+		BitmapText emulator;
+		if(Build.BRAND.contains("generic")){
+			emulator = new BitmapText("emulator", font1x);
+		} else {
+			emulator = new BitmapText("NO emulator", font1x);
+		}
+		emulator.measure();
+		emulator.hardlight(0xFF0000);
+		emulator.x = w - emulator.width();
+		emulator.y = h - emulator.height() - deviceBrand.height() - version.height() - sourceShattered.height() - source.height();
+		add(emulator);
 		
 		PrefsButton btnPrefs = new PrefsButton();
 		btnPrefs.setPos( 0, 0 );
