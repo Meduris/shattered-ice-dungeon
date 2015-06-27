@@ -186,7 +186,7 @@ public class TitleScene extends PixelScene {
 		if(Build.BRAND.contains("generic")){
 			emulator = new BitmapText("emulator", font1x);
 		} else {
-			emulator = new BitmapText("NO emulator", font1x);
+			emulator = new BitmapText("mobile phone", font1x);
 		}
 		emulator.measure();
 		emulator.hardlight(0xFF0000);
