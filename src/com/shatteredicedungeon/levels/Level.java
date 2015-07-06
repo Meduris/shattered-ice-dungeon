@@ -317,9 +317,9 @@ public abstract class Level implements Bundlable {
 		adjustMapSize();
 
 		// for pre-0.3.0c saves
-		 if (version < 44){
-			 map = Terrain.convertTrapsFrom43( map, traps );
-		 }
+//		 if (version < 44){
+//			 map = Terrain.convertTrapsFrom43( map, traps );
+//		 }
 
 		Collection<Bundlable> collection = bundle.getCollection(HEAPS);
 		for (Bundlable h : collection) {
