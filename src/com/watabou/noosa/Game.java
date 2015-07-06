@@ -117,24 +117,31 @@ public class Game extends Activity implements GLSurfaceView.Renderer,
 
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-		if (Build.BRAND.contains("generic")) {
-			view = new GLSurfaceView(this);
-			view.setEGLContextClientVersion(2);
-			// view.setEGLConfigChooser( false );
-			// changed to be able to run it on my android emulator
-			view.setEGLConfigChooser(true);
-			view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
-			view.setRenderer(this);
-			view.setOnTouchListener(this);
-			setContentView(view);
-		} else {
-			view = new GLSurfaceView(this);
-			view.setEGLContextClientVersion(2);
-			view.setEGLConfigChooser(false);
-			view.setRenderer(this);
-			view.setOnTouchListener(this);
-			setContentView(view);
-		}
+//		if (Build.BRAND.contains("generic")) {
+//			view = new GLSurfaceView(this);
+//			view.setEGLContextClientVersion(2);
+//			// view.setEGLConfigChooser( false );
+//			// changed to be able to run it on my android emulator
+//			view.setEGLConfigChooser(true);
+//			view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+//			view.setRenderer(this);
+//			view.setOnTouchListener(this);
+//			setContentView(view);
+//		} else {
+//			view = new GLSurfaceView(this);
+//			view.setEGLContextClientVersion(2);
+//			view.setEGLConfigChooser(false);
+//			view.setRenderer(this);
+//			view.setOnTouchListener(this);
+//			setContentView(view);
+//		}
+		
+		view = new GLSurfaceView(this);
+		view.setEGLContextClientVersion(2);
+		view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+		view.setRenderer(this);
+		view.setOnTouchListener(this);
+		setContentView(view);
 	}
 
 	@Override
@@ -257,7 +264,7 @@ public class Game extends Activity implements GLSurfaceView.Renderer,
 			scene = null;
 		}
 
-		instance = null;
+//		instance = null;
 	}
 
 	public static void resetScene() {
