@@ -56,6 +56,7 @@ public class TitleScene extends PixelScene {
 
 		if (gameversion != Game.versionCode) {
 			// new intro, make older players see it again.
+			// TODO maybe has to be changed
 			if (gameversion < 9)
 				ShatteredIceDungeon.intro(true);
 			Game.switchScene(WelcomeScene.class);

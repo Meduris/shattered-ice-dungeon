@@ -220,18 +220,19 @@ public enum Rankings {
 
 			//basically every patch until 0.2.3d, extracts the hero's level from the bundle structure.
 			//the second condition in the if is important, helps account for bugged rankings from pre 0.2.3d
-			if (!bundle.contains(LEVEL) || bundle.getInt(LEVEL) == 0 && ShatteredIceDungeon.version() < 30) {
-				try {
-
-					InputStream input = Game.instance.openFileInput(gameFile);
-					Bundle gameBundle = Bundle.read(input);
-					input.close();
-
-					herolevel = gameBundle.getBundle("hero").getInt("lvl");
-				} catch (Exception e) {
-					herolevel = 0;
-				}
-			} else
+//TODO not sure about this!!
+			//			if (!bundle.contains(LEVEL) || bundle.getInt(LEVEL) == 0 && ShatteredIceDungeon.version() < 30) {
+//				try {
+//
+//					InputStream input = Game.instance.openFileInput(gameFile);
+//					Bundle gameBundle = Bundle.read(input);
+//					input.close();
+//
+//					herolevel = gameBundle.getBundle("hero").getInt("lvl");
+//				} catch (Exception e) {
+//					herolevel = 0;
+//				}
+//			} else
 				herolevel = bundle.getInt( LEVEL );
 
 		}
