@@ -175,7 +175,7 @@ public class WelcomeScene extends PixelScene {
 
 		title.maxWidth = pw;
 		title.measure();
-		title.hardlight(Window.SHPX_COLOR);
+		title.hardlight(Window.SH_ICE_PX_COLOR);
 
 		title.x = align( (w - title.width()) / 2 );
 		title.y = align( 8 );

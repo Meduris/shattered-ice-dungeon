@@ -42,7 +42,7 @@ import com.watabou.utils.GameMath;
 
 public class RankingsScene extends PixelScene {
 	
-	private static final String TXT_TITLE		= "Top Rankings";
+	private static final String TXT_TITLE		= "Frozen Rankings";
 	private static final String TXT_TOTAL		= "Games Played: ";
 	private static final String TXT_NO_GAMES	= "No games have been played yet.";
 	
@@ -77,7 +77,7 @@ public class RankingsScene extends PixelScene {
 		Rankings.INSTANCE.load();
 
 		BitmapText title = PixelScene.createText(TXT_TITLE, 9);
-		title.hardlight(Window.SHPX_COLOR);
+		title.hardlight(Window.SH_ICE_PX_COLOR);
 		title.measure();
 		title.x = align((w - title.width()) / 2);
 		title.y = align( GAP );
@@ -114,7 +114,7 @@ public class RankingsScene extends PixelScene {
 				add( label );
 
 				BitmapText won = PixelScene.createText( Integer.toString( Rankings.INSTANCE.wonNumber ), 8 );
-				won.hardlight( Window.SHPX_COLOR );
+				won.hardlight( Window.SH_ICE_PX_COLOR);
 				won.measure();
 				add( won );
 
