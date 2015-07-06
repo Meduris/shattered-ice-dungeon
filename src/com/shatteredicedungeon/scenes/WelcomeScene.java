@@ -44,13 +44,15 @@ public class WelcomeScene extends PixelScene {
 	private static final String TTL_Future = "Wait What?";
 
 	private static final String TXT_Welcome =
-			"Shattered Pixel Dungeon is a rework/expansion of Watabou's Pixel Dungeon.\n\n"+
-			"The goal is to enhance the game by improving existing content and adding tonnes of new stuff!\n\n"+
-			"Shattered Pixel Dungeon is being constantly updated, so expect more new content soon!\n\n"+
+			"Shattered Ice Dungeon is a rework/expansion of Evans's Shattered Pixel Dungeon.\n\n"+
+			"Shattered Ice Dungeon will be updated to the newest Shattered Pixel Dungeon version soon!\n\n"+
 			"Happy Dungeoneering!";
 
 	private static final String TXT_Update =
-			"v0.3.0d:\n" +
+			"Current differences from Shattered Pixel Dungeon\n" +
+			"changed the graphics of the first five floors\n\n" +
+			"Shattered Pixel Dungeon v0.3.0e & v0.3.0d:\n" +
+					"Performance improvements\n" +
 					"- Various bugfixes\n" +
 					"\n" +
 					"v0.3.0c:\n" +
@@ -138,7 +140,7 @@ public class WelcomeScene extends PixelScene {
 			"Regardless, tread with caution! Your saves may contain things which don't exist in this version, "+
 			"this could cause some very weird errors to occur.";
 
-	private static final String LNK = "https://play.google.com/store/apps/details?id=com.shatteredicedungeon";
+	private static final String LNK = "https://play.google.com/store/apps/details?id=com.shatteredpixel.shatteredpixeldungeon";
 
 	@Override
 	public void create() {
@@ -165,7 +167,6 @@ public class WelcomeScene extends PixelScene {
 			title = createMultiline( TTL_Future, 16 );
 
 		}
-
 		int w = Camera.main.width;
 		int h = Camera.main.height;
 
@@ -174,7 +175,7 @@ public class WelcomeScene extends PixelScene {
 
 		title.maxWidth = pw;
 		title.measure();
-		title.hardlight(Window.SHPX_COLOR);
+		title.hardlight(Window.SH_ICE_PX_COLOR);
 
 		title.x = align( (w - title.width()) / 2 );
 		title.y = align( 8 );
@@ -210,17 +211,17 @@ public class WelcomeScene extends PixelScene {
 			protected void onClick() {
 
 
-//				if (gameversion <= 32){
-//					//removes all bags bought badge from pre-0.2.4 saves.
-//					Badges.disown(Badges.Badge.ALL_BAGS_BOUGHT);
-//					Badges.saveGlobal();
-//
-//					//imports new ranking data for pre-0.2.3 saves.
-//					if (gameversion <= 29){
-//						Rankings.INSTANCE.load();
-//						Rankings.INSTANCE.save();
-//					}
-//				}
+				if (gameversion <= 32){
+					//removes all bags bought badge from pre-0.2.4 saves.
+					Badges.disown(Badges.Badge.ALL_BAGS_BOUGHT);
+					Badges.saveGlobal();
+
+					//imports new ranking data for pre-0.2.3 saves.
+					if (gameversion <= 29){
+						Rankings.INSTANCE.load();
+						Rankings.INSTANCE.save();
+					}
+				}
 
 				ShatteredIceDungeon.version(Game.versionCode);
 				Game.switchScene(TitleScene.class);

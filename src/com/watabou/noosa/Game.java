@@ -28,6 +28,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.AudioManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
@@ -116,13 +117,28 @@ public class Game extends Activity implements GLSurfaceView.Renderer,
 
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+//		if (Build.BRAND.contains("generic")) {
+//			view = new GLSurfaceView(this);
+//			view.setEGLContextClientVersion(2);
+//			// view.setEGLConfigChooser( false );
+//			// changed to be able to run it on my android emulator
+//			view.setEGLConfigChooser(true);
+//			view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+//			view.setRenderer(this);
+//			view.setOnTouchListener(this);
+//			setContentView(view);
+//		} else {
+//			view = new GLSurfaceView(this);
+//			view.setEGLContextClientVersion(2);
+//			view.setEGLConfigChooser(false);
+//			view.setRenderer(this);
+//			view.setOnTouchListener(this);
+//			setContentView(view);
+//		}
+		
 		view = new GLSurfaceView(this);
 		view.setEGLContextClientVersion(2);
-		// view.setEGLConfigChooser( false );
-		// changed to be able to run it on my android emulator
-		view.setEGLConfigChooser(true);
 		view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
-
 		view.setRenderer(this);
 		view.setOnTouchListener(this);
 		setContentView(view);
@@ -248,7 +264,7 @@ public class Game extends Activity implements GLSurfaceView.Renderer,
 			scene = null;
 		}
 
-		instance = null;
+//		instance = null;
 	}
 
 	public static void resetScene() {

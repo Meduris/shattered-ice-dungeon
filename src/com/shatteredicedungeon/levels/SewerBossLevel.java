@@ -58,6 +58,11 @@ public class SewerBossLevel extends RegularLevel {
 	}
 
 	@Override
+	public String snowTex(){
+		return Assets.SNOW_SEWERS;
+	}
+	
+	@Override
 	protected boolean build() {
 
 		initRooms();
