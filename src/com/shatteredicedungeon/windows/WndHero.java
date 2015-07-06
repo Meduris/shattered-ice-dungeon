@@ -112,7 +112,7 @@ public class WndHero extends WndTabbed {
 			IconTitle title = new IconTitle();
 			title.icon( HeroSprite.avatar(hero.heroClass, hero.tier()) );
 			title.label(Utils.format( TXT_TITLE, hero.lvl, hero.className() ).toUpperCase( Locale.ENGLISH ), 9);
-			title.color(Window.SHPX_COLOR);
+			title.color(Window.SH_ICE_PX_COLOR);
 			title.setRect( 0, 0, WIDTH, 0 );
 			add(title);
 

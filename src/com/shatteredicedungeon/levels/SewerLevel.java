@@ -51,6 +51,10 @@ public class SewerLevel extends RegularLevel {
 		return Assets.WATER_SEWERS;
 	}
 	
+	public String snowTex(){
+		return Assets.SNOW_SEWERS;
+	}
+	
 	protected boolean[] water() {
 		return Patch.generate( feeling == Feeling.WATER ? 0.60f : 0.45f, 5 );
 	}
@@ -118,11 +122,11 @@ public class SewerLevel extends RegularLevel {
 	}
 	
 	public static void addVisuals( Level level, Scene scene ) {
-		for (int i=0; i < LENGTH; i++) {
-			if (level.map[i] == Terrain.WALL_DECO) {
-				scene.add( new Sink( i ) );
-			}
-		}
+//		for (int i=0; i < LENGTH; i++) {
+//			if (level.map[i] == Terrain.WALL_DECO) {
+//				scene.add( new Sink( i ) );
+//			}
+//		}
 	}
 	
 	@Override
@@ -139,9 +143,9 @@ public class SewerLevel extends RegularLevel {
 	public String tileDesc(int tile) {
 		switch (tile) {
 		case Terrain.EMPTY_DECO:
-			return "Wet yellowish moss covers the floor.";
+			return "Cold winter snow covers the ground.";
 		case Terrain.BOOKSHELF:
-			return "The bookshelf is packed with cheap useless books. Might it burn?";
+			return "These trees look a bit dry... Might they burn?";
 		default:
 			return super.tileDesc( tile );
 		}

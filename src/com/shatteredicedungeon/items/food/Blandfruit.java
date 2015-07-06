@@ -321,31 +321,31 @@ public class Blandfruit extends Food {
 
 			// TODO: legacy code for pre-v0.2.3, remove when saves from that
 			// version are no longer supported.
+
+		} else if (bundle.contains("name")) {
+			name = bundle.getString("name");
+
+			if (name.equals("Healthfruit"))
+				cook(new Sungrass.Seed());
+			else if (name.equals("Powerfruit"))
+				cook(new Wandmaker.Rotberry.Seed());
+			else if (name.equals("Paralyzefruit"))
+				cook(new Earthroot.Seed());
+			else if (name.equals("Invisifruit"))
+				cook(new Blindweed.Seed());
+			else if (name.equals("Flamefruit"))
+				cook(new Firebloom.Seed());
+			else if (name.equals("Frostfruit"))
+				cook(new Icecap.Seed());
+			else if (name.equals("Visionfruit"))
+				cook(new Fadeleaf.Seed());
+			else if (name.equals("Toxicfruit"))
+				cook(new Sorrowmoss.Seed());
+			else if (name.equals("Floatfruit"))
+				cook(new Stormvine.Seed());
+			else if (name.equals("Purefruit"))
+				cook(new Dreamfoil.Seed());
 		}
-		// } else if (bundle.contains("name")) {
-		// name = bundle.getString("name");
-		//
-		// if (name.equals("Healthfruit"))
-		// cook(new Sungrass.Seed());
-		// else if (name.equals("Powerfruit"))
-		// cook(new Wandmaker.Rotberry.Seed());
-		// else if (name.equals("Paralyzefruit"))
-		// cook(new Earthroot.Seed());
-		// else if (name.equals("Invisifruit"))
-		// cook(new Blindweed.Seed());
-		// else if (name.equals("Flamefruit"))
-		// cook(new Firebloom.Seed());
-		// else if (name.equals("Frostfruit"))
-		// cook(new Icecap.Seed());
-		// else if (name.equals("Visionfruit"))
-		// cook(new Fadeleaf.Seed());
-		// else if (name.equals("Toxicfruit"))
-		// cook(new Sorrowmoss.Seed());
-		// else if (name.equals("Floatfruit"))
-		// cook(new Stormvine.Seed());
-		// else if (name.equals("Purefruit"))
-		// cook(new Dreamfoil.Seed());
-		// }
 
 	}
 

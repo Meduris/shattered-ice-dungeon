@@ -317,9 +317,9 @@ public abstract class Level implements Bundlable {
 		adjustMapSize();
 
 		// for pre-0.3.0c saves
-		// if (version < 44){
-		// map = Terrain.convertTrapsFrom43( map, traps );
-		// }
+		 if (version < 44){
+			 map = Terrain.convertTrapsFrom43( map, traps );
+		 }
 
 		Collection<Bundlable> collection = bundle.getCollection(HEAPS);
 		for (Bundlable h : collection) {
@@ -445,6 +445,10 @@ public abstract class Level implements Bundlable {
 		return null;
 	}
 
+	public String snowTex() {
+		return null;
+	}
+	
 	abstract protected boolean build();
 
 	abstract protected void decorate();
@@ -1043,6 +1047,8 @@ public abstract class Level implements Bundlable {
 			return "Embers";
 		case Terrain.LOCKED_DOOR:
 			return "Locked door";
+		case Terrain.UNLOCKED_DOOR:
+			return "Unlocked door";
 		case Terrain.PEDESTAL:
 			return "Pedestal";
 		case Terrain.BARRICADE:
