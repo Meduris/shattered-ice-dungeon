@@ -706,7 +706,7 @@ public abstract class Level implements Bundlable {
 			int n;
 			do {
 				n = cell + NEIGHBOURS8[Random.Int(8)];
-			} while (map[n] != Terrain.EMPTY_SP);
+			} while (map[n] != Terrain.EMPTY_SP && map[n] != Terrain.ALCHEMY_SP);
 			cell = n;
 		}
 
