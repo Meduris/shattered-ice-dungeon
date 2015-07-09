@@ -1377,7 +1377,11 @@ public class Hero extends Char {
 			int doorCell = ((HeroAction.Unlock)curAction).dst;
 			int door = Dungeon.level.map[doorCell];
 			
-			Level.set( doorCell, door == Terrain.LOCKED_DOOR ? Terrain.DOOR : Terrain.UNLOCKED_EXIT );
+			if(Dungeon.depth <= 5){
+				Level.set( doorCell, door == Terrain.LOCKED_DOOR ? Terrain.UNLOCKED_DOOR : Terrain.UNLOCKED_EXIT );
+			} else {
+				Level.set( doorCell, door == Terrain.LOCKED_DOOR ? Terrain.DOOR : Terrain.UNLOCKED_EXIT );
+			}
 			GameScene.updateMap( doorCell );
 			
 		} else if (curAction instanceof HeroAction.OpenChest) {
