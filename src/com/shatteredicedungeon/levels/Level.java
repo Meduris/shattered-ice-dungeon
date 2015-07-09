@@ -839,6 +839,11 @@ public abstract class Level implements Bundlable {
 		case Terrain.DOOR:
 			Door.enter(cell);
 			break;
+		
+	// TODO test this
+		case Terrain.UNLOCKED_DOOR:
+			Door.enterUnlocked(cell);
+			break;
 		}
 
 		if (trap != null && !frozen) {
@@ -882,6 +887,11 @@ public abstract class Level implements Bundlable {
 
 		case Terrain.DOOR:
 			Door.enter(cell);
+			break;
+			
+	// TODO test this	
+		case Terrain.UNLOCKED_DOOR:
+			Door.enterUnlocked(cell);
 			break;
 		}
 

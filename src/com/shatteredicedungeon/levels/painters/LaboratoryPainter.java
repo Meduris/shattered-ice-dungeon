@@ -36,10 +36,11 @@ public class LaboratoryPainter extends Painter {
 
 	public static void paint(Level level, Room room) {
 
-		fill(level, room, Terrain.ALCHEMY_WALL);
 		if (Dungeon.depth <= 5) {
+			fill(level, room, Terrain.ALCHEMY_WALL);
 			fill(level, room, 1, Terrain.ALCHEMY_SP);
 		} else {
+			fill(level, room, Terrain.WALL);
 			fill(level, room, 1, Terrain.EMPTY_SP);
 		}
 
