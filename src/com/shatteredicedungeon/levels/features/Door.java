@@ -50,7 +50,7 @@ public class Door {
 	}
 
 	public static void enterUnlocked(int pos) {
-		Level.set(pos, Terrain.UNLOCKED_EXIT);
+		Level.set(pos, Terrain.UNLOCKED_DOOR_OPEN_SNOW);
 		GameScene.updateMap(pos);
 		Dungeon.observe();
 
