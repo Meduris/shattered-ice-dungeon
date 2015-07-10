@@ -305,7 +305,7 @@ public class SewerBossLevel extends RegularLevel {
 	public String tileName(int tile) {
 		switch (tile) {
 		case Terrain.WATER:
-			return "Murky water";
+			return "Icy water";
 		default:
 			return super.tileName(tile);
 		}
@@ -315,7 +315,7 @@ public class SewerBossLevel extends RegularLevel {
 	public String tileDesc(int tile) {
 		switch (tile) {
 		case Terrain.EMPTY_DECO:
-			return "Wet yellowish moss covers the floor.";
+			return "Cold winter snow covers the ground.";
 		default:
 			return super.tileDesc(tile);
 		}

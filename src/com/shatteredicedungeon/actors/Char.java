@@ -405,7 +405,7 @@ public abstract class Char extends Actor {
 	// TODO test this
 		if (Dungeon.level.map[pos] == Terrain.OPEN_DOOR) {
 			Door.leave( pos );
-		} else if (Dungeon.level.map[pos] == Terrain.UNLOCKED_EXIT){
+		} else if ((Dungeon.level.map[pos] == Terrain.UNLOCKED_DOOR_OPEN_STONE) || (Dungeon.level.map[pos] == Terrain.UNLOCKED_DOOR_OPEN_SNOW)){
 			Door.leaveUnlocked(pos);
 		}
 
