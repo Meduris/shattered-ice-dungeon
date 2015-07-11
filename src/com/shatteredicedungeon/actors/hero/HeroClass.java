@@ -27,19 +27,14 @@ import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.ShatteredIceDungeon;
 import com.shatteredicedungeon.items.TomeOfMastery;
 import com.shatteredicedungeon.items.armor.ClothArmor;
-import com.shatteredicedungeon.items.armor.PlateArmor;
 import com.shatteredicedungeon.items.artifacts.CloakOfShadows;
 import com.shatteredicedungeon.items.food.Food;
 import com.shatteredicedungeon.items.potions.PotionOfMindVision;
 import com.shatteredicedungeon.items.potions.PotionOfStrength;
-import com.shatteredicedungeon.items.rings.RingOfAccuracy;
-import com.shatteredicedungeon.items.rings.RingOfEvasion;
 import com.shatteredicedungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredicedungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredicedungeon.items.wands.WandOfFireblast;
 import com.shatteredicedungeon.items.wands.WandOfMagicMissile;
 import com.shatteredicedungeon.items.weapon.melee.Dagger;
-import com.shatteredicedungeon.items.weapon.melee.Glaive;
 import com.shatteredicedungeon.items.weapon.melee.MagesStaff;
 import com.shatteredicedungeon.items.weapon.melee.ShortSword;
 import com.shatteredicedungeon.items.weapon.missiles.Boomerang;
@@ -144,35 +139,13 @@ public enum HeroClass {
 	}
 
 	private static void initWarrior( Hero hero ) {
-		// TODO remove later
 		hero.STR = hero.STR + 1;
-		hero.STR = 1000;
-		hero.HP = 1000;
-		hero.HT = 1000;
-		RingOfAccuracy acc = new RingOfAccuracy();
-		acc.upgrade(500).identify();
-		hero.belongings.misc1 = acc;
-		RingOfEvasion ev = new RingOfEvasion();
-		ev.upgrade(500).identify();
-		hero.belongings.misc2 = ev;
-		Glaive gl = new Glaive();
-		gl.upgrade(500).identify();
-		hero.belongings.weapon = gl;
-		PlateArmor pl = new PlateArmor();
-		pl.upgrade(500).identify();
-		hero.belongings.armor = pl;
-		
-		ScrollOfMagicMapping map = new ScrollOfMagicMapping();
-		map.quantity(50).identify();
-		map.collect();
-		
-		
-		
-//		(hero.belongings.weapon = new ShortSword()).identify();
-//		Dart darts = new Dart( 8 );
-//		darts.identify().collect();
 
-//		Dungeon.quickslot.setSlot(0, darts);
+		(hero.belongings.weapon = new ShortSword()).identify();
+		Dart darts = new Dart( 8 );
+		darts.identify().collect();
+
+		Dungeon.quickslot.setSlot(0, darts);
 
 		new PotionOfStrength().setKnown();
 	}
