@@ -40,7 +40,7 @@ public class Door {
 	}
 	// TODO maybe rework for new UNLOCKED_DOOR
 	// also see Level.java
-	// sprite or open UNLOCKED_DOOR needed
+	// sprite for open UNLOCKED_DOOR needed
 	public static void leave(int pos) {
 		if (Dungeon.level.heaps.get(pos) == null) {
 			Level.set(pos, Terrain.DOOR);
