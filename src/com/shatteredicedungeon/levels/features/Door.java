@@ -29,20 +29,40 @@ import com.shatteredicedungeon.scenes.GameScene;
 
 public class Door {
 
-	public static void enter( int pos ) {
-		Level.set( pos, Terrain.OPEN_DOOR );
-		GameScene.updateMap( pos );
+	public static void enter(int pos) {
+		Level.set(pos, Terrain.OPEN_DOOR);
+		GameScene.updateMap(pos);
 		Dungeon.observe();
-		
+
 		if (Dungeon.visible[pos]) {
-			Sample.INSTANCE.play( Assets.SND_OPEN );
+			Sample.INSTANCE.play(Assets.SND_OPEN);
+		}
+	}
+	// TODO maybe rework for new UNLOCKED_DOOR
+	// also see Level.java
+	// sprite for open UNLOCKED_DOOR needed
+	public static void leave(int pos) {
+		if (Dungeon.level.heaps.get(pos) == null) {
+			Level.set(pos, Terrain.DOOR);
+			GameScene.updateMap(pos);
+			Dungeon.observe();
+		}
+	}
+
+	public static void enterUnlocked(int pos) {
+		Level.set(pos, Terrain.UNLOCKED_DOOR_OPEN_SNOW);
+		GameScene.updateMap(pos);
+		Dungeon.observe();
+
+		if (Dungeon.visible[pos]) {
+			Sample.INSTANCE.play(Assets.SND_OPEN);
 		}
 	}
 	
-	public static void leave( int pos ) {
-		if (Dungeon.level.heaps.get( pos ) == null) {
-			Level.set( pos, Terrain.DOOR );
-			GameScene.updateMap( pos );
+	public static void leaveUnlocked(int pos){
+		if (Dungeon.level.heaps.get(pos) == null) {
+			Level.set(pos, Terrain.UNLOCKED_DOOR);
+			GameScene.updateMap(pos);
 			Dungeon.observe();
 		}
 	}

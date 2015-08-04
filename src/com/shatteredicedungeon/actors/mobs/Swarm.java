@@ -100,9 +100,11 @@ public class Swarm extends Mob {
 				clone.HP = (HP - damage) / 2;
 				clone.pos = Random.element( candidates );
 				clone.state = clone.HUNTING;
-				
+		// TODO test this		
 				if (Dungeon.level.map[clone.pos] == Terrain.DOOR) {
 					Door.enter( clone.pos );
+				} else if(Dungeon.level.map[clone.pos] == Terrain.UNLOCKED_DOOR){
+					Door.enterUnlocked(clone.pos);
 				}
 				
 				GameScene.add( clone, SPLIT_DELAY );

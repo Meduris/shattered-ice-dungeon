@@ -62,6 +62,8 @@ public class Terrain {
 	public static final int ALCHEMY_WALL = 33;
 	public static final int UNLOCKED_DOOR = 34;
 	public static final int ALCHEMY_SP = 35;
+	public static final int UNLOCKED_DOOR_OPEN_STONE = 36;
+	public static final int UNLOCKED_DOOR_OPEN_SNOW = 37;
 
 	public static final int WATER_TILES = 48;
 	public static final int WATER = 63;
@@ -85,16 +87,12 @@ public class Terrain {
 		flags[EMPTY_WELL] = PASSABLE;
 		flags[WATER] = PASSABLE | LIQUID | UNSTITCHABLE;
 		flags[WALL] = LOS_BLOCKING | SOLID | UNSTITCHABLE;
-		flags[ALCHEMY_WALL] = LOS_BLOCKING | SOLID | UNSTITCHABLE;
-		flags[ALCHEMY_SP] = flags[EMPTY] | UNSTITCHABLE;
 		flags[DOOR] = PASSABLE | LOS_BLOCKING | FLAMABLE | SOLID | UNSTITCHABLE;
 		flags[OPEN_DOOR] = PASSABLE | FLAMABLE | UNSTITCHABLE;
 		flags[ENTRANCE] = PASSABLE | SOLID;
 		flags[EXIT] = PASSABLE;
 		flags[EMBERS] = PASSABLE;
 		flags[LOCKED_DOOR] = LOS_BLOCKING | SOLID | UNSTITCHABLE;
-		flags[UNLOCKED_DOOR] = PASSABLE | LOS_BLOCKING | FLAMABLE | SOLID
-				| UNSTITCHABLE;
 		flags[PEDESTAL] = PASSABLE | UNSTITCHABLE;
 		flags[WALL_DECO] = flags[WALL];
 		flags[BARRICADE] = FLAMABLE | SOLID | LOS_BLOCKING;
@@ -120,6 +118,12 @@ public class Terrain {
 		flags[CHASM_FLOOR] = flags[CHASM];
 		flags[CHASM_FLOOR_SP] = flags[CHASM];
 		flags[CHASM_WATER] = flags[CHASM];
+		flags[ALCHEMY_WALL] = LOS_BLOCKING | SOLID | UNSTITCHABLE;
+		flags[UNLOCKED_DOOR] = PASSABLE | LOS_BLOCKING | FLAMABLE | SOLID
+				| UNSTITCHABLE;
+		flags[ALCHEMY_SP] = flags[EMPTY] | UNSTITCHABLE;
+		flags[UNLOCKED_DOOR_OPEN_STONE] = PASSABLE | FLAMABLE | UNSTITCHABLE;
+		flags[UNLOCKED_DOOR_OPEN_SNOW] = PASSABLE | FLAMABLE | UNSTITCHABLE;
 
 		for (int i = WATER_TILES; i < WATER_TILES + 16; i++) {
 			flags[i] = flags[WATER];

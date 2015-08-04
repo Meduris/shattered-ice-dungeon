@@ -839,6 +839,11 @@ public abstract class Level implements Bundlable {
 		case Terrain.DOOR:
 			Door.enter(cell);
 			break;
+		
+	// TODO test this
+		case Terrain.UNLOCKED_DOOR:
+			Door.enterUnlocked(cell);
+			break;
 		}
 
 		if (trap != null && !frozen) {
@@ -882,6 +887,11 @@ public abstract class Level implements Bundlable {
 
 		case Terrain.DOOR:
 			Door.enter(cell);
+			break;
+			
+	// TODO test this	
+		case Terrain.UNLOCKED_DOOR:
+			Door.enterUnlocked(cell);
 			break;
 		}
 
@@ -1026,6 +1036,7 @@ public abstract class Level implements Bundlable {
 		case Terrain.EMPTY_SP:
 		case Terrain.EMPTY_DECO:
 		case Terrain.SECRET_TRAP:
+		case Terrain.ALCHEMY_SP:
 			return "Floor";
 		case Terrain.GRASS:
 			return "Grass";
@@ -1034,6 +1045,7 @@ public abstract class Level implements Bundlable {
 		case Terrain.WALL:
 		case Terrain.WALL_DECO:
 		case Terrain.SECRET_DOOR:
+		case Terrain.ALCHEMY_WALL:
 			return "Wall";
 		case Terrain.DOOR:
 			return "Closed door";
@@ -1049,6 +1061,10 @@ public abstract class Level implements Bundlable {
 			return "Locked door";
 		case Terrain.UNLOCKED_DOOR:
 			return "Unlocked door";
+		case Terrain.UNLOCKED_DOOR_OPEN_STONE:
+			return "Open door";
+		case Terrain.UNLOCKED_DOOR_OPEN_SNOW:
+			return "Open door";
 		case Terrain.PEDESTAL:
 			return "Pedestal";
 		case Terrain.BARRICADE:
@@ -1071,7 +1087,11 @@ public abstract class Level implements Bundlable {
 		case Terrain.INACTIVE_TRAP:
 			return "Triggered trap";
 		case Terrain.BOOKSHELF:
-			return "Bookshelf";
+			if(Dungeon.depth <= 5){
+				return "Dry trees";
+			} else {
+				return "Bookshelf";
+			}
 		case Terrain.ALCHEMY:
 			return "Alchemy pot";
 		default:

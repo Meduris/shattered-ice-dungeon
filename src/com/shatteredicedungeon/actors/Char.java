@@ -402,14 +402,19 @@ public abstract class Char extends Actor {
 				return;
 		}
 
+	// TODO test this
 		if (Dungeon.level.map[pos] == Terrain.OPEN_DOOR) {
 			Door.leave( pos );
+		} else if ((Dungeon.level.map[pos] == Terrain.UNLOCKED_DOOR_OPEN_STONE) || (Dungeon.level.map[pos] == Terrain.UNLOCKED_DOOR_OPEN_SNOW)){
+			Door.leaveUnlocked(pos);
 		}
 
 		pos = step;
-		
+	// TODO test this
 		if (flying && Dungeon.level.map[pos] == Terrain.DOOR) {
 			Door.enter( pos );
+		} else if(flying && Dungeon.level.map[pos] == Terrain.UNLOCKED_DOOR) {
+			Door.enterUnlocked(pos);
 		}
 		
 		if (this != Dungeon.hero) {

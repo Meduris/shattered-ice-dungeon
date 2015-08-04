@@ -33,7 +33,6 @@ import com.shatteredicedungeon.items.potions.PotionOfMindVision;
 import com.shatteredicedungeon.items.potions.PotionOfStrength;
 import com.shatteredicedungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredicedungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredicedungeon.items.wands.WandOfFireblast;
 import com.shatteredicedungeon.items.wands.WandOfMagicMissile;
 import com.shatteredicedungeon.items.weapon.melee.Dagger;
 import com.shatteredicedungeon.items.weapon.melee.MagesStaff;
