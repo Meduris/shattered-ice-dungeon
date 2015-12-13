@@ -56,6 +56,11 @@ public class SewerBossLevel extends RegularLevel {
 	public String waterTex() {
 		return Assets.WATER_SEWERS;
 	}
+
+	@Override
+	public String snowTex(){
+		return Assets.SNOW_SEWERS;
+	}
 	
 	@Override
 	protected boolean build() {
