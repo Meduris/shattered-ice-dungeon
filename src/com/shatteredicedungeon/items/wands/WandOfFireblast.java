@@ -20,6 +20,8 @@
  */
 package com.shatteredicedungeon.items.wands;
 
+import java.util.HashSet;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
@@ -38,8 +40,6 @@ import com.shatteredicedungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
-
-import java.util.HashSet;
 
 public class WandOfFireblast extends Wand {
 

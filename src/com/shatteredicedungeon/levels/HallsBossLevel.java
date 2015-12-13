@@ -20,7 +20,6 @@
  */
 package com.shatteredicedungeon.levels;
 
-import com.watabou.noosa.Scene;
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Bones;
 import com.shatteredicedungeon.Dungeon;
@@ -34,6 +33,7 @@ import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.items.keys.SkeletonKey;
 import com.shatteredicedungeon.levels.painters.Painter;
 import com.shatteredicedungeon.scenes.GameScene;
+import com.watabou.noosa.Group;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
@@ -159,7 +159,12 @@ public class HallsBossLevel extends Level {
 	
 	@Override
 	public int randomRespawnCell() {
-		return -1;
+		if (entrance == -1) return entrance;
+		int cell = entrance + NEIGHBOURS8[Random.Int(8)];
+		while (!passable[cell]){
+			cell = entrance + NEIGHBOURS8[Random.Int(8)];
+		}
+		return cell;
 	}
 	
 	@Override
@@ -250,7 +255,9 @@ public class HallsBossLevel extends Level {
 	}
 	
 	@Override
-	public void addVisuals( Scene scene ) {
-		HallsLevel.addVisuals( this, scene );
+	public Group addVisuals () {
+		super.addVisuals();
+		HallsLevel.addHallsVisuals( this, visuals );
+		return visuals;
 	}
 }

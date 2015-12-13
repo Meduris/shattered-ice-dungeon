@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import com.shatteredicedungeon.Dungeon;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 

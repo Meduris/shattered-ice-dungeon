@@ -20,8 +20,6 @@
  */
 package com.shatteredicedungeon.levels;
 
-import com.watabou.noosa.Scene;
-import com.watabou.noosa.tweeners.AlphaTweener;
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Bones;
 import com.shatteredicedungeon.Dungeon;
@@ -34,6 +32,8 @@ import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.items.keys.SkeletonKey;
 import com.shatteredicedungeon.levels.painters.Painter;
 import com.shatteredicedungeon.scenes.GameScene;
+import com.watabou.noosa.Group;
+import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
@@ -169,7 +169,11 @@ public class CityBossLevel extends Level {
 	
 	@Override
 	public int randomRespawnCell() {
-		return -1;
+		int cell = entrance + NEIGHBOURS8[Random.Int(8)];
+		while (!passable[cell]){
+			cell = entrance + NEIGHBOURS8[Random.Int(8)];
+		}
+		return cell;
 	}
 	
 	@Override
@@ -183,7 +187,7 @@ public class CityBossLevel extends Level {
 			seal();
 			
 			Mob boss = Bestiary.mob( Dungeon.depth );
-			boss.state = boss.HUNTING;
+			boss.state = boss.WANDERING;
 			int count = 0;
 			do {
 				boss.pos = Random.Int( LENGTH );
@@ -260,7 +264,9 @@ public class CityBossLevel extends Level {
 	}
 	
 	@Override
-	public void addVisuals( Scene scene ) {
-		CityLevel.addVisuals( this, scene );
+	public Group addVisuals( ) {
+		super.addVisuals();
+		CityLevel.addCityVisuals(this, visuals);
+		return visuals;
 	}
 }

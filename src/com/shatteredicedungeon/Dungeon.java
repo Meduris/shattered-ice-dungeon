@@ -78,13 +78,14 @@ public class Dungeon {
 
 	//enum of items which have limited spawns, records how many have spawned
 	//could all be their own separate numbers, but this allows iterating, much nicer for bundling/initializing.
+	//TODO: this is fairly brittle when it comes to bundling, should look into a more flexible solution.
 	public static enum limitedDrops{
 		//limited world drops
 		strengthPotions,
 		upgradeScrolls,
 		arcaneStyli,
 
-		//all unlimited health potion sources
+		//all unlimited health potion sources (except guards, which are at the bottom.
 		swarmHP,
 		batHP,
 		warlockHP,
@@ -101,7 +102,9 @@ public class Dungeon {
 		seedBag,
 		scrollBag,
 		potionBag,
-		wandBag;
+		wandBag,
+
+		guardHP;
 
 		public int count = 0;
 
@@ -140,8 +143,6 @@ public class Dungeon {
 		version = Game.versionCode;
 		challenges = ShatteredIceDungeon.challenges();
 
-		Generator.initArtifacts();
-
 		Actor.clear();
 		Actor.resetNextID();
 		
@@ -175,7 +176,8 @@ public class Dungeon {
 		Imp.Quest.reset();
 		
 		Room.shuffleTypes();
-		
+
+		Generator.initArtifacts();
 		hero = new Hero();
 		hero.live();
 		
@@ -292,6 +294,7 @@ public class Dungeon {
 		return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void switchLevel( final Level level, int pos ) {
 		
 		Dungeon.level = level;
@@ -718,7 +721,7 @@ public class Dungeon {
 		}
 		
 		for (Char c : Actor.chars()) {
-			if(visible[c.pos]){
+			if (visible[c.pos]) {
 				passable[c.pos] = false;
 			}
 		}
@@ -736,7 +739,7 @@ public class Dungeon {
 		}
 		
 		for (Char c : Actor.chars()) {
-			if(visible[c.pos]){
+			if (visible[c.pos]) {
 				passable[c.pos] = false;
 			}
 		}

@@ -20,6 +20,8 @@
  */
 package com.shatteredicedungeon.levels;
 
+import java.util.List;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Bones;
 import com.shatteredicedungeon.actors.Actor;
@@ -27,11 +29,9 @@ import com.shatteredicedungeon.actors.mobs.npcs.Imp;
 import com.shatteredicedungeon.items.Heap;
 import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.levels.Room.Type;
-import com.watabou.noosa.Scene;
+import com.watabou.noosa.Group;
 import com.watabou.utils.Graph;
 import com.watabou.utils.Random;
-
-import java.util.List;
 
 public class LastShopLevel extends RegularLevel {
 	
@@ -176,7 +176,7 @@ public class LastShopLevel extends RegularLevel {
 	
 	@Override
 	public int randomRespawnCell() {
-		return -1;
+		return roomEntrance.random();
 	}
 	
 	@Override
@@ -217,10 +217,11 @@ public class LastShopLevel extends RegularLevel {
 	protected boolean[] grass() {
 		return Patch.generate( 0.30f, 3 );
 	}
-	
+
 	@Override
-	public void addVisuals( Scene scene ) {
-		super.addVisuals( scene );
-		CityLevel.addVisuals( this, scene );
+	public Group addVisuals( ) {
+		super.addVisuals();
+		CityLevel.addCityVisuals(this, visuals);
+		return visuals;
 	}
 }

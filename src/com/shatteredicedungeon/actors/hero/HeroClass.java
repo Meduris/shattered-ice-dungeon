@@ -77,10 +77,9 @@ public enum HeroClass {
 	};
 	
 	public static final String[] HUN_PERKS = {
-		"The Huntress starts with 15 points of Health and a unique upgradeable boomerang.",
+		"The Huntress starts with a unique upgradeable boomerang.",
 		"The Huntress is proficient with missile weapons, getting bonus damage from excess strength.",
 		"The Huntress is able to recover a single used missile weapon from each enemy.",
-		"The Huntress gains more health from dewdrops.",
 		"The Huntress senses neighbouring monsters even if they are hidden behind obstacles.",
 		"Potions of Mind Vision are identified from the beginning."
 	};
@@ -107,10 +106,6 @@ public enum HeroClass {
 			case HUNTRESS:
 				initHuntress( hero );
 				break;
-		}
-
-		if (Badges.isUnlocked( masteryBadge() )) {
-			new TomeOfMastery().collect();
 		}
 
 		hero.updateAwareness();
@@ -154,7 +149,7 @@ public enum HeroClass {
 		MagesStaff staff = new MagesStaff(new WandOfMagicMissile());
 		(hero.belongings.weapon = staff).identify();
 		hero.belongings.weapon.activate(hero);
-		
+
 		Dungeon.quickslot.setSlot(0, staff);
 
 		new ScrollOfUpgrade().setKnown();
@@ -178,8 +173,6 @@ public enum HeroClass {
 	}
 
 	private static void initHuntress( Hero hero ) {
-
-		hero.HP = (hero.HT -= 5);
 
 		(hero.belongings.weapon = new Dagger()).identify();
 		Boomerang boomerang = new Boomerang();

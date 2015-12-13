@@ -22,12 +22,12 @@ package com.shatteredicedungeon.items;
 
 import java.util.ArrayList;
 
-import com.watabou.noosa.particles.Emitter;
 import com.shatteredicedungeon.actors.buffs.Buff;
 import com.shatteredicedungeon.actors.buffs.Light;
 import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.effects.particles.FlameParticle;
 import com.shatteredicedungeon.sprites.ItemSpriteSheet;
+import com.watabou.noosa.particles.Emitter;
 
 public class Torch extends Item {
 

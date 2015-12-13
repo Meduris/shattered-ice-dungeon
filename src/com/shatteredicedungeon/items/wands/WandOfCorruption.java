@@ -20,6 +20,9 @@
  */
 package com.shatteredicedungeon.items.wands;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
@@ -41,8 +44,6 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
-import java.util.Arrays;
-import java.util.HashSet;
 
 //TODO: balancing
 public class WandOfCorruption extends Wand {
@@ -103,6 +104,8 @@ public class WandOfCorruption extends Wand {
 			ch.HP = ch.HT;
 			curCharges -= extraCharges;
 			usagesToKnow -= extraCharges;
+
+			processSoulMark(ch, extraCharges+chargesPerCast());
 		}
 	}
 

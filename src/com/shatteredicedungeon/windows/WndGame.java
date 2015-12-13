@@ -53,13 +53,13 @@ public class WndGame extends Window {
 		
 		super();
 		
-		addButton( new RedButton( TXT_SETTINGS ) {
+		addButton(new RedButton("Settings") {
 			@Override
 			protected void onClick() {
 				hide();
-				GameScene.show( new WndSettings( true ) );
+				GameScene.show(new WndSettings());
 			}
-		} );
+		});
 
 		// Challenges window
 		if (Dungeon.challenges > 0) {

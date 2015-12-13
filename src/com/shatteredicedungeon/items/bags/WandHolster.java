@@ -20,7 +20,6 @@
  */
 package com.shatteredicedungeon.items.bags;
 
-import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.items.wands.Wand;
 import com.shatteredicedungeon.sprites.ItemSpriteSheet;

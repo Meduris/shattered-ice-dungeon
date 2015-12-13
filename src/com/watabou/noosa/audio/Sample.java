@@ -41,6 +41,7 @@ public enum Sample implements SoundPool.OnLoadCompleteListener {
 			new HashMap<Object, Integer>();
 
 	private boolean enabled = true;
+	private float volume = 1f;
 
 	private LinkedList<String> loadingQueue = new LinkedList<String>();
 
@@ -68,24 +69,7 @@ public enum Sample implements SoundPool.OnLoadCompleteListener {
 	}
 
 	public void load( String... assets ) {
-		
-	/*	AssetManager manager = Game.instance.getAssets();
-		
-		for (int i=0; i < assets.length; i++) {
-			
-			String asset = assets[i];
-			
-			if (!ids.containsKey( asset )) {
-				try {
-					AssetFileDescriptor fd = manager.openFd( asset );
-					int streamID = pool.load( fd, 1 ) ;
-					ids.put( asset, streamID );
-					fd.close();
-				} catch (IOException e) {
-				}
-			}
-			
-		}*/
+
 		for (String asset : assets) {
 			loadingQueue.add( asset );
 		}
@@ -111,6 +95,8 @@ public enum Sample implements SoundPool.OnLoadCompleteListener {
 					fd.close();
 				} catch (IOException e) {
 					loadNext();
+				} catch (NullPointerException e) {
+					// Do nothing (stop loading sounds)
 				}
 			} else {
 				loadNext();
@@ -128,7 +114,7 @@ public enum Sample implements SoundPool.OnLoadCompleteListener {
 	}
 
 	public int play( Object id ) {
-		return play( id, 1, 1, 1 );
+		return play( id, 1 );
 	}
 
 	public int play( Object id, float volume ) {
@@ -137,7 +123,7 @@ public enum Sample implements SoundPool.OnLoadCompleteListener {
 
 	public int play( Object id, float leftVolume, float rightVolume, float rate ) {
 		if (enabled && ids.containsKey( id )) {
-			return pool.play( ids.get( id ), leftVolume, rightVolume, 0, 0, rate );
+			return pool.play( ids.get( id ), leftVolume*volume, rightVolume*volume, 0, 0, rate );
 		} else {
 			return -1;
 		}
@@ -145,6 +131,10 @@ public enum Sample implements SoundPool.OnLoadCompleteListener {
 
 	public void enable( boolean value ) {
 		enabled = value;
+	}
+
+	public void volume( float value ) {
+		this.volume = value;
 	}
 
 	public boolean isEnabled() {

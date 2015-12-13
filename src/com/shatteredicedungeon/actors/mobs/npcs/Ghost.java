@@ -355,6 +355,10 @@ public class Ghost extends NPC {
 		public static void process() {
 			if (spawned && given && !processed && (depth == Dungeon.depth)) {
 				GLog.n("sad ghost: Thank you... come find me...");
+				for (Mob m : Dungeon.level.mobs){
+					if (m instanceof Ghost)
+						m.beckon(Dungeon.hero.pos);
+				}
 				Sample.INSTANCE.play( Assets.SND_GHOST );
 				processed = true;
 				Generator.Category.ARTIFACT.probs[10] = 1; //flags the dried rose as spawnable.
@@ -366,6 +370,10 @@ public class Ghost extends NPC {
 			armor = null;
 			
 			Journal.remove( Journal.Feature.GHOST );
+		}
+
+		public static boolean completed(){
+			return spawned && processed;
 		}
 	}
 
@@ -467,8 +475,8 @@ public class Ghost extends NPC {
 
 		@Override
 		protected boolean canAttack( Char enemy ) {
-			Ballistica attack = new Ballistica(pos, enemy.pos, Ballistica.PROJECTILE);
-			return !Level.adjacent(pos, enemy.pos) && attack.collisionPos == enemy.pos;
+			Ballistica attack = new Ballistica( pos, enemy.pos, Ballistica.PROJECTILE);
+			return !Level.adjacent( pos, enemy.pos ) && attack.collisionPos == enemy.pos;
 		}
 
 		@Override
@@ -496,7 +504,7 @@ public class Ghost extends NPC {
 		protected boolean getCloser( int target ) {
 			combo = 0; //if he's moving, he isn't attacking, reset combo.
 			if (state == HUNTING) {
-				return enemySeen && getFurther(target);
+				return enemySeen && getFurther( target );
 			} else {
 				return super.getCloser( target );
 			}
@@ -542,7 +550,7 @@ public class Ghost extends NPC {
 			name = "great crab";
 			spriteClass = GreatCrabSprite.class;
 
-			HP = HT = 30;
+			HP = HT = 25;
 			defenseSkill = 0; //see damage()
 			baseSpeed = 1f;
 

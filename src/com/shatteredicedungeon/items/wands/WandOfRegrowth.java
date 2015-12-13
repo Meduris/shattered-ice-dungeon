@@ -20,8 +20,13 @@
  */
 package com.shatteredicedungeon.items.wands;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Dungeon;
+import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.blobs.Blob;
 import com.shatteredicedungeon.actors.blobs.Regrowth;
@@ -43,10 +48,6 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.ColorMath;
 import com.watabou.utils.Random;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 
 public class WandOfRegrowth extends Wand {
 
@@ -94,6 +95,11 @@ public class WandOfRegrowth extends Wand {
 					c == Terrain.EMBERS ||
 					c == Terrain.EMPTY_DECO) {
 				Level.set( i, Terrain.GRASS );
+			}
+
+			Char ch = Actor.findChar(i);
+			if (ch != null){
+				processSoulMark(ch, chargesPerCast());
 			}
 
 			GameScene.add( Blob.seed( i, 10, Regrowth.class ) );
@@ -162,7 +168,7 @@ public class WandOfRegrowth extends Wand {
 	public void onHit(MagesStaff staff, Char attacker, Char defender, int damage) {
 		//like vampiric enchantment, except with herbal healing buff
 
-		int level = Math.max( 0, 0/*staff level*/ );
+		int level = Math.max( 0, staff.level );
 
 		// lvl 0 - 33%
 		// lvl 1 - 43%

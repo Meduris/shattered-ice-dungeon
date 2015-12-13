@@ -27,17 +27,19 @@ import com.shatteredicedungeon.levels.Terrain;
 
 public class EntrancePainter extends Painter {
 
-	public static void paint(Level level, Room room) {
-
-		fill(level, room, Terrain.WALL);
-		fill(level, room, 1, Terrain.EMPTY);
-
+	public static void paint( Level level, Room room ) {
+		
+		fill( level, room, Terrain.WALL );
+		fill( level, room, 1, Terrain.EMPTY );
+		
 		for (Room.Door door : room.connected.values()) {
-			door.set(Room.Door.Type.REGULAR);
+			door.set( Room.Door.Type.REGULAR );
 		}
 		//
-		// level.entrance = room.random( 1 );
-		// set( level, level.entrance, Terrain.ENTRANCE );
+		// do {
+		//	level.entrance = room.random(1);
+		//} while (level.findMob(level.entrance) != null);
+		//set( level, level.entrance, Terrain.ENTRANCE );
 		//
 		if (Dungeon.depth <= 5) {
 			level.entrance = room.top * Level.WIDTH + Level.WIDTH
@@ -48,5 +50,5 @@ public class EntrancePainter extends Painter {
 			set(level, level.entrance, Terrain.ENTRANCE);
 		}
 	}
-
+	
 }

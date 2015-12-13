@@ -24,14 +24,32 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLES20;
 
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Group;
-import com.watabou.noosa.Scene;
-import com.watabou.noosa.particles.PixelParticle;
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.DungeonTilemap;
 import com.shatteredicedungeon.items.Torch;
+import com.shatteredicedungeon.levels.traps.BlazingTrap;
+import com.shatteredicedungeon.levels.traps.CursingTrap;
+import com.shatteredicedungeon.levels.traps.DisarmingTrap;
+import com.shatteredicedungeon.levels.traps.DisintegrationTrap;
+import com.shatteredicedungeon.levels.traps.DistortionTrap;
+import com.shatteredicedungeon.levels.traps.ExplosiveTrap;
+import com.shatteredicedungeon.levels.traps.FlockTrap;
+import com.shatteredicedungeon.levels.traps.FrostTrap;
+import com.shatteredicedungeon.levels.traps.GrimTrap;
+import com.shatteredicedungeon.levels.traps.GrippingTrap;
+import com.shatteredicedungeon.levels.traps.GuardianTrap;
+import com.shatteredicedungeon.levels.traps.LightningTrap;
+import com.shatteredicedungeon.levels.traps.OozeTrap;
+import com.shatteredicedungeon.levels.traps.SpearTrap;
+import com.shatteredicedungeon.levels.traps.SummoningTrap;
+import com.shatteredicedungeon.levels.traps.TeleportationTrap;
+import com.shatteredicedungeon.levels.traps.VenomTrap;
+import com.shatteredicedungeon.levels.traps.WarpingTrap;
+import com.shatteredicedungeon.levels.traps.WeakeningTrap;
+import com.watabou.noosa.Game;
+import com.watabou.noosa.Group;
+import com.watabou.noosa.particles.PixelParticle;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
@@ -68,6 +86,22 @@ public class HallsLevel extends RegularLevel {
 	
 	protected boolean[] grass() {
 		return Patch.generate( feeling == Feeling.GRASS ? 0.55f : 0.30f, 3 );
+	}
+
+	@Override
+	protected Class<?>[] trapClasses() {
+		return new Class[]{ BlazingTrap.class, DisintegrationTrap.class, FrostTrap.class, SpearTrap.class, VenomTrap.class,
+				ExplosiveTrap.class, GrippingTrap.class, LightningTrap.class, OozeTrap.class, WeakeningTrap.class,
+				CursingTrap.class, FlockTrap.class, GrimTrap.class, GuardianTrap.class, SummoningTrap.class, TeleportationTrap.class,
+				DisarmingTrap.class, DistortionTrap.class, WarpingTrap.class};
+	}
+
+	@Override
+	protected float[] trapChances() {
+		return new float[]{ 8, 8, 8, 8, 8,
+				4, 4, 4, 4, 4,
+				2, 2, 2, 2, 2, 2,
+				1, 1, 1 };
 	}
 	
 	@Override
@@ -133,15 +167,16 @@ public class HallsLevel extends RegularLevel {
 	}
 	
 	@Override
-	public void addVisuals( Scene scene ) {
-		super.addVisuals( scene );
-		addVisuals( this, scene );
+	public Group addVisuals() {
+		super.addVisuals();
+		addHallsVisuals( this, visuals );
+		return visuals;
 	}
 	
-	public static void addVisuals( Level level, Scene scene ) {
+	public static void addHallsVisuals( Level level, Group group ) {
 		for (int i=0; i < LENGTH; i++) {
-			if (level.map[i] == 63) {
-				scene.add( new Stream( i ) );
+			if (level.map[i] == Terrain.WATER) {
+				group.add( new Stream( i ) );
 			}
 		}
 	}

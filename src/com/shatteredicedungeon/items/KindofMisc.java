@@ -21,7 +21,6 @@
 package com.shatteredicedungeon.items;
 
 import com.shatteredicedungeon.actors.Char;
-import com.shatteredicedungeon.items.EquipableItem;
 
 public abstract class KindofMisc extends EquipableItem {
 

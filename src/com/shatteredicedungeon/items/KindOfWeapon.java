@@ -22,7 +22,6 @@ package com.shatteredicedungeon.items;
 
 import java.util.ArrayList;
 
-import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.utils.GLog;

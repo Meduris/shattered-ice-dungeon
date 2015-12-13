@@ -65,7 +65,7 @@ public abstract class Char extends Actor {
 	
 	protected float baseSpeed	= 1;
 	
-	public boolean paralysed	= false;
+	public int paralysed	    = 0;
 	public boolean rooted		= false;
 	public boolean flying		= false;
 	public int invisible		= 0;
@@ -241,7 +241,7 @@ public abstract class Char extends Actor {
 	
 	public void damage( int dmg, Object src ) {
 		
-		if (HP <= 0) {
+		if (HP <= 0 || dmg < 0) {
 			return;
 		}
 		if (this.buff(Frost.class) != null){
@@ -397,12 +397,16 @@ public abstract class Char extends Actor {
 	public void move( int step ) {
 
 		if (Level.adjacent( step, pos ) && buff( Vertigo.class ) != null) {
-			step = pos + Level.NEIGHBOURS8[Random.Int( 8 )];
-			if (!(Level.passable[step] || Level.avoid[step]) || Actor.findChar( step ) != null)
+			sprite.interruptMotion();
+			int newPos = pos + Level.NEIGHBOURS8[Random.Int( 8 )];
+			if (!(Level.passable[newPos] || Level.avoid[newPos]) || Actor.findChar( newPos ) != null)
 				return;
+			else {
+				sprite.move(pos, newPos);
+				step = newPos;
+			}
 		}
 
-	// TODO test this
 		if (Dungeon.level.map[pos] == Terrain.OPEN_DOOR) {
 			Door.leave( pos );
 		} else if ((Dungeon.level.map[pos] == Terrain.UNLOCKED_DOOR_OPEN_STONE) || (Dungeon.level.map[pos] == Terrain.UNLOCKED_DOOR_OPEN_SNOW)){

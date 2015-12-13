@@ -130,7 +130,8 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 				text = Utils.format( text, args );
 			}
 			if (ch != null) {
-				FloatingText.show( x + width * 0.5f, y, ch.pos, text, color );
+				PointF tile = DungeonTilemap.tileCenterToWorld(ch.pos);
+				FloatingText.show( tile.x, tile.y-(width*0.5f), ch.pos, text, color );
 			} else {
 				FloatingText.show( x + width * 0.5f, y, text, color );
 			}
@@ -142,6 +143,8 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	}
 	
 	public void move( int from, int to ) {
+		turnTo( from , to );
+
 		play( run );
 		
 		motion = new PosTweener( this, worldToCamera( to ), MOVE_INTERVAL );
@@ -150,13 +153,10 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 
 		isMoving = true;
 		
-		turnTo( from , to );
-		
 		if (visible && Level.water[from] && !ch.flying) {
 			GameScene.ripple( from );
 		}
 
-		ch.onMotionComplete();
 	}
 	
 	public void interruptMotion() {
@@ -330,6 +330,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 				chilled.on = false;
 				chilled = null;
 			}
+			break;
 		case DARKENED:
 			if (darkBlock != null) {
 				darkBlock.lighten();

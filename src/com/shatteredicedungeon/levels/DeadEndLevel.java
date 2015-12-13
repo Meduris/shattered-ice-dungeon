@@ -23,6 +23,7 @@ package com.shatteredicedungeon.levels;
 import java.util.Arrays;
 
 import com.shatteredicedungeon.Assets;
+import com.shatteredicedungeon.actors.Actor;
 import com.watabou.utils.Random;
 
 public class DeadEndLevel extends Level {
@@ -86,6 +87,10 @@ public class DeadEndLevel extends Level {
 
 	@Override
 	protected void createMobs() {
+	}
+
+	public Actor respawner() {
+		return null;
 	}
 
 	@Override

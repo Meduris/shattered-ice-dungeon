@@ -22,21 +22,6 @@ import java.util.ArrayList;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.media.AudioManager;
-import android.opengl.GLES20;
-import android.opengl.GLSurfaceView;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Vibrator;
-import android.util.DisplayMetrics;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.View;
-
 import com.watabou.glscripts.Script;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.input.Keys;
@@ -46,21 +31,34 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.BitmapCache;
 import com.watabou.utils.SystemTime;
 
-public class Game extends Activity implements GLSurfaceView.Renderer,
-		View.OnTouchListener {
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.media.AudioManager;
+import android.opengl.GLES20;
+import android.opengl.GLSurfaceView;
+import android.os.Bundle;
+import android.os.Vibrator;
+import android.util.DisplayMetrics;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.View;
+
+public class Game extends Activity implements GLSurfaceView.Renderer, View.OnTouchListener {
 
 	public static Game instance;
-
+	
 	// Actual size of the screen
 	public static int width;
 	public static int height;
-
+	
 	// Density: mdpi=1, hdpi=1.5, xhdpi=2...
 	public static float density = 1;
-
+	
 	public static String version;
 	public static int versionCode;
-
+	
 	// Current scene
 	protected Scene scene;
 	// New scene we are going to switch to
@@ -69,221 +67,203 @@ public class Game extends Activity implements GLSurfaceView.Renderer,
 	protected boolean requestedReset = true;
 	// New scene class
 	protected Class<? extends Scene> sceneClass;
-
+	
 	// Current time in milliseconds
 	protected long now;
 	// Milliseconds passed since previous update
 	protected long step;
-
+	
 	public static float timeScale = 1f;
 	public static float elapsed = 0f;
 	public static float timeTotal = 0f;
-
+	
 	protected GLSurfaceView view;
 	protected SurfaceHolder holder;
-
+	
 	// Accumulated touch events
 	protected ArrayList<MotionEvent> motionEvents = new ArrayList<MotionEvent>();
-
+	
 	// Accumulated key events
 	protected ArrayList<KeyEvent> keysEvents = new ArrayList<KeyEvent>();
-
-	public Game(Class<? extends Scene> c) {
+	
+	public Game( Class<? extends Scene> c ) {
 		super();
 		sceneClass = c;
 	}
-
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
+	protected void onCreate( Bundle savedInstanceState ) {
+		super.onCreate( savedInstanceState );
+		
 		BitmapCache.context = TextureCache.context = instance = this;
-
+		
 		DisplayMetrics m = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(m);
+		getWindowManager().getDefaultDisplay().getMetrics( m );
 		density = m.density;
-
+		
 		try {
-			version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+			version = getPackageManager().getPackageInfo( getPackageName(), 0 ).versionName;
 		} catch (NameNotFoundException e) {
 			version = "???";
 		}
 		try {
-			versionCode = getPackageManager().getPackageInfo(getPackageName(),
-					0).versionCode;
+			versionCode = getPackageManager().getPackageInfo( getPackageName(), 0 ).versionCode;
 		} catch (NameNotFoundException e) {
 			versionCode = 0;
 		}
-
-		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-//		if (Build.BRAND.contains("generic")) {
-//			view = new GLSurfaceView(this);
-//			view.setEGLContextClientVersion(2);
-//			// view.setEGLConfigChooser( false );
-//			// changed to be able to run it on my android emulator
-//			view.setEGLConfigChooser(true);
-//			view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
-//			view.setRenderer(this);
-//			view.setOnTouchListener(this);
-//			setContentView(view);
-//		} else {
-//			view = new GLSurfaceView(this);
-//			view.setEGLContextClientVersion(2);
-//			view.setEGLConfigChooser(false);
-//			view.setRenderer(this);
-//			view.setOnTouchListener(this);
-//			setContentView(view);
-//		}
 		
-		view = new GLSurfaceView(this);
-		view.setEGLContextClientVersion(2);
-		//view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
-		view.setEGLConfigChooser(5, 6, 5, 0, 0, 0);
-		view.setRenderer(this);
-		view.setOnTouchListener(this);
-		setContentView(view);
+		setVolumeControlStream( AudioManager.STREAM_MUSIC );
+		
+		view = new GLSurfaceView( this );
+		view.setEGLContextClientVersion( 2 );
+		view.setEGLConfigChooser( 5, 6, 5, 0, 0, 0 );
+		view.setRenderer( this );
+		view.setOnTouchListener( this );
+		setContentView( view );
 	}
-
+	
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		
 		now = 0;
 		view.onResume();
-
+		
 		Music.INSTANCE.resume();
 		Sample.INSTANCE.resume();
 	}
-
+	
 	@Override
 	public void onPause() {
 		super.onPause();
-
+		
 		if (scene != null) {
 			scene.pause();
 		}
-
+		
 		view.onPause();
 		Script.reset();
-
+		
 		Music.INSTANCE.pause();
 		Sample.INSTANCE.pause();
 	}
-
+	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		destroyGame();
-
+		
 		Music.INSTANCE.mute();
 		Sample.INSTANCE.reset();
 	}
 
 	@SuppressLint({ "Recycle", "ClickableViewAccessibility" })
 	@Override
-	public boolean onTouch(View view, MotionEvent event) {
+	public boolean onTouch( View view, MotionEvent event ) {
 		synchronized (motionEvents) {
-			motionEvents.add(MotionEvent.obtain(event));
+			motionEvents.add( MotionEvent.obtain( event ) );
 		}
 		return true;
 	}
-
+	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-		if (keyCode == Keys.VOLUME_DOWN || keyCode == Keys.VOLUME_UP) {
-
+	public boolean onKeyDown( int keyCode, KeyEvent event ) {
+		
+		if (keyCode != Keys.BACK &&
+				keyCode != Keys.MENU) {
 			return false;
 		}
-
+		
 		synchronized (motionEvents) {
-			keysEvents.add(event);
+			keysEvents.add( event );
 		}
 		return true;
 	}
-
+	
 	@Override
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
+	public boolean onKeyUp( int keyCode, KeyEvent event ) {
 
-		if (keyCode == Keys.VOLUME_DOWN || keyCode == Keys.VOLUME_UP) {
-
+		if (keyCode != Keys.BACK &&
+				keyCode != Keys.MENU) {
 			return false;
 		}
-
+		
 		synchronized (motionEvents) {
-			keysEvents.add(event);
+			keysEvents.add( event );
 		}
 		return true;
 	}
-
+	
 	@Override
-	public void onDrawFrame(GL10 gl) {
-
+	public void onDrawFrame( GL10 gl ) {
+		
 		if (width == 0 || height == 0) {
 			return;
 		}
-
+		
 		SystemTime.tick();
 		long rightNow = SystemTime.now;
 		step = (now == 0 ? 0 : rightNow - now);
 		now = rightNow;
-
+		
 		step();
 
 		NoosaScript.get().resetCamera();
-		GLES20.glScissor(0, 0, width, height);
-		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+		GLES20.glScissor( 0, 0, width, height );
+		GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT );
 		draw();
 	}
 
 	@Override
-	public void onSurfaceChanged(GL10 gl, int width, int height) {
+	public void onSurfaceChanged( GL10 gl, int width, int height ) {
 
 		GLES20.glViewport(0, 0, width, height);
 
-		Game.width = width;
-		Game.height = height;
+		if (height != Game.height || width != Game.width) {
 
+			Game.width = width;
+			Game.height = height;
+
+			resetScene();
+		}
 	}
 
 	@Override
-	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		GLES20.glEnable(GL10.GL_BLEND);
+	public void onSurfaceCreated( GL10 gl, EGLConfig config ) {
+		GLES20.glEnable( GL10.GL_BLEND );
 		// For premultiplied alpha:
 		// GLES20.glBlendFunc( GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA );
-		GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-
-		GLES20.glEnable(GL10.GL_SCISSOR_TEST);
-
+		GLES20.glBlendFunc( GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA );
+		
+		GLES20.glEnable( GL10.GL_SCISSOR_TEST );
+		
 		TextureCache.reload();
 	}
-
+	
 	protected void destroyGame() {
 		if (scene != null) {
 			scene.destroy();
 			scene = null;
 		}
-
-//		instance = null;
+		
+		//instance = null;
 	}
-
+	
 	public static void resetScene() {
-		switchScene(instance.sceneClass);
+		switchScene( instance.sceneClass );
 	}
-
-	public static void switchScene(Class<? extends Scene> c) {
+	
+	public static void switchScene( Class<? extends Scene> c ) {
 		instance.sceneClass = c;
 		instance.requestedReset = true;
 	}
-
+	
 	public static Scene scene() {
 		return instance.scene;
 	}
-
-	@SuppressLint("NewApi")
+	
 	protected void step() {
-
+		
 		if (requestedReset) {
 			requestedReset = false;
 
@@ -294,49 +274,49 @@ public class Game extends Activity implements GLSurfaceView.Renderer,
 				e.printStackTrace();
 			}
 
-		}
 
+		}
+		
 		update();
 	}
-
+	
 	protected void draw() {
 		scene.draw();
 	}
-
+	
 	protected void switchScene() {
 
 		Camera.reset();
-
+		
 		if (scene != null) {
 			scene.destroy();
 		}
 		scene = requestedScene;
 		scene.create();
-
+		
 		Game.elapsed = 0f;
 		Game.timeScale = 1f;
 		Game.timeTotal = 0f;
 	}
-
+	
 	protected void update() {
 		Game.elapsed = Game.timeScale * step * 0.001f;
 		Game.timeTotal += Game.elapsed;
-
+		
 		synchronized (motionEvents) {
-			Touchscreen.processTouchEvents(motionEvents);
+			Touchscreen.processTouchEvents( motionEvents );
 			motionEvents.clear();
 		}
 		synchronized (keysEvents) {
-			Keys.processTouchEvents(keysEvents);
+			Keys.processTouchEvents( keysEvents );
 			keysEvents.clear();
 		}
-
+		
 		scene.update();
 		Camera.updateAll();
 	}
-
-	public static void vibrate(int milliseconds) {
-		((Vibrator) instance.getSystemService(VIBRATOR_SERVICE))
-				.vibrate(milliseconds);
+	
+	public static void vibrate( int milliseconds ) {
+		((Vibrator)instance.getSystemService( VIBRATOR_SERVICE )).vibrate( milliseconds );
 	}
 }

@@ -20,12 +20,16 @@
  */
 package com.shatteredicedungeon.items.artifacts;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.blobs.ToxicGas;
 import com.shatteredicedungeon.actors.buffs.Buff;
+import com.shatteredicedungeon.actors.buffs.LockedFloor;
 import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.actors.mobs.Mob;
 import com.shatteredicedungeon.actors.mobs.Wraith;
@@ -44,9 +48,6 @@ import com.shatteredicedungeon.windows.WndQuest;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
-
-import java.util.ArrayList;
-import java.util.HashSet;
 
 public class DriedRose extends Artifact {
 
@@ -207,7 +208,8 @@ public class DriedRose extends Artifact {
 		@Override
 		public boolean act() {
 
-			if (charge < chargeCap && !cursed) {
+			LockedFloor lock = target.buff(LockedFloor.class);
+			if (charge < chargeCap && !cursed && (lock == null || lock.regenOn())) {
 				//TODO: investigate balancing on this.
 				partialCharge += 10/75f;
 				if (partialCharge > 1){

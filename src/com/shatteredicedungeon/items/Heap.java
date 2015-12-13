@@ -20,6 +20,10 @@
  */
 package com.shatteredicedungeon.items;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Badges;
 import com.shatteredicedungeon.Dungeon;
@@ -46,19 +50,13 @@ import com.shatteredicedungeon.items.potions.PotionOfExperience;
 import com.shatteredicedungeon.items.potions.PotionOfHealing;
 import com.shatteredicedungeon.items.scrolls.Scroll;
 import com.shatteredicedungeon.plants.Plant.Seed;
-import com.shatteredicedungeon.scenes.GameScene;
 import com.shatteredicedungeon.sprites.ItemSprite;
 import com.shatteredicedungeon.sprites.ItemSpriteSheet;
 import com.shatteredicedungeon.utils.GLog;
-import com.shatteredicedungeon.windows.WndTitledMessage;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
 
 public class Heap implements Bundlable {
 
@@ -82,6 +80,7 @@ public class Heap implements Bundlable {
 	public int pos = 0;
 	
 	public ItemSprite sprite;
+	public boolean seen = false;
 	
 	public LinkedList<Item> items = new LinkedList<Item>();
 	
@@ -171,7 +170,7 @@ public class Heap implements Bundlable {
 	
 	public void drop( Item item ) {
 		
-		if (item.stackable) {
+		if (item.stackable && type != Type.FOR_SALE) {
 			
 			for (Item i : items) {
 				if (i.isSimilar( item )) {
@@ -421,7 +420,7 @@ public class Heap implements Bundlable {
 				if (Random.Int(1000/bonus) == 0)
 					return new PotionOfExperience();
 
-			while (potion instanceof PotionOfHealing && Random.Int(15) - Dungeon.limitedDrops.cookingHP.count >= 0)
+			while (potion instanceof PotionOfHealing && Random.Int(10) < Dungeon.limitedDrops.cookingHP.count)
 				potion = Generator.random( Generator.Category.POTION );
 
 			if (potion instanceof PotionOfHealing)
@@ -457,6 +456,7 @@ public class Heap implements Bundlable {
 	}
 
 	private static final String POS		= "pos";
+	private static final String SEEN	= "seen";
 	private static final String TYPE	= "type";
 	private static final String ITEMS	= "items";
 	
@@ -464,6 +464,7 @@ public class Heap implements Bundlable {
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		pos = bundle.getInt( POS );
+		seen = bundle.getBoolean( SEEN );
 		type = Type.valueOf( bundle.getString( TYPE ) );
 		items = new LinkedList<Item>( (Collection<Item>) ((Collection<?>) bundle.getCollection( ITEMS )) );
 		items.removeAll(Collections.singleton(null));
@@ -472,6 +473,7 @@ public class Heap implements Bundlable {
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		bundle.put( POS, pos );
+		bundle.put( SEEN, seen );
 		bundle.put( TYPE, type.toString() );
 		bundle.put( ITEMS, items );
 	}

@@ -20,6 +20,10 @@
  */
 package com.shatteredicedungeon.items;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Badges;
 import com.shatteredicedungeon.Dungeon;
@@ -45,10 +49,6 @@ import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
 public class Item implements Bundlable {
 
 	private static final String TXT_PACK_FULL = "Your pack is too full for the %s";
@@ -66,6 +66,7 @@ public class Item implements Bundlable {
 	public static final String AC_THROW		= "THROW";
 	
 	public String defaultAction;
+	public boolean usesTargeting;
 	
 	protected String name = "smth";
 	public int image = 0;

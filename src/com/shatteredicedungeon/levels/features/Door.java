@@ -38,6 +38,7 @@ public class Door {
 			Sample.INSTANCE.play(Assets.SND_OPEN);
 		}
 	}
+
 	// TODO maybe rework for new UNLOCKED_DOOR
 	// also see Level.java
 	// sprite for open UNLOCKED_DOOR needed
@@ -53,9 +54,9 @@ public class Door {
 		Level.set(pos, Terrain.UNLOCKED_DOOR_OPEN_SNOW);
 		GameScene.updateMap(pos);
 		Dungeon.observe();
-
+		
 		if (Dungeon.visible[pos]) {
-			Sample.INSTANCE.play(Assets.SND_OPEN);
+			Sample.INSTANCE.play( Assets.SND_OPEN );
 		}
 	}
 	

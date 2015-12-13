@@ -24,17 +24,17 @@ import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.DungeonTilemap;
 import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
-import com.shatteredicedungeon.items.EquipableItem;
 import com.shatteredicedungeon.items.Item;
+import com.shatteredicedungeon.levels.Level;
+import com.shatteredicedungeon.mechanics.Ballistica;
 import com.shatteredicedungeon.scenes.GameScene;
-import com.shatteredicedungeon.scenes.PixelScene;
 import com.shatteredicedungeon.windows.WndBag;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.ui.Button;
 
 public class QuickSlotButton extends Button implements WndBag.Listener {
 
-	private static final String TXT_SELECT_ITEM = "Select an item for the quickslot";
+	private static final String TXT_SELECT_ITEM = "Select an item to quickslot";
 	
 	private static QuickSlotButton[] instance = new QuickSlotButton[4];
 	private int slotNum;
@@ -45,7 +45,7 @@ public class QuickSlotButton extends Button implements WndBag.Listener {
 	private static Image crossM;
 	
 	private static boolean targeting = false;
-	private static Char lastTarget= null;
+	public static Char lastTarget = null;
 	
 	public QuickSlotButton( int slotNum ) {
 		super();
@@ -76,10 +76,17 @@ public class QuickSlotButton extends Button implements WndBag.Listener {
 			@Override
 			protected void onClick() {
 				if (targeting) {
-					GameScene.handleCell( lastTarget.pos );
+					int cell = autoAim(lastTarget);
+
+					if (cell != -1){
+						GameScene.handleCell(cell);
+					} else {
+						//couldn't auto-aim, just target the position and hope for the best.
+						GameScene.handleCell( lastTarget.pos );
+					}
 				} else {
 					Item item = select(slotNum);
-					if (item instanceof EquipableItem)
+					if (item.usesTargeting)
 						useTargeting();
 					item.execute( Dungeon.hero );
 				}
@@ -114,8 +121,8 @@ public class QuickSlotButton extends Button implements WndBag.Listener {
 		
 		slot.fill( this );
 		
-		crossB.x = PixelScene.align( x + (width - crossB.width) / 2 );
-		crossB.y = PixelScene.align( y + (height - crossB.height) / 2 );
+		crossB.x = x + (width - crossB.width) / 2;
+		crossB.y = y + (height - crossB.height) / 2;
 	}
 	
 	@Override
@@ -160,20 +167,43 @@ public class QuickSlotButton extends Button implements WndBag.Listener {
 	}
 	
 	private void useTargeting() {
-		
-		targeting = lastTarget != null && lastTarget.isAlive() && Dungeon.visible[lastTarget.pos];
-		
-		if (targeting) {
-			if (Actor.chars().contains( lastTarget )) {
-				lastTarget.sprite.parent.add( crossM );
-				crossM.point( DungeonTilemap.tileToWorld( lastTarget.pos ) );
-				crossB.x = PixelScene.align( x + (width - crossB.width) / 2 );
-				crossB.y = PixelScene.align( y + (height - crossB.height) / 2 );
-				crossB.visible = true;
-			} else {
-				lastTarget = null;
+
+		if (lastTarget != null &&
+				Actor.chars().contains( lastTarget ) &&
+				lastTarget.isAlive() &&
+				Dungeon.visible[lastTarget.pos]) {
+
+			targeting = true;
+			lastTarget.sprite.parent.add( crossM );
+			crossM.point( DungeonTilemap.tileToWorld( lastTarget.pos ) );
+			crossB.x = x + (width - crossB.width) / 2;
+			crossB.y = y + (height - crossB.height) / 2;
+			crossB.visible = true;
+
+		} else {
+
+			lastTarget = null;
+			targeting = false;
+
+		}
+
+	}
+
+	public static int autoAim(Char target){
+		//first try to directly target
+		if (new Ballistica(Dungeon.hero.pos, target.pos, Ballistica.PROJECTILE).collisionPos == target.pos) {
+			return target.pos;
+		}
+
+		//Otherwise pick nearby tiles to try and 'angle' the shot, auto-aim basically.
+		for (int i : Level.NEIGHBOURS9DIST2) {
+			if (new Ballistica(Dungeon.hero.pos, target.pos+i, Ballistica.PROJECTILE).collisionPos == target.pos){
+				return target.pos+i;
 			}
 		}
+
+		//couldn't find a cell, give up.
+		return -1;
 	}
 	
 	public static void refresh() {

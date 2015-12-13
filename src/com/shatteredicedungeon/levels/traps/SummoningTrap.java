@@ -24,22 +24,22 @@ import java.util.ArrayList;
 
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.actors.Actor;
-import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.mobs.Bestiary;
 import com.shatteredicedungeon.actors.mobs.Mob;
 import com.shatteredicedungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredicedungeon.levels.Level;
 import com.shatteredicedungeon.scenes.GameScene;
+import com.shatteredicedungeon.sprites.TrapSprite;
 import com.watabou.utils.Random;
 
 public class SummoningTrap extends Trap {
 
 	private static final float DELAY = 2f;
-	
-	// 0x770088
+
 	{
 		name = "Summoning trap";
-		image = 7;
+		color = TrapSprite.TEAL;
+		shape = TrapSprite.WAVES;
 	}
 
 	@Override

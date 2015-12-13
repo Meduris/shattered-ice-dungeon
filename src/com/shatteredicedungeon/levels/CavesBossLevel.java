@@ -20,9 +20,6 @@
  */
 package com.shatteredicedungeon.levels;
 
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Scene;
-import com.watabou.noosa.audio.Sample;
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Bones;
 import com.shatteredicedungeon.Dungeon;
@@ -36,7 +33,12 @@ import com.shatteredicedungeon.items.Heap;
 import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.items.keys.SkeletonKey;
 import com.shatteredicedungeon.levels.painters.Painter;
+import com.shatteredicedungeon.levels.traps.ToxicTrap;
+import com.shatteredicedungeon.levels.traps.Trap;
 import com.shatteredicedungeon.scenes.GameScene;
+import com.watabou.noosa.Camera;
+import com.watabou.noosa.Group;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
@@ -120,19 +122,13 @@ public class CavesBossLevel extends Level {
 		
 		map[exit] = Terrain.LOCKED_EXIT;
 		
-		for (int i=0; i < LENGTH; i++) {
-			if (map[i] == Terrain.EMPTY && Random.Int( 6 ) == 0) {
-				map[i] = Terrain.INACTIVE_TRAP;
-			}
-		}
-		
 		Painter.fill( this, ROOM_LEFT - 1, ROOM_TOP - 1,
 			ROOM_RIGHT - ROOM_LEFT + 3, ROOM_BOTTOM - ROOM_TOP + 3, Terrain.WALL );
 		Painter.fill( this, ROOM_LEFT, ROOM_TOP + 1,
 			ROOM_RIGHT - ROOM_LEFT + 1, ROOM_BOTTOM - ROOM_TOP, Terrain.EMPTY );
 
 		Painter.fill( this, ROOM_LEFT, ROOM_TOP,
-			ROOM_RIGHT - ROOM_LEFT + 1, 1, Terrain.INACTIVE_TRAP );
+			ROOM_RIGHT - ROOM_LEFT + 1, 1, Terrain.EMPTY_DECO );
 		
 		arenaDoor = Random.Int( ROOM_LEFT, ROOM_RIGHT ) + (ROOM_BOTTOM + 1) * WIDTH;
 		map[arenaDoor] = Terrain.DOOR;
@@ -145,6 +141,15 @@ public class CavesBossLevel extends Level {
 		for (int i=0; i < LENGTH; i++) {
 			if (map[i] == Terrain.EMPTY && patch[i]) {
 				map[i] = Terrain.WATER;
+			}
+		}
+
+		for (int i=0; i < LENGTH; i++) {
+			if (map[i] == Terrain.EMPTY && Random.Int( 6 ) == 0) {
+				map[i] = Terrain.INACTIVE_TRAP;
+				Trap t = new ToxicTrap().reveal();
+				t.active = false;
+				setTrap(t, i);
 			}
 		}
 		
@@ -184,7 +189,7 @@ public class CavesBossLevel extends Level {
 		int sign;
 		do {
 			sign = Random.Int( ROOM_LEFT, ROOM_RIGHT ) + Random.Int( ROOM_TOP, ROOM_BOTTOM ) * WIDTH;
-		} while (sign == entrance);
+		} while (sign == entrance || map[sign] == Terrain.INACTIVE_TRAP);
 		map[sign] = Terrain.SIGN;
 	}
 	
@@ -210,7 +215,11 @@ public class CavesBossLevel extends Level {
 	
 	@Override
 	public int randomRespawnCell() {
-		return -1;
+		int cell = entrance + NEIGHBOURS8[Random.Int(8)];
+		while (!passable[cell]){
+			cell = entrance + NEIGHBOURS8[Random.Int(8)];
+		}
+		return cell;
 	}
 	
 	@Override
@@ -224,7 +233,7 @@ public class CavesBossLevel extends Level {
 			seal();
 			
 			Mob boss = Bestiary.mob( Dungeon.depth );
-			boss.state = boss.HUNTING;
+			boss.state = boss.WANDERING;
 			do {
 				boss.pos = Random.Int( LENGTH );
 			} while (
@@ -296,9 +305,11 @@ public class CavesBossLevel extends Level {
 			return super.tileDesc( tile );
 		}
 	}
-	
+
 	@Override
-	public void addVisuals( Scene scene ) {
-		CavesLevel.addVisuals( this, scene );
+	public Group addVisuals() {
+		super.addVisuals();
+		CavesLevel.addCavesVisuals(this, visuals);
+		return visuals;
 	}
 }

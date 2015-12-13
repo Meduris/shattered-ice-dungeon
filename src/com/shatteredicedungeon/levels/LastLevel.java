@@ -22,10 +22,11 @@ package com.shatteredicedungeon.levels;
 
 import java.util.Arrays;
 
-import com.watabou.noosa.Scene;
 import com.shatteredicedungeon.Assets;
+import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.items.Amulet;
 import com.shatteredicedungeon.levels.painters.Painter;
+import com.watabou.noosa.Group;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
@@ -119,6 +120,10 @@ public class LastLevel extends Level {
 	protected void createMobs() {
 	}
 
+	public Actor respawner() {
+		return null;
+	}
+
 	@Override
 	protected void createItems() {
 		drop( new Amulet(), pedestal );
@@ -126,7 +131,11 @@ public class LastLevel extends Level {
 
 	@Override
 	public int randomRespawnCell() {
-		return -1;
+		int cell = entrance + NEIGHBOURS8[Random.Int(8)];
+		while (!passable[cell]){
+			cell = entrance + NEIGHBOURS8[Random.Int(8)];
+		}
+		return cell;
 	}
 
 	@Override
@@ -160,9 +169,10 @@ public class LastLevel extends Level {
 	}
 
 	@Override
-	public void addVisuals( Scene scene ) {
-		super.addVisuals( scene );
-		HallsLevel.addVisuals( this, scene );
+	public Group addVisuals () {
+		super.addVisuals();
+		HallsLevel.addHallsVisuals(this, visuals);
+		return visuals;
 	}
 
 	@Override

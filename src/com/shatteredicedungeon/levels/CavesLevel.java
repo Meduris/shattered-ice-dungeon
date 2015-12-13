@@ -20,16 +20,34 @@
  */
 package com.shatteredicedungeon.levels;
 
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Group;
-import com.watabou.noosa.Scene;
-import com.watabou.noosa.particles.PixelParticle;
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.DungeonTilemap;
 import com.shatteredicedungeon.actors.mobs.npcs.Blacksmith;
 import com.shatteredicedungeon.levels.Room.Type;
 import com.shatteredicedungeon.levels.painters.Painter;
+import com.shatteredicedungeon.levels.traps.ConfusionTrap;
+import com.shatteredicedungeon.levels.traps.ExplosiveTrap;
+import com.shatteredicedungeon.levels.traps.FireTrap;
+import com.shatteredicedungeon.levels.traps.FlashingTrap;
+import com.shatteredicedungeon.levels.traps.FlockTrap;
+import com.shatteredicedungeon.levels.traps.FrostTrap;
+import com.shatteredicedungeon.levels.traps.GrippingTrap;
+import com.shatteredicedungeon.levels.traps.GuardianTrap;
+import com.shatteredicedungeon.levels.traps.LightningTrap;
+import com.shatteredicedungeon.levels.traps.OozeTrap;
+import com.shatteredicedungeon.levels.traps.ParalyticTrap;
+import com.shatteredicedungeon.levels.traps.PitfallTrap;
+import com.shatteredicedungeon.levels.traps.PoisonTrap;
+import com.shatteredicedungeon.levels.traps.RockfallTrap;
+import com.shatteredicedungeon.levels.traps.SpearTrap;
+import com.shatteredicedungeon.levels.traps.SummoningTrap;
+import com.shatteredicedungeon.levels.traps.TeleportationTrap;
+import com.shatteredicedungeon.levels.traps.VenomTrap;
+import com.shatteredicedungeon.levels.traps.WarpingTrap;
+import com.watabou.noosa.Game;
+import com.watabou.noosa.Group;
+import com.watabou.noosa.particles.PixelParticle;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 import com.watabou.utils.Rect;
@@ -59,6 +77,22 @@ public class CavesLevel extends RegularLevel {
 	
 	protected boolean[] grass() {
 		return Patch.generate( feeling == Feeling.GRASS ? 0.55f : 0.35f, 3 );
+	}
+
+	@Override
+	protected Class<?>[] trapClasses() {
+		return new Class[]{ FireTrap.class, FrostTrap.class, PoisonTrap.class, SpearTrap.class, VenomTrap.class,
+				ExplosiveTrap.class, FlashingTrap.class, GrippingTrap.class, ParalyticTrap.class, LightningTrap.class, RockfallTrap.class, OozeTrap.class,
+				ConfusionTrap.class, FlockTrap.class, GuardianTrap.class, PitfallTrap.class, SummoningTrap.class, TeleportationTrap.class,
+				WarpingTrap.class};
+	}
+
+	@Override
+	protected float[] trapChances() {
+		return new float[]{ 8, 8, 8, 8, 8,
+				4, 4, 4, 4, 4, 4, 4,
+				2, 2, 2, 2, 2, 2,
+				1 };
 	}
 	
 	@Override
@@ -219,15 +253,16 @@ public class CavesLevel extends RegularLevel {
 	}
 	
 	@Override
-	public void addVisuals( Scene scene ) {
-		super.addVisuals( scene );
-		addVisuals( this, scene );
+	public Group addVisuals() {
+		super.addVisuals();
+		addCavesVisuals( this, visuals );
+		return visuals;
 	}
 	
-	public static void addVisuals( Level level, Scene scene ) {
+	public static void addCavesVisuals( Level level, Group group ) {
 		for (int i=0; i < LENGTH; i++) {
 			if (level.map[i] == Terrain.WALL_DECO) {
-				scene.add( new Vein( i ) );
+				group.add( new Vein( i ) );
 			}
 		}
 	}
@@ -252,8 +287,14 @@ public class CavesLevel extends RegularLevel {
 			if (visible = Dungeon.visible[pos]) {
 				
 				super.update();
-				
+
 				if ((delay -= Game.elapsed) <= 0) {
+
+					//pickaxe can remove the ore, should remove the sparkling too.
+					if (Dungeon.level.map[pos] != Terrain.WALL_DECO){
+						kill();
+						return;
+					}
 					
 					delay = Random.Float();
 					

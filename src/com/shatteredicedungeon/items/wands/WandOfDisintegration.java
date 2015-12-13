@@ -81,7 +81,7 @@ public class WandOfDisintegration extends Wand {
 				
 			}
 
-			if (!Level.passable[c])
+			if (Level.solid[c])
 				terrainPassed++;
 			
 			CellEmitter.center( c ).burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
@@ -95,6 +95,7 @@ public class WandOfDisintegration extends Wand {
 		int dmgMin = lvl;
 		int dmgMax = (int) (8 + lvl * lvl / 3f);
 		for (Char ch : chars) {
+			processSoulMark(ch, chargesPerCast());
 			ch.damage( Random.NormalIntRange( dmgMin, dmgMax ), this );
 			ch.sprite.centerEmitter().burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
 			ch.sprite.flash();

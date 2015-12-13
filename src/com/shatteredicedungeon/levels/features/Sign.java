@@ -44,8 +44,9 @@ public class Sign {
 				"Items found in the dungeon will often be unidentified. Some items will have unknown effects, others " +
 				"may be upgraded, or degraded and cursed! Unidentified items are unpredictable, so be careful!",
 		"Charging forward recklessly is a great way to get killed.\n\n" +
-				"Slowing down a bit to examine enemies and use the environment and items to your advantage can make a" +
-				" big difference.\n\nThe dungeon is full of traps and hidden passageways as well, keep your eyes open!",
+				"Slowing down a bit to examine enemies and use the environment and items to your advantage can make a " +
+				"big difference.\n\nYou can double tap or hold on the examine button to search for secrets. " +
+				"The dungeon is full of traps and hidden passageways, keep your eyes open!",
 		"Levelling up is important!\n\nBeing about the same level as the floor you are on is a good idea. " +
 				"Hunger may keep you moving in search of more food, but don't be afraid to slow down a little and train." +
 				"\n\n\nHunger and health are both resources, and using them well can mean starving yourself in order" +
@@ -65,7 +66,12 @@ public class Sign {
 		"Surprise attack has a better chance to hit. For example, you can ambush your enemy behind " +
 				"a closed door when you know it is approaching.",
 
-		"Don't let The Tengu out!",
+		"Thomas,\n\n" +
+		"You've been a great friend, so I'm going to do you a favour. When you get to your shift tonight, check Tengu's cell, then get out.\n\n" +
+		"Doesn't matter if the prisoners try and escape, pretty soon nobody will be able to leave this place.\n\n" +
+		"That freak has to stay secured though, if he escapes there's no telling what he'll do, just make sure tengu's cell is locked, then get out.\n\n" +
+		"Don't bother looking for me after this, a captain must go down with his ship.\n" +
+		"- Warden Smith",
 
 		"Pixel-Mart. Spend money. Live longer.",
 		"When you're attacked by several monsters at the same time, try to retreat behind a door.",
@@ -85,9 +91,9 @@ public class Sign {
 		"Pixel-Mart. Special prices for demon hunters!",
 
 		//hmm.. I wonder what this is?
-		"standOfF roW",
-		"fraCtion doWnpOur",
-		"gaffe MaSts"
+		"ConCealed mineral",
+		"sPrained Worn",
+		"Pinker soRrow"
 	};
 	
 	private static final String TXT_BURN =

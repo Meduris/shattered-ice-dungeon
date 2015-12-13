@@ -25,9 +25,11 @@ import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.actors.hero.HeroClass;
+import com.shatteredicedungeon.actors.hero.HeroSubClass;
 import com.shatteredicedungeon.effects.Speck;
 import com.shatteredicedungeon.sprites.CharSprite;
 import com.shatteredicedungeon.sprites.ItemSpriteSheet;
+import com.shatteredicedungeon.utils.GLog;
 
 public class Dewdrop extends Item {
 
@@ -48,8 +50,8 @@ public class Dewdrop extends Item {
 		if (hero.HP < hero.HT || vial == null || vial.isFull()) {
 			
 			int value = 1 + (Dungeon.depth - 1) / 5;
-			if (hero.heroClass == HeroClass.HUNTRESS) {
-				value++;
+			if (hero.subClass == HeroSubClass.WARDEN) {
+				value+=2;
 			}
 			
 			int effect = Math.min( hero.HT - hero.HP, value * quantity );
@@ -57,9 +59,12 @@ public class Dewdrop extends Item {
 				hero.HP += effect;
 				hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
 				hero.sprite.showStatus( CharSprite.POSITIVE, TXT_VALUE, effect );
+			} else {
+				GLog.i("You already have full health.");
+				return false;
 			}
 			
-		} else if (vial != null) {
+		} else {
 			
 			vial.collectDew( this );
 			
@@ -70,9 +75,16 @@ public class Dewdrop extends Item {
 		
 		return true;
 	}
-	
+
+	@Override
+	//max of one dew in a stack
+	public Item quantity(int value) {
+		quantity = Math.min( value, 1);
+		return this;
+	}
+
 	@Override
 	public String info() {
-		return "A crystal clear dewdrop.";
+		return "A crystal clear dewdrop.\n\nDue to the magic of this place, pure water has minor restorative properties.";
 	}
 }

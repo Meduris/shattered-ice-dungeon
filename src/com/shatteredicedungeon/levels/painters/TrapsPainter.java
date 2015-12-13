@@ -21,7 +21,6 @@
 package com.shatteredicedungeon.levels.painters;
 
 import com.shatteredicedungeon.Dungeon;
-import com.shatteredicedungeon.actors.buffs.Poison;
 import com.shatteredicedungeon.items.Generator;
 import com.shatteredicedungeon.items.Heap;
 import com.shatteredicedungeon.items.Item;
@@ -29,25 +28,42 @@ import com.shatteredicedungeon.items.potions.PotionOfLevitation;
 import com.shatteredicedungeon.levels.Level;
 import com.shatteredicedungeon.levels.Room;
 import com.shatteredicedungeon.levels.Terrain;
+import com.shatteredicedungeon.levels.traps.BlazingTrap;
+import com.shatteredicedungeon.levels.traps.ConfusionTrap;
+import com.shatteredicedungeon.levels.traps.DisintegrationTrap;
+import com.shatteredicedungeon.levels.traps.ExplosiveTrap;
+import com.shatteredicedungeon.levels.traps.FlockTrap;
+import com.shatteredicedungeon.levels.traps.GrimTrap;
 import com.shatteredicedungeon.levels.traps.ParalyticTrap;
+import com.shatteredicedungeon.levels.traps.SpearTrap;
 import com.shatteredicedungeon.levels.traps.SummoningTrap;
+import com.shatteredicedungeon.levels.traps.TeleportationTrap;
 import com.shatteredicedungeon.levels.traps.ToxicTrap;
 import com.shatteredicedungeon.levels.traps.Trap;
+import com.shatteredicedungeon.levels.traps.VenomTrap;
+import com.shatteredicedungeon.levels.traps.WarpingTrap;
 import com.watabou.utils.Random;
 
 public class TrapsPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
 		 
-		Class traps[] = new Class[]{
-			ToxicTrap.class, ToxicTrap.class, ToxicTrap.class,
-			ParalyticTrap.class, ParalyticTrap.class,
-			!Dungeon.bossLevel(Dungeon.depth + 1) ? null : SummoningTrap.class};
 		fill( level, room, Terrain.WALL );
 
-		Class trap = Random.element(traps);
+		Class<? extends Trap> trapClass;
+		switch (Random.Int(5)){
+			case 0: default:
+				trapClass = SpearTrap.class;
+				break;
+			case 1:
+				trapClass = !Dungeon.bossLevel(Dungeon.depth + 1)? null : SummoningTrap.class;
+				break;
+			case 2: case 3: case 4:
+				trapClass = Random.oneOf(levelTraps[Dungeon.depth/5]);
+				break;
+		}
 
-		if (trap == null){
+		if (trapClass == null){
 			fill(level, room, 1, Terrain.CHASM);
 		} else {
 			fill(level, room, 1, Terrain.TRAP);
@@ -81,7 +97,7 @@ public class TrapsPainter extends Painter {
 		for(int cell : room.getCells()) {
 			if (level.map[cell] == Terrain.TRAP){
 				try {
-					level.setTrap(((Trap) trap.newInstance()).reveal(), cell);
+					level.setTrap(((Trap) trapClass.newInstance()).reveal(), cell);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -129,4 +145,18 @@ public class TrapsPainter extends Painter {
 		
 		return prize;
 	}
+
+	@SuppressWarnings("unchecked")
+	private static Class<?extends Trap>[][] levelTraps = new Class[][]{
+			//sewers
+			{ToxicTrap.class, TeleportationTrap.class, FlockTrap.class},
+			//prison
+			{ConfusionTrap.class, ExplosiveTrap.class, ParalyticTrap.class},
+			//caves
+			{BlazingTrap.class, VenomTrap.class, ExplosiveTrap.class},
+			//city
+			{WarpingTrap.class, VenomTrap.class, DisintegrationTrap.class},
+			//halls, muahahahaha
+			{GrimTrap.class}
+	};
 }

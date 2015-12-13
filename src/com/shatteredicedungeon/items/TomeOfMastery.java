@@ -22,7 +22,6 @@ package com.shatteredicedungeon.items;
 
 import java.util.ArrayList;
 
-import com.watabou.noosa.audio.Sample;
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Badges;
 import com.shatteredicedungeon.actors.buffs.Blindness;
@@ -37,6 +36,7 @@ import com.shatteredicedungeon.sprites.ItemSpriteSheet;
 import com.shatteredicedungeon.utils.GLog;
 import com.shatteredicedungeon.utils.Utils;
 import com.shatteredicedungeon.windows.WndChooseWay;
+import com.watabou.noosa.audio.Sample;
 
 public class TomeOfMastery extends Item {
 

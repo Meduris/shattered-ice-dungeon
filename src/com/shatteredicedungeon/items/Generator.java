@@ -20,29 +20,121 @@
  */
 package com.shatteredicedungeon.items;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.actors.hero.Hero;
+import com.shatteredicedungeon.actors.mobs.npcs.Ghost;
 import com.shatteredicedungeon.actors.mobs.npcs.Wandmaker.Rotberry;
-import com.shatteredicedungeon.items.armor.*;
-import com.shatteredicedungeon.items.artifacts.*;
+import com.shatteredicedungeon.items.armor.Armor;
+import com.shatteredicedungeon.items.armor.ClothArmor;
+import com.shatteredicedungeon.items.armor.LeatherArmor;
+import com.shatteredicedungeon.items.armor.MailArmor;
+import com.shatteredicedungeon.items.armor.PlateArmor;
+import com.shatteredicedungeon.items.armor.ScaleArmor;
+import com.shatteredicedungeon.items.artifacts.AlchemistsToolkit;
+import com.shatteredicedungeon.items.artifacts.Artifact;
+import com.shatteredicedungeon.items.artifacts.CapeOfThorns;
+import com.shatteredicedungeon.items.artifacts.ChaliceOfBlood;
+import com.shatteredicedungeon.items.artifacts.CloakOfShadows;
+import com.shatteredicedungeon.items.artifacts.DriedRose;
+import com.shatteredicedungeon.items.artifacts.EtherealChains;
+import com.shatteredicedungeon.items.artifacts.HornOfPlenty;
+import com.shatteredicedungeon.items.artifacts.LloydsBeacon;
+import com.shatteredicedungeon.items.artifacts.MasterThievesArmband;
+import com.shatteredicedungeon.items.artifacts.SandalsOfNature;
+import com.shatteredicedungeon.items.artifacts.TalismanOfForesight;
+import com.shatteredicedungeon.items.artifacts.TimekeepersHourglass;
+import com.shatteredicedungeon.items.artifacts.UnstableSpellbook;
 import com.shatteredicedungeon.items.bags.Bag;
 import com.shatteredicedungeon.items.food.Food;
 import com.shatteredicedungeon.items.food.MysteryMeat;
 import com.shatteredicedungeon.items.food.Pasty;
-import com.shatteredicedungeon.items.potions.*;
-import com.shatteredicedungeon.items.rings.*;
-import com.shatteredicedungeon.items.scrolls.*;
-import com.shatteredicedungeon.items.wands.*;
-import com.shatteredicedungeon.items.weapon.*;
-import com.shatteredicedungeon.items.weapon.melee.*;
-import com.shatteredicedungeon.items.weapon.missiles.*;
-import com.shatteredicedungeon.plants.*;
+import com.shatteredicedungeon.items.potions.Potion;
+import com.shatteredicedungeon.items.potions.PotionOfExperience;
+import com.shatteredicedungeon.items.potions.PotionOfFrost;
+import com.shatteredicedungeon.items.potions.PotionOfHealing;
+import com.shatteredicedungeon.items.potions.PotionOfInvisibility;
+import com.shatteredicedungeon.items.potions.PotionOfLevitation;
+import com.shatteredicedungeon.items.potions.PotionOfLiquidFlame;
+import com.shatteredicedungeon.items.potions.PotionOfMight;
+import com.shatteredicedungeon.items.potions.PotionOfMindVision;
+import com.shatteredicedungeon.items.potions.PotionOfParalyticGas;
+import com.shatteredicedungeon.items.potions.PotionOfPurity;
+import com.shatteredicedungeon.items.potions.PotionOfStrength;
+import com.shatteredicedungeon.items.potions.PotionOfToxicGas;
+import com.shatteredicedungeon.items.rings.Ring;
+import com.shatteredicedungeon.items.rings.RingOfAccuracy;
+import com.shatteredicedungeon.items.rings.RingOfElements;
+import com.shatteredicedungeon.items.rings.RingOfEvasion;
+import com.shatteredicedungeon.items.rings.RingOfForce;
+import com.shatteredicedungeon.items.rings.RingOfFuror;
+import com.shatteredicedungeon.items.rings.RingOfHaste;
+import com.shatteredicedungeon.items.rings.RingOfMagic;
+import com.shatteredicedungeon.items.rings.RingOfMight;
+import com.shatteredicedungeon.items.rings.RingOfSharpshooting;
+import com.shatteredicedungeon.items.rings.RingOfTenacity;
+import com.shatteredicedungeon.items.rings.RingOfWealth;
+import com.shatteredicedungeon.items.scrolls.Scroll;
+import com.shatteredicedungeon.items.scrolls.ScrollOfIdentify;
+import com.shatteredicedungeon.items.scrolls.ScrollOfLullaby;
+import com.shatteredicedungeon.items.scrolls.ScrollOfMagicMapping;
+import com.shatteredicedungeon.items.scrolls.ScrollOfMagicalInfusion;
+import com.shatteredicedungeon.items.scrolls.ScrollOfMirrorImage;
+import com.shatteredicedungeon.items.scrolls.ScrollOfPsionicBlast;
+import com.shatteredicedungeon.items.scrolls.ScrollOfRage;
+import com.shatteredicedungeon.items.scrolls.ScrollOfRecharging;
+import com.shatteredicedungeon.items.scrolls.ScrollOfRemoveCurse;
+import com.shatteredicedungeon.items.scrolls.ScrollOfTeleportation;
+import com.shatteredicedungeon.items.scrolls.ScrollOfTerror;
+import com.shatteredicedungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredicedungeon.items.wands.Wand;
+import com.shatteredicedungeon.items.wands.WandOfBlastWave;
+import com.shatteredicedungeon.items.wands.WandOfCorruption;
+import com.shatteredicedungeon.items.wands.WandOfDisintegration;
+import com.shatteredicedungeon.items.wands.WandOfFireblast;
+import com.shatteredicedungeon.items.wands.WandOfFrost;
+import com.shatteredicedungeon.items.wands.WandOfLightning;
+import com.shatteredicedungeon.items.wands.WandOfMagicMissile;
+import com.shatteredicedungeon.items.wands.WandOfPrismaticLight;
+import com.shatteredicedungeon.items.wands.WandOfRegrowth;
+import com.shatteredicedungeon.items.wands.WandOfTransfusion;
+import com.shatteredicedungeon.items.wands.WandOfVenom;
+import com.shatteredicedungeon.items.weapon.Weapon;
+import com.shatteredicedungeon.items.weapon.melee.BattleAxe;
+import com.shatteredicedungeon.items.weapon.melee.Dagger;
+import com.shatteredicedungeon.items.weapon.melee.Glaive;
+import com.shatteredicedungeon.items.weapon.melee.Knuckles;
+import com.shatteredicedungeon.items.weapon.melee.Longsword;
+import com.shatteredicedungeon.items.weapon.melee.Mace;
+import com.shatteredicedungeon.items.weapon.melee.Quarterstaff;
+import com.shatteredicedungeon.items.weapon.melee.ShortSword;
+import com.shatteredicedungeon.items.weapon.melee.Spear;
+import com.shatteredicedungeon.items.weapon.melee.Sword;
+import com.shatteredicedungeon.items.weapon.melee.WarHammer;
+import com.shatteredicedungeon.items.weapon.missiles.Boomerang;
+import com.shatteredicedungeon.items.weapon.missiles.CurareDart;
+import com.shatteredicedungeon.items.weapon.missiles.Dart;
+import com.shatteredicedungeon.items.weapon.missiles.IncendiaryDart;
+import com.shatteredicedungeon.items.weapon.missiles.Javelin;
+import com.shatteredicedungeon.items.weapon.missiles.Shuriken;
+import com.shatteredicedungeon.items.weapon.missiles.Tamahawk;
+import com.shatteredicedungeon.plants.BlandfruitBush;
+import com.shatteredicedungeon.plants.Blindweed;
+import com.shatteredicedungeon.plants.Dreamfoil;
+import com.shatteredicedungeon.plants.Earthroot;
+import com.shatteredicedungeon.plants.Fadeleaf;
+import com.shatteredicedungeon.plants.Firebloom;
+import com.shatteredicedungeon.plants.Icecap;
+import com.shatteredicedungeon.plants.Plant;
+import com.shatteredicedungeon.plants.Sorrowmoss;
+import com.shatteredicedungeon.plants.Starflower;
+import com.shatteredicedungeon.plants.Stormvine;
+import com.shatteredicedungeon.plants.Sungrass;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 public class Generator {
 
@@ -81,6 +173,8 @@ public class Generator {
 	};
 	
 	private static HashMap<Category,Float> categoryProbs = new HashMap<Generator.Category, Float>();
+
+	private static final float[] INITIAL_ARTIFACT_PROBS = new float[]{ 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1};
 	
 	static {
 		
@@ -199,7 +293,7 @@ public class Generator {
 			LloydsBeacon.class,
 			EtherealChains.class
 			};
-		Category.ARTIFACT.probs = new float[]{ 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1};
+		Category.ARTIFACT.probs = INITIAL_ARTIFACT_PROBS.clone();
 		
 		Category.SEED.classes = new Class<?>[]{
 			Firebloom.Seed.class,
@@ -357,8 +451,11 @@ public class Generator {
 
 	//resets artifact probabilities, for new dungeons
 	public static void initArtifacts() {
-		//FIXME: the duplicated logic here has caused 1 bug so far, should refactor.
-		Category.ARTIFACT.probs = new float[]{ 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1};
+		Category.ARTIFACT.probs = INITIAL_ARTIFACT_PROBS.clone();
+
+		//checks for dried rose quest completion, adds the rose in accordingly.
+		if (Ghost.Quest.completed()) Category.ARTIFACT.probs[10] = 1;
+
 		spawnedArtifacts = new ArrayList<String>();
 	}
 

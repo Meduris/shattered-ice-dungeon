@@ -48,7 +48,7 @@ public class BadgesScene extends PixelScene {
 		super.create();
 
 		Music.INSTANCE.play( Assets.THEME, true );
-		Music.INSTANCE.volume( 1f );
+		Music.INSTANCE.volume( ShatteredIceDungeon.musicVol() / 10f  );
 
 		uiCamera.visible = false;
 
@@ -71,8 +71,8 @@ public class BadgesScene extends PixelScene {
 		BitmapText title = PixelScene.createText( TXT_TITLE, 9 );
 		title.hardlight( Window.TITLE_COLOR );
 		title.measure();
-		title.x = align( (w - title.width()) / 2 );
-		title.y = align( (panel.y - title.baseLine()) / 2 );
+		title.x = (w - title.width()) / 2;
+		title.y = (panel.y - title.baseLine()) / 2;
 		add( title );
 
 		Badges.loadGlobal();

@@ -21,17 +21,17 @@
 package com.shatteredicedungeon.levels.traps;
 
 import com.shatteredicedungeon.Dungeon;
-import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.blobs.Blob;
 import com.shatteredicedungeon.actors.blobs.ParalyticGas;
 import com.shatteredicedungeon.scenes.GameScene;
+import com.shatteredicedungeon.sprites.TrapSprite;
 
 public class ParalyticTrap extends Trap{
 
-	// 0xCCCC55
 	{
 		name = "Paralytic gas trap";
-		image = 2;
+		color = TrapSprite.YELLOW;
+		shape = TrapSprite.GRILL;
 	}
 
 	@Override
@@ -39,5 +39,10 @@ public class ParalyticTrap extends Trap{
 
 		GameScene.add( Blob.seed( pos, 80 + 5 * Dungeon.depth, ParalyticGas.class ) );
 
+	}
+
+	@Override
+	public String desc() {
+		return "Triggering this trap will set a cloud of paralytic gas loose within the surrounding area.";
 	}
 }

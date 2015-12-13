@@ -21,14 +21,21 @@
 package com.shatteredicedungeon.items.artifacts;
 //If it weren't super obvious, this is going to become an artifact soon.
 
+import java.util.ArrayList;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.buffs.Buff;
 import com.shatteredicedungeon.actors.buffs.Invisibility;
+import com.shatteredicedungeon.actors.buffs.LockedFloor;
 import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.actors.mobs.Mob;
+import com.shatteredicedungeon.actors.mobs.RotHeart;
+import com.shatteredicedungeon.actors.mobs.RotLasher;
+import com.shatteredicedungeon.actors.mobs.npcs.Shopkeeper;
+import com.shatteredicedungeon.actors.mobs.npcs.Wandmaker;
 import com.shatteredicedungeon.effects.MagicMissile;
 import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.items.scrolls.ScrollOfTeleportation;
@@ -37,16 +44,14 @@ import com.shatteredicedungeon.mechanics.Ballistica;
 import com.shatteredicedungeon.scenes.CellSelector;
 import com.shatteredicedungeon.scenes.GameScene;
 import com.shatteredicedungeon.scenes.InterlevelScene;
-import com.shatteredicedungeon.sprites.ItemSpriteSheet;
 import com.shatteredicedungeon.sprites.ItemSprite.Glowing;
+import com.shatteredicedungeon.sprites.ItemSpriteSheet;
 import com.shatteredicedungeon.utils.GLog;
 import com.shatteredicedungeon.utils.Utils;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
-
-import java.util.ArrayList;
 
 public class LloydsBeacon extends Artifact {
 
@@ -88,6 +93,7 @@ public class LloydsBeacon extends Artifact {
 		chargeCap = 3+level;
 
 		defaultAction = AC_ZAP;
+		usesTargeting = true;
 	}
 	
 	private static final String DEPTH	= "depth";
@@ -213,6 +219,7 @@ public class LloydsBeacon extends Artifact {
 					ScrollOfTeleportation.teleportHero(curUser);
 					curUser.spendAndNext( 1f );
 				} else {
+					Sample.INSTANCE.play( Assets.SND_ZAP );
 					curUser.sprite.zap(bolt.collisionPos);
 					curUser.busy();
 
@@ -230,11 +237,18 @@ public class LloydsBeacon extends Artifact {
 									}
 								} while (pos == -1);
 
-								if (pos == -1) {
+
+								if (pos == -1 || Dungeon.bossLevel()) {
 
 									GLog.w(ScrollOfTeleportation.TXT_NO_TELEPORT);
 
-								} else {
+								//FIXME: sloppy, fix when adding mob properties
+								} else if (ch instanceof RotLasher || ch instanceof RotHeart
+										|| ch instanceof Shopkeeper || ch instanceof Wandmaker) {
+
+									GLog.w("The teleportation magic fails.");
+
+								} else  {
 
 									ch.pos = pos;
 									ch.sprite.place(ch.pos);
@@ -290,7 +304,8 @@ public class LloydsBeacon extends Artifact {
 	public class beaconRecharge extends ArtifactBuff{
 		@Override
 		public boolean act() {
-			if (charge < chargeCap && !cursed) {
+			LockedFloor lock = target.buff(LockedFloor.class);
+			if (charge < chargeCap && !cursed && (lock == null || lock.regenOn())) {
 				partialCharge += 1 / (100f - (chargeCap - charge)*10f);
 
 				if (partialCharge >= 1) {

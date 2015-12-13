@@ -23,9 +23,6 @@ package com.shatteredicedungeon.windows;
 import java.util.Locale;
 
 
-
-
-
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.Game;
@@ -148,8 +145,8 @@ public class WndRanking extends WndTabbed {
 	}
 	
 	private class StatsTab extends Group {
-		
-		private static final int GAP	= 4;
+
+		private int GAP	= 4;
 		
 		private static final String TXT_TITLE	= "Level %d %s";
 
@@ -170,6 +167,8 @@ public class WndRanking extends WndTabbed {
 		
 		public StatsTab() {
 			super();
+
+			if (Dungeon.challenges > 0) GAP--;
 			
 			String heroClass = Dungeon.hero.className();
 			
@@ -189,7 +188,7 @@ public class WndRanking extends WndTabbed {
 						Game.scene().add( new WndChallenges( Dungeon.challenges, false ) );
 					}
 				};
-				btnCatalogus.setRect( 0, pos + GAP, btnCatalogus.reqWidth() + 2, btnCatalogus.reqHeight() + 2 );
+				btnCatalogus.setRect( 0, pos, btnCatalogus.reqWidth() + 2, btnCatalogus.reqHeight() + 2 );
 				add( btnCatalogus );
 
 				pos = btnCatalogus.bottom();
@@ -225,7 +224,7 @@ public class WndRanking extends WndTabbed {
 			
 			txt = PixelScene.createText( value, 7 );
 			txt.measure();
-			txt.x = PixelScene.align( WIDTH * 0.65f );
+			txt.x = WIDTH * 0.65f;
 			txt.y = pos;
 			parent.add( txt );
 			
@@ -254,8 +253,8 @@ public class WndRanking extends WndTabbed {
 				addItem( stuff.misc2);
 			}
 
-			pos = 29;
-			for (int i = 0; i < 2; i++){
+			pos = 0;
+			for (int i = 0; i < 4; i++){
 				if (Dungeon.quickslot.getItem(i) != null){
 					QuickSlotButton slot = new QuickSlotButton(Dungeon.quickslot.getItem(i));
 

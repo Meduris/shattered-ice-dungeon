@@ -34,6 +34,7 @@ import com.shatteredicedungeon.actors.buffs.Amok;
 import com.shatteredicedungeon.actors.buffs.Buff;
 import com.shatteredicedungeon.actors.buffs.Burning;
 import com.shatteredicedungeon.actors.buffs.Charm;
+import com.shatteredicedungeon.actors.buffs.LockedFloor;
 import com.shatteredicedungeon.actors.buffs.Ooze;
 import com.shatteredicedungeon.actors.buffs.Poison;
 import com.shatteredicedungeon.actors.buffs.Sleep;
@@ -52,8 +53,10 @@ import com.shatteredicedungeon.sprites.CharSprite;
 import com.shatteredicedungeon.sprites.LarvaSprite;
 import com.shatteredicedungeon.sprites.RottingFistSprite;
 import com.shatteredicedungeon.sprites.YogSprite;
+import com.shatteredicedungeon.ui.BossHealthBar;
 import com.shatteredicedungeon.utils.GLog;
 import com.shatteredicedungeon.utils.Utils;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 public class Yog extends Mob {
@@ -89,6 +92,8 @@ public class Yog extends Mob {
 		
 		GameScene.add( fist1 );
 		GameScene.add( fist2 );
+
+		notice();
 	}
 
 	@Override
@@ -114,6 +119,11 @@ public class Yog extends Mob {
 		dmg >>= fists.size();
 		
 		super.damage( dmg, src );
+
+
+		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
+		if (lock != null) lock.addTime(dmg*0.5f);
+
 	}
 	
 	@Override
@@ -169,6 +179,7 @@ public class Yog extends Mob {
 	@Override
 	public void notice() {
 		super.notice();
+		BossHealthBar.assignBoss(this);
 		yell( "Hope is an illusion..." );
 	}
 	
@@ -196,7 +207,13 @@ public class Yog extends Mob {
 	public HashSet<Class<?>> immunities() {
 		return IMMUNITIES;
 	}
-	
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		BossHealthBar.assignBoss(this);
+	}
+
 	public static class RottingFist extends Mob {
 	
 		private static final int REGENERATION	= 4;
@@ -247,6 +264,13 @@ public class Yog extends Mob {
 			}
 			
 			return super.act();
+		}
+
+		@Override
+		public void damage(int dmg, Object src) {
+			super.damage(dmg, src);
+			LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
+			if (lock != null) lock.addTime(dmg*0.5f);
 		}
 		
 		@Override
@@ -354,6 +378,13 @@ public class Yog extends Mob {
 			}
 			
 			return super.act();
+		}
+
+		@Override
+		public void damage(int dmg, Object src) {
+			super.damage(dmg, src);
+			LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
+			if (lock != null) lock.addTime(dmg*0.5f);
 		}
 		
 		@Override

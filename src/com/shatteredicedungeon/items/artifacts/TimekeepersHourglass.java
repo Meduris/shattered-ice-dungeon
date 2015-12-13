@@ -20,10 +20,13 @@
  */
 package com.shatteredicedungeon.items.artifacts;
 
+import java.util.ArrayList;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.buffs.Hunger;
+import com.shatteredicedungeon.actors.buffs.LockedFloor;
 import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.actors.mobs.Mob;
 import com.shatteredicedungeon.items.Item;
@@ -35,8 +38,6 @@ import com.shatteredicedungeon.windows.WndOptions;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
-
-import java.util.ArrayList;
 
 public class TimekeepersHourglass extends Artifact {
 
@@ -200,7 +201,9 @@ public class TimekeepersHourglass extends Artifact {
 	public class hourglassRecharge extends ArtifactBuff {
 		@Override
 		public boolean act() {
-			if (charge < chargeCap && !cursed) {
+
+			LockedFloor lock = target.buff(LockedFloor.class);
+			if (charge < chargeCap && !cursed && (lock == null || lock.regenOn())) {
 				partialCharge += 1 / (60f - (chargeCap - charge)*2f);
 
 				if (partialCharge >= 1) {

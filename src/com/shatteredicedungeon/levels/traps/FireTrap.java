@@ -20,19 +20,19 @@
  */
 package com.shatteredicedungeon.levels.traps;
 
-import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.blobs.Blob;
 import com.shatteredicedungeon.actors.blobs.Fire;
 import com.shatteredicedungeon.effects.CellEmitter;
 import com.shatteredicedungeon.effects.particles.FlameParticle;
 import com.shatteredicedungeon.scenes.GameScene;
+import com.shatteredicedungeon.sprites.TrapSprite;
 
 public class FireTrap extends Trap {
 
-	// 0xFF7708
 	{
 		name = "Fire trap";
-		image = 1;
+		color = TrapSprite.ORANGE;
+		shape = TrapSprite.DOTS;
 	}
 
 	@Override
@@ -41,5 +41,10 @@ public class FireTrap extends Trap {
 		GameScene.add( Blob.seed( pos, 2, Fire.class ) );
 		CellEmitter.get( pos ).burst( FlameParticle.FACTORY, 5 );
 
+	}
+
+	@Override
+	public String desc() {
+		return "Stepping on this trap will ignite a chemical mixture, setting the immediate area aflame.";
 	}
 }

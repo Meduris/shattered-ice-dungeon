@@ -20,16 +20,25 @@
  */
 package com.shatteredicedungeon.levels;
 
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Scene;
-import com.watabou.noosa.particles.Emitter;
-import com.watabou.noosa.particles.PixelParticle;
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.DungeonTilemap;
 import com.shatteredicedungeon.actors.mobs.npcs.Ghost;
 import com.shatteredicedungeon.items.DewVial;
+import com.shatteredicedungeon.levels.traps.AlarmTrap;
+import com.shatteredicedungeon.levels.traps.ChillingTrap;
+import com.shatteredicedungeon.levels.traps.FlockTrap;
+import com.shatteredicedungeon.levels.traps.OozeTrap;
+import com.shatteredicedungeon.levels.traps.SummoningTrap;
+import com.shatteredicedungeon.levels.traps.TeleportationTrap;
+import com.shatteredicedungeon.levels.traps.ToxicTrap;
+import com.shatteredicedungeon.levels.traps.WornTrap;
 import com.shatteredicedungeon.scenes.GameScene;
+import com.watabou.noosa.Game;
+import com.watabou.noosa.Group;
+import com.watabou.noosa.Scene;
+import com.watabou.noosa.particles.Emitter;
+import com.watabou.noosa.particles.PixelParticle;
 import com.watabou.utils.ColorMath;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
@@ -62,7 +71,25 @@ public class SewerLevel extends RegularLevel {
 	protected boolean[] grass() {
 		return Patch.generate( feeling == Feeling.GRASS ? 0.60f : 0.40f, 4 );
 	}
-	
+
+	@Override
+	protected Class<?>[] trapClasses() {
+		return Dungeon.depth == 1 ?
+				new Class<?>[]{WornTrap.class} :
+				new Class<?>[]{ChillingTrap.class, ToxicTrap.class, WornTrap.class,
+						AlarmTrap.class, OozeTrap.class,
+						FlockTrap.class, SummoningTrap.class, TeleportationTrap.class, };
+}
+
+	@Override
+	protected float[] trapChances() {
+		return Dungeon.depth == 1 ?
+				new float[]{1} :
+				new float[]{4, 4, 4,
+						2, 2,
+						1, 1, 1};
+	}
+
 	@Override
 	protected void decorate() {
 		
@@ -99,6 +126,14 @@ public class SewerLevel extends RegularLevel {
 				}
 			}
 		}
+
+		//hides all doors in the entrance room on floor 2, teaches the player to search.
+		if (Dungeon.depth == 2)
+			for (Room r : roomEntrance.connected.keySet()){
+				Room.Door d = roomEntrance.connected.get(r);
+				if (d.type == Room.Door.Type.REGULAR)
+					map[d.x + d.y * WIDTH] = Terrain.SECRET_DOOR;
+			}
 		
 		placeSign();
 	}
@@ -116,17 +151,18 @@ public class SewerLevel extends RegularLevel {
 	}
 	
 	@Override
-	public void addVisuals( Scene scene ) {
-		super.addVisuals( scene );
-		addVisuals( this, scene );
+	public Group addVisuals() {
+		super.addVisuals();
+		addSewerVisuals(this, visuals);
+		return visuals;
 	}
 	
-	public static void addVisuals( Level level, Scene scene ) {
-//		for (int i=0; i < LENGTH; i++) {
-//			if (level.map[i] == Terrain.WALL_DECO) {
-//				scene.add( new Sink( i ) );
-//			}
-//		}
+	public static void addSewerVisuals( Level level, Group group ) {
+		//for (int i=0; i < LENGTH; i++) {
+		//	if (level.map[i] == Terrain.WALL_DECO) {
+		//		group.add( new Sink( i ) );
+		//	}
+		//}
 	}
 	
 	@Override

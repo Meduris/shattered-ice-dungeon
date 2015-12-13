@@ -20,6 +20,10 @@
  */
 package com.shatteredicedungeon.actors.hero;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Badges;
 import com.shatteredicedungeon.Bones;
@@ -60,9 +64,9 @@ import com.shatteredicedungeon.items.Amulet;
 import com.shatteredicedungeon.items.Ankh;
 import com.shatteredicedungeon.items.Dewdrop;
 import com.shatteredicedungeon.items.Heap;
+import com.shatteredicedungeon.items.Heap.Type;
 import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.items.KindOfWeapon;
-import com.shatteredicedungeon.items.Heap.Type;
 import com.shatteredicedungeon.items.armor.glyphs.Viscosity;
 import com.shatteredicedungeon.items.artifacts.CapeOfThorns;
 import com.shatteredicedungeon.items.artifacts.DriedRose;
@@ -103,6 +107,7 @@ import com.shatteredicedungeon.sprites.CharSprite;
 import com.shatteredicedungeon.sprites.HeroSprite;
 import com.shatteredicedungeon.ui.AttackIndicator;
 import com.shatteredicedungeon.ui.BuffIndicator;
+import com.shatteredicedungeon.ui.QuickSlotButton;
 import com.shatteredicedungeon.utils.GLog;
 import com.shatteredicedungeon.windows.WndMessage;
 import com.shatteredicedungeon.windows.WndResurrect;
@@ -112,10 +117,6 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 
 public class Hero extends Char {
 
@@ -163,7 +164,7 @@ public class Hero extends Char {
 	
 	private Item theKey;
 	
-	public boolean restoreHealth = false;
+	public boolean resting = false;
 
 	public MissileWeapon rangedWeapon = null;
 	public Belongings belongings;
@@ -300,7 +301,7 @@ public class Hero extends Char {
 		}
 
 		float evasion = (float)Math.pow( 1.15, bonus );
-		if (paralysed) {
+		if (paralysed > 0) {
 			evasion /= 2;
 		}
 		
@@ -373,7 +374,7 @@ public class Hero extends Char {
 
 			return ((HeroSprite)sprite).sprint( subClass == HeroSubClass.FREERUNNER && !isStarving() ) ?
 					invisible > 0 ?
-							4f * speed :
+							2f * speed :
 							1.5f * speed :
 					speed;
 			
@@ -416,7 +417,7 @@ public class Hero extends Char {
 		
 		super.act();
 		
-		if (paralysed) {
+		if (paralysed > 0) {
 			
 			curAction = null;
 			
@@ -429,13 +430,9 @@ public class Hero extends Char {
 		
 		if (curAction == null) {
 			
-			if (restoreHealth) {
-				if (isStarving() || HP >= HT || Dungeon.level.locked) {
-					restoreHealth = false;
-				} else {
-					spend( TIME_TO_REST ); next();
-					return false;
-				}
+			if (resting) {
+				spend( TIME_TO_REST ); next();
+				return false;
 			}
 			
 			ready();
@@ -443,7 +440,7 @@ public class Hero extends Char {
 			
 		} else {
 			
-			restoreHealth = false;
+			resting = false;
 			
 			ready = false;
 			
@@ -852,12 +849,12 @@ public class Hero extends Char {
 		}
 	}
 	
-	public void rest( boolean tillHealthy ) {
+	public void rest( boolean fullRest ) {
 		spendAndNext( TIME_TO_REST );
-		if (!tillHealthy) {
+		if (!fullRest) {
 			sprite.showStatus( CharSprite.DEFAULT, TXT_WAIT );
 		}
-		restoreHealth = tillHealthy;
+		resting = fullRest;
 	}
 	
 	@Override
@@ -909,10 +906,10 @@ public class Hero extends Char {
 		if (buff(TimekeepersHourglass.timeStasis.class) != null)
 			return;
 
-		restoreHealth = false;
-
-		if (!(src instanceof Hunger || src instanceof Viscosity.DeferedDamage) && damageInterrupt)
+		if (!(src instanceof Hunger || src instanceof Viscosity.DeferedDamage) && damageInterrupt) {
 			interrupt();
+			resting = false;
+		}
 
 		if (this.buff(Drowsy.class) != null){
 			Buff.detach(this, Drowsy.class);
@@ -942,19 +939,34 @@ public class Hero extends Char {
 		ArrayList<Mob> visible = new ArrayList<Mob>();
 
 		boolean newMob = false;
-		
+
+		Mob target = null;
 		for (Mob m : Dungeon.level.mobs) {
 			if (Level.fieldOfView[ m.pos ] && m.hostile) {
-				visible.add( m );
+				visible.add(m);
 				if (!visibleEnemies.contains( m )) {
 					newMob = true;
 				}
+
+				if (QuickSlotButton.autoAim(m) != -1){
+					if (target == null){
+						target = m;
+					} else if (distance(target) > distance(m)) {
+						target = m;
+					}
+				}
 			}
+		}
+
+		if (target != null && (QuickSlotButton.lastTarget == null ||
+							!QuickSlotButton.lastTarget.isAlive() ||
+							!Dungeon.visible[QuickSlotButton.lastTarget.pos])){
+			QuickSlotButton.target(target);
 		}
 		
 		if (newMob) {
 			interrupt();
-			restoreHealth = false;
+			resting = false;
 		}
 		
 		visibleEnemies = visible;
@@ -980,10 +992,12 @@ public class Hero extends Char {
 		if (Level.adjacent( pos, target )) {
 			
 			if (Actor.findChar( target ) == null) {
-				if (Level.pit[target] && !flying && !Chasm.jumpConfirmed) {
-					if (!Level.solid[target]) {
+				if (Level.pit[target] && !flying && !Level.solid[target]) {
+					if (!Chasm.jumpConfirmed){
 						Chasm.heroJump(this);
 						interrupt();
+					} else {
+						Chasm.heroFall(target);
 					}
 					return false;
 				}
@@ -1008,9 +1022,8 @@ public class Hero extends Char {
 		
 		if (step != -1) {
 
-			int oldPos = pos;
+			sprite.move(pos, step);
 			move(step);
-			sprite.move(oldPos, pos);
 			spend( 1 / speed() );
 			
 			return true;
@@ -1088,17 +1101,6 @@ public class Hero extends Char {
 
 		EtherealChains.chainsRecharge chains = buff(EtherealChains.chainsRecharge.class);
 		if (chains != null) chains.gainExp(percent);
-
-		if (subClass == HeroSubClass.WARLOCK) {
-
-			int healed = Math.round(Math.min(HT - HP, HT * percent * 0.3f));
-			if (healed > 0) {
-				HP += healed;
-				sprite.emitter().burst( Speck.factory( Speck.HEALING ), percent > 0.3f ? 2 : 1 );
-			}
-
-			(buff( Hunger.class )).consumeSoul( Hunger.STARVING*percent );
-		}
 		
 		boolean levelUp = false;
 		while (this.exp >= maxExp()) {

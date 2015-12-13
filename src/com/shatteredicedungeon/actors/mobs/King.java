@@ -29,6 +29,7 @@ import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.blobs.ToxicGas;
 import com.shatteredicedungeon.actors.buffs.Buff;
+import com.shatteredicedungeon.actors.buffs.LockedFloor;
 import com.shatteredicedungeon.actors.buffs.Paralysis;
 import com.shatteredicedungeon.actors.buffs.Vertigo;
 import com.shatteredicedungeon.effects.Flare;
@@ -45,6 +46,7 @@ import com.shatteredicedungeon.levels.Level;
 import com.shatteredicedungeon.scenes.GameScene;
 import com.shatteredicedungeon.sprites.KingSprite;
 import com.shatteredicedungeon.sprites.UndeadSprite;
+import com.shatteredicedungeon.ui.BossHealthBar;
 import com.shatteredicedungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
@@ -80,6 +82,7 @@ public class King extends Mob {
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
 		nextPedestal = bundle.getBoolean( PEDESTAL );
+		BossHealthBar.assignBoss(this);
 	}
 	
 	@Override
@@ -137,6 +140,13 @@ public class King extends Mob {
 			return super.attack(enemy);
 		}
 	}
+
+	@Override
+	public void damage(int dmg, Object src) {
+		super.damage(dmg, src);
+		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
+		if (lock != null) lock.addTime(dmg);
+	}
 	
 	@Override
 	public void die( Object cause ) {
@@ -157,7 +167,17 @@ public class King extends Mob {
 		
 		yell( "You cannot kill me, " + Dungeon.hero.givenName() + "... I am... immortal..." );
 	}
-	
+
+	@Override
+	public void aggro(Char ch) {
+		super.aggro(ch);
+		for (Mob mob : Dungeon.level.mobs){
+			if (mob instanceof Undead){
+				mob.aggro(ch);
+			}
+		}
+	}
+
 	private int maxArmySize() {
 		return 1 + MAX_ARMY_SIZE * (HT - HP) / HT;
 	}
@@ -208,6 +228,7 @@ public class King extends Mob {
 	@Override
 	public void notice() {
 		super.notice();
+		BossHealthBar.assignBoss(this);
 		yell( "How dare you!" );
 	}
 	

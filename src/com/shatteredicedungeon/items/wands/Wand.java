@@ -23,12 +23,16 @@ package com.shatteredicedungeon.items.wands;
 import java.util.ArrayList;
 
 import com.shatteredicedungeon.Assets;
+import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.buffs.Buff;
 import com.shatteredicedungeon.actors.buffs.Invisibility;
+import com.shatteredicedungeon.actors.buffs.LockedFloor;
+import com.shatteredicedungeon.actors.buffs.SoulMark;
 import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.actors.hero.HeroClass;
+import com.shatteredicedungeon.actors.hero.HeroSubClass;
 import com.shatteredicedungeon.effects.MagicMissile;
 import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.items.bags.Bag;
@@ -78,6 +82,7 @@ public abstract class Wand extends Item {
 	
 	{
 		defaultAction = AC_ZAP;
+		usesTargeting = true;
 	}
 	
 	@Override
@@ -129,6 +134,14 @@ public abstract class Wand extends Item {
 	public void charge( Char owner, float chargeScaleFactor ){
 		charge( owner );
 		charger.setScaleFactor( chargeScaleFactor );
+	}
+
+	protected void processSoulMark(Char target, int chargesUsed){
+		if (target != Dungeon.hero &&
+				Dungeon.hero.subClass == HeroSubClass.WARLOCK &&
+				Random.Float() < .15f + (level*chargesUsed*0.03f)){
+			SoulMark.prolong(target, SoulMark.class, SoulMark.DURATION);
+		}
 	}
 
 	@Override
@@ -423,7 +436,9 @@ public abstract class Wand extends Item {
 			float turnsToCharge = (float) (BASE_CHARGE_DELAY
 					+ (SCALING_CHARGE_ADDITION * Math.pow(scalingFactor, missingCharges)));
 
-			partialCharge += 1f/turnsToCharge;
+			LockedFloor lock = target.buff(LockedFloor.class);
+			if (lock == null || lock.regenOn())
+				partialCharge += 1f/turnsToCharge;
 
 			ScrollOfRecharging.Recharging bonus = target.buff(ScrollOfRecharging.Recharging.class);
 			if (bonus != null && bonus.remainder() > 0f){

@@ -20,7 +20,10 @@
  */
 package com.shatteredicedungeon.items.artifacts;
 
+import java.util.ArrayList;
+
 import com.shatteredicedungeon.Dungeon;
+import com.shatteredicedungeon.ShatteredIceDungeon;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.buffs.Buff;
 import com.shatteredicedungeon.actors.hero.Hero;
@@ -28,10 +31,9 @@ import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.items.KindofMisc;
 import com.shatteredicedungeon.utils.GLog;
 import com.shatteredicedungeon.utils.Utils;
+import com.shatteredicedungeon.windows.WndOptions;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
-
-import java.util.ArrayList;
 
 public class Artifact extends KindofMisc {
 
@@ -41,6 +43,10 @@ public class Artifact extends KindofMisc {
 	private static final String TXT_TO_STRING_CHARGE		= "%s (%d/%d)";
 	private static final String TXT_TO_STRING_LVL	        = "%s%+d";
 	private static final String TXT_TO_STRING_LVL_CHARGE	= "%s%+d (%d/%d)";
+
+	private static final String TXT_UNEQUIP_TITLE = "Unequip one item";
+	private static final String TXT_UNEQUIP_MESSAGE =
+			"You can only wear two misc items at a time.";
 
 	protected Buff passiveBuff;
 	protected Buff activeBuff;
@@ -76,17 +82,40 @@ public class Artifact extends KindofMisc {
 	}
 
 	@Override
-	public boolean doEquip( Hero hero ) {
+	public boolean doEquip( final Hero hero ) {
 
-		if (hero.belongings.misc1 != null && hero.belongings.misc2 != null) {
-
-			GLog.w("you can only wear 2 misc items at a time");
-			return false;
-
-		} else if ((hero.belongings.misc1 != null && hero.belongings.misc1.getClass() == this.getClass())
+		if ((hero.belongings.misc1 != null && hero.belongings.misc1.getClass() == this.getClass())
 				|| (hero.belongings.misc2 != null && hero.belongings.misc2.getClass() == this.getClass())){
 
 			GLog.w("you cannot wear two of the same artifact");
+			return false;
+
+		} else if (hero.belongings.misc1 != null && hero.belongings.misc2 != null) {
+
+			final KindofMisc m1 = hero.belongings.misc1;
+			final KindofMisc m2 = hero.belongings.misc2;
+			final Artifact art = this;
+
+			ShatteredIceDungeon.scene().add(
+					new WndOptions(TXT_UNEQUIP_TITLE, TXT_UNEQUIP_MESSAGE,
+							Utils.capitalize(m1.toString()),
+							Utils.capitalize(m2.toString())) {
+
+						@Override
+						protected void onSelect(int index) {
+
+							KindofMisc equipped = (index == 0 ? m1 : m2);
+							if (equipped.doUnequip(hero, true, false)) {
+								int slot = Dungeon.quickslot.getSlot( art );
+								doEquip(hero);
+								if (slot != -1) {
+									Dungeon.quickslot.setSlot( slot, art );
+									updateQuickslot();
+								}
+							}
+						}
+					});
+
 			return false;
 
 		} else {

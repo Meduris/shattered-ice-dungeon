@@ -20,6 +20,8 @@
  */
 package com.shatteredicedungeon.items;
 
+import java.util.ArrayList;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.items.weapon.Weapon;
@@ -34,8 +36,6 @@ import com.shatteredicedungeon.windows.IconTitle;
 import com.shatteredicedungeon.windows.WndBag;
 import com.watabou.noosa.BitmapTextMultiline;
 import com.watabou.noosa.audio.Sample;
-
-import java.util.ArrayList;
 
 public class Weightstone extends Item {
 

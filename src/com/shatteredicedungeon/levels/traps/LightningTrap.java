@@ -20,6 +20,8 @@
  */
 package com.shatteredicedungeon.levels.traps;
 
+import java.util.ArrayList;
+
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.ResultDescriptions;
 import com.shatteredicedungeon.actors.Actor;
@@ -27,19 +29,22 @@ import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.effects.CellEmitter;
 import com.shatteredicedungeon.effects.Lightning;
 import com.shatteredicedungeon.effects.particles.SparkParticle;
+import com.shatteredicedungeon.items.Heap;
+import com.shatteredicedungeon.items.Item;
+import com.shatteredicedungeon.items.wands.Wand;
 import com.shatteredicedungeon.levels.Level;
+import com.shatteredicedungeon.sprites.TrapSprite;
 import com.shatteredicedungeon.utils.GLog;
 import com.shatteredicedungeon.utils.Utils;
 import com.watabou.noosa.Camera;
 import com.watabou.utils.Random;
 
-import java.util.ArrayList;
-
 public class LightningTrap extends Trap {
 
 	{
 		name = "Lightning trap";
-		image = 5;
+		color = TrapSprite.TEAL;
+		shape = TrapSprite.CROSSHAIR;
 	}
 
 	@Override
@@ -66,11 +71,27 @@ public class LightningTrap extends Trap {
 			ch.sprite.parent.add( new Lightning( arcs, null ) );
 		}
 
+		Heap heap = Dungeon.level.heaps.get(pos);
+		if (heap != null){
+			//TODO: this should probably charge staffs too
+			Item item = heap.items.peek();
+			if (item instanceof Wand){
+				Wand wand = (Wand)item;
+				((Wand)item).curCharges += (int)Math.ceil((wand.maxCharges - wand.curCharges)/2f);
+			}
+		}
+
 		CellEmitter.center( pos ).burst( SparkParticle.FACTORY, Random.IntRange( 3, 4 ) );
 	}
 
 	//FIXME: this is bad, handle when you rework resistances, make into a category
 	public static final Electricity LIGHTNING = new Electricity();
 	public static class Electricity {
+	}
+
+	@Override
+	public String desc() {
+		return "A mechanism with a large amount of energy stored into it. " +
+				"Triggering the trap will discharge that energy into whatever activates it.";
 	}
 }

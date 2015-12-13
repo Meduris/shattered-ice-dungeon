@@ -24,13 +24,13 @@ import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.buffs.Buff;
+import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.effects.CellEmitter;
 import com.shatteredicedungeon.effects.Speck;
 import com.shatteredicedungeon.effects.particles.ShaftParticle;
 import com.shatteredicedungeon.items.potions.PotionOfHealing;
 import com.shatteredicedungeon.sprites.ItemSpriteSheet;
 import com.shatteredicedungeon.ui.BuffIndicator;
-import com.shatteredicedungeon.utils.Utils;
 import com.watabou.utils.Bundle;
 
 public class Sungrass extends Plant {
@@ -114,6 +114,10 @@ public class Sungrass extends Plant {
 					if (healCurr < 6)
 						healCurr ++;
 					target.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1);
+
+					if (target.HP == target.HT && target instanceof Hero){
+						((Hero)target).resting = false;
+					}
 				}
 				count = 1;
 			} else {

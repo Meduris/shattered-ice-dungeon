@@ -30,6 +30,7 @@ import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.blobs.Blob;
 import com.shatteredicedungeon.actors.blobs.ToxicGas;
 import com.shatteredicedungeon.actors.buffs.Buff;
+import com.shatteredicedungeon.actors.buffs.LockedFloor;
 import com.shatteredicedungeon.actors.buffs.Paralysis;
 import com.shatteredicedungeon.actors.buffs.Terror;
 import com.shatteredicedungeon.effects.CellEmitter;
@@ -44,9 +45,11 @@ import com.shatteredicedungeon.levels.Level;
 import com.shatteredicedungeon.levels.Terrain;
 import com.shatteredicedungeon.scenes.GameScene;
 import com.shatteredicedungeon.sprites.DM300Sprite;
+import com.shatteredicedungeon.ui.BossHealthBar;
 import com.shatteredicedungeon.utils.GLog;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 public class DM300 extends Mob {
@@ -127,7 +130,14 @@ public class DM300 extends Mob {
 			Buff.prolong( ch, Paralysis.class, 2 );
 		}
 	}
-	
+
+	@Override
+	public void damage(int dmg, Object src) {
+		super.damage(dmg, src);
+		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
+		if (lock != null && !immunities().contains(src.getClass())) lock.addTime(dmg*1.5f);
+	}
+
 	@Override
 	public void die( Object cause ) {
 		
@@ -150,6 +160,7 @@ public class DM300 extends Mob {
 	@Override
 	public void notice() {
 		super.notice();
+		BossHealthBar.assignBoss(this);
 		yell( "Unauthorised personnel detected." );
 	}
 	
@@ -181,5 +192,11 @@ public class DM300 extends Mob {
 	@Override
 	public HashSet<Class<?>> immunities() {
 		return IMMUNITIES;
+	}
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		BossHealthBar.assignBoss(this);
 	}
 }

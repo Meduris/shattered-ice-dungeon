@@ -61,6 +61,7 @@ public class MagesStaff extends MeleeWeapon {
 		image = ItemSpriteSheet.MAGES_STAFF;
 
 		defaultAction = AC_ZAP;
+		usesTargeting = true;
 
 		unique = true;
 		bones = false;
@@ -71,7 +72,7 @@ public class MagesStaff extends MeleeWeapon {
 		//tier 1 weapon with poor base stats.
 		super(1, 1f, 1f);
 		MIN = 1;
-		MAX = 5;
+		MAX = 6;
 
 		wand = null;
 	}
@@ -119,7 +120,7 @@ public class MagesStaff extends MeleeWeapon {
 	@Override
 	public void proc(Char attacker, Char defender, int damage) {
 		if (wand != null && Dungeon.hero.subClass == HeroSubClass.BATTLEMAGE) {
-			if(wand.curCharges < wand.maxCharges) wand.partialCharge += 0.33f;
+			if (wand.curCharges < wand.maxCharges) wand.partialCharge += 0.33f;
 			ScrollOfRecharging.charge((Hero)attacker);
 			wand.onHit(this, attacker, defender, damage);
 		}
@@ -193,7 +194,7 @@ public class MagesStaff extends MeleeWeapon {
 			wand.upgrade();
 			//gives the wand one additional charge
 			wand.maxCharges = Math.min(wand.maxCharges + 1, 10);
-			wand.curCharges = curCharges+1;
+			wand.curCharges = Math.min(wand.curCharges + 1, 10);
 			updateQuickslot();
 		}
 

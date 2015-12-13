@@ -20,8 +20,6 @@
  */
 package com.shatteredicedungeon.levels;
 
-import com.watabou.noosa.Scene;
-import com.watabou.noosa.particles.Emitter;
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.DungeonTilemap;
@@ -29,6 +27,23 @@ import com.shatteredicedungeon.actors.mobs.npcs.Wandmaker;
 import com.shatteredicedungeon.effects.Halo;
 import com.shatteredicedungeon.effects.particles.FlameParticle;
 import com.shatteredicedungeon.levels.Room.Type;
+import com.shatteredicedungeon.levels.traps.AlarmTrap;
+import com.shatteredicedungeon.levels.traps.ChillingTrap;
+import com.shatteredicedungeon.levels.traps.ConfusionTrap;
+import com.shatteredicedungeon.levels.traps.FireTrap;
+import com.shatteredicedungeon.levels.traps.FlashingTrap;
+import com.shatteredicedungeon.levels.traps.FlockTrap;
+import com.shatteredicedungeon.levels.traps.GrippingTrap;
+import com.shatteredicedungeon.levels.traps.LightningTrap;
+import com.shatteredicedungeon.levels.traps.OozeTrap;
+import com.shatteredicedungeon.levels.traps.ParalyticTrap;
+import com.shatteredicedungeon.levels.traps.PoisonTrap;
+import com.shatteredicedungeon.levels.traps.SpearTrap;
+import com.shatteredicedungeon.levels.traps.SummoningTrap;
+import com.shatteredicedungeon.levels.traps.TeleportationTrap;
+import com.shatteredicedungeon.levels.traps.ToxicTrap;
+import com.watabou.noosa.Group;
+import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
@@ -56,7 +71,21 @@ public class PrisonLevel extends RegularLevel {
 	protected boolean[] grass() {
 		return Patch.generate( feeling == Feeling.GRASS ? 0.60f : 0.40f, 3 );
 	}
-	
+
+	@Override
+	protected Class<?>[] trapClasses() {
+		return new Class[]{ ChillingTrap.class, FireTrap.class, PoisonTrap.class, SpearTrap.class, ToxicTrap.class,
+				AlarmTrap.class, FlashingTrap.class, GrippingTrap.class, ParalyticTrap.class, LightningTrap.class, OozeTrap.class,
+				ConfusionTrap.class, FlockTrap.class, SummoningTrap.class, TeleportationTrap.class, };
+	}
+
+	@Override
+	protected float[] trapChances() {
+		return new float[]{ 4, 4, 4, 4,
+				2, 2, 2, 2, 2, 2,
+				1, 1, 1, 1 };
+	}
+
 	@Override
 	protected boolean assignRoomType() {
 		super.assignRoomType();
@@ -67,14 +96,7 @@ public class PrisonLevel extends RegularLevel {
 			}
 		}
 
-		return true;
-	}
-	
-	@Override
-	protected void createItems() {
-		super.createItems();
-		
-		Wandmaker.Quest.spawn( this, roomEntrance );
+		return Wandmaker.Quest.spawn( this, roomEntrance, rooms );
 	}
 	
 	@Override
@@ -143,25 +165,26 @@ public class PrisonLevel extends RegularLevel {
 		case Terrain.BOOKSHELF:
 			return "This is probably a vestige of a prison library. Might it burn?";
 		default:
-			return super.tileDesc( tile );
+			return super.tileDesc(tile);
 		}
 	}
 	
 	@Override
-	public void addVisuals( Scene scene ) {
-		super.addVisuals( scene );
-		addVisuals( this, scene );
+	public Group addVisuals() {
+		super.addVisuals();
+		addPrisonVisuals(this, visuals);
+		return visuals;
 	}
-	
-	public static void addVisuals( Level level, Scene scene ) {
+
+	public static void addPrisonVisuals(Level level, Group group){
 		for (int i=0; i < LENGTH; i++) {
 			if (level.map[i] == Terrain.WALL_DECO) {
-				scene.add( new Torch( i ) );
+				group.add( new Torch( i ) );
 			}
 		}
 	}
 	
-	private static class Torch extends Emitter {
+	public static class Torch extends Emitter {
 		
 		private int pos;
 		

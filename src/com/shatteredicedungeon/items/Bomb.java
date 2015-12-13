@@ -50,7 +50,10 @@ public class Bomb extends Item {
 	{
 		name = "bomb";
 		image = ItemSpriteSheet.BOMB;
+
 		defaultAction = AC_LIGHTTHROW;
+		usesTargeting = true;
+
 		stackable = true;
 	}
 
@@ -113,7 +116,7 @@ public class Bomb extends Item {
 		//We're blowing up, so no need for a fuse anymore.
 		this.fuse = null;
 
-		Sample.INSTANCE.play( Assets.SND_BLAST, 2 );
+		Sample.INSTANCE.play( Assets.SND_BLAST );
 
 		if (Dungeon.visible[cell]) {
 			CellEmitter.center( cell ).burst( BlastParticle.FACTORY, 30 );
@@ -150,8 +153,7 @@ public class Bomb extends Item {
 					}
 
 					if (ch == Dungeon.hero && !ch.isAlive())
-						//constant is used here in the rare instance a player is killed by a double bomb.
-						Dungeon.fail(Utils.format(ResultDescriptions.ITEM, "bomb"));
+						Dungeon.fail("Killed by an explosion");
 				}
 			}
 		}
@@ -250,8 +252,10 @@ public class Bomb extends Item {
 				}
 			}
 
-			//can't find our bomb, this should never happen, throw an exception.
-			throw new RuntimeException("Something caused a lit bomb to not be present in a heap on the level!");
+			//can't find our bomb, something must have removed it, do nothing.
+			bomb.fuse = null;
+			Actor.remove( this );
+			return true;
 		}
 	}
 

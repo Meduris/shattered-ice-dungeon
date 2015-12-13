@@ -46,7 +46,7 @@ public class MagicalSleep extends Buff {
 			else if (target instanceof Mob)
 				((Mob)target).state = ((Mob)target).SLEEPING;
 
-			target.paralysed = true;
+			target.paralysed++;
 
 			return true;
 		} else {
@@ -58,7 +58,7 @@ public class MagicalSleep extends Buff {
 	public boolean act(){
 		if (target instanceof Hero) {
 			target.HP = Math.min(target.HP+1, target.HT);
-			((Hero) target).restoreHealth = true;
+			((Hero) target).resting = true;
 			if (target.HP == target.HT) {
 				GLog.p("You wake up feeling refreshed and healthy.");
 				detach();
@@ -70,9 +70,10 @@ public class MagicalSleep extends Buff {
 
 	@Override
 	public void detach() {
-		target.paralysed = false;
+		if (target.paralysed > 0)
+			target.paralysed--;
 		if (target instanceof Hero)
-			((Hero) target).restoreHealth = false;
+			((Hero) target).resting = false;
 		super.detach();
 	}
 

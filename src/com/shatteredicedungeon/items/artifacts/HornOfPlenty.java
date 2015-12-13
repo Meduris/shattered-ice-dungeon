@@ -20,12 +20,15 @@
  */
 package com.shatteredicedungeon.items.artifacts;
 
+import java.util.ArrayList;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Badges;
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.Statistics;
 import com.shatteredicedungeon.actors.buffs.Buff;
 import com.shatteredicedungeon.actors.buffs.Hunger;
+import com.shatteredicedungeon.actors.buffs.LockedFloor;
 import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.effects.Speck;
 import com.shatteredicedungeon.effects.SpellSprite;
@@ -38,8 +41,6 @@ import com.shatteredicedungeon.sprites.ItemSpriteSheet;
 import com.shatteredicedungeon.utils.GLog;
 import com.shatteredicedungeon.windows.WndBag;
 import com.watabou.noosa.audio.Sample;
-
-import java.util.ArrayList;
 
 public class HornOfPlenty extends Artifact {
 
@@ -172,7 +173,8 @@ public class HornOfPlenty extends Artifact {
 
 		@Override
 		public boolean act() {
-			if (charge < chargeCap && !cursed) {
+			LockedFloor lock = target.buff(LockedFloor.class);
+			if (charge < chargeCap && !cursed && (lock == null || lock.regenOn())) {
 
 				//generates 0.25 food value every round, +0.015 value per level
 				//to a max of 0.70 food value per round (0.25+0.5, at level 30)

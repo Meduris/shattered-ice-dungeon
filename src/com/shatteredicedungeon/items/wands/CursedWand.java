@@ -164,7 +164,7 @@ public class CursedWand {
 											break;
 										}
 									} while (pos == -1);
-									if (pos == -1) {
+									if (pos == -1 || Dungeon.bossLevel()) {
 										GLog.w(ScrollOfTeleportation.TXT_NO_TELEPORT);
 									} else {
 										ch.pos = pos;
@@ -285,12 +285,13 @@ public class CursedWand {
 				cursedFX(user, bolt, new Callback() {
 					public void call() {
 						Char ch = Actor.findChar( bolt.collisionPos );
-						if (ch != null && ch != user){
+						//TODO: this is lazy, should think of a better way to ID bosses, or have this effect be more sophisticated.
+						if (ch != null && ch != user && !Dungeon.bossLevel()){
 							Sheep sheep = new Sheep();
 							sheep.lifespan = 10;
 							sheep.pos = ch.pos;
+							ch.destroy();
 							ch.sprite.killAndErase();
-							Actor.remove(ch);
 							Dungeon.level.mobs.remove(ch);
 							HealthIndicator.instance.target(null);
 							GameScene.add(sheep);
@@ -322,6 +323,11 @@ public class CursedWand {
 			case 2:
 				if (Dungeon.depth > 1 && !Dungeon.bossLevel()) {
 
+					//each depth has 1 more weight than the previous depth.
+					float[] depths = new float[Dungeon.depth-1];
+					for (int i = 1; i < Dungeon.depth; i++) depths[i-1] = i;
+					int depth = 1+Random.chances(depths);
+
 					Buff buff = Dungeon.hero.buff(TimekeepersHourglass.timeFreeze.class);
 					if (buff != null) buff.detach();
 
@@ -329,7 +335,7 @@ public class CursedWand {
 						if (mob instanceof DriedRose.GhostHero) mob.destroy();
 
 					InterlevelScene.mode = InterlevelScene.Mode.RETURN;
-					InterlevelScene.returnDepth = Random.Int(Dungeon.depth-1)+1;
+					InterlevelScene.returnDepth = depth;
 					InterlevelScene.returnPos = -1;
 					Game.switchScene(InterlevelScene.class);
 

@@ -20,21 +20,21 @@
  */
 package com.shatteredicedungeon.levels.traps;
 
-import com.watabou.noosa.audio.Sample;
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Dungeon;
-import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.mobs.Mob;
 import com.shatteredicedungeon.effects.CellEmitter;
 import com.shatteredicedungeon.effects.Speck;
+import com.shatteredicedungeon.sprites.TrapSprite;
 import com.shatteredicedungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
 
 public class AlarmTrap extends Trap {
 
-	// 0xDD3333
 	{
 		name = "Alarm trap";
-		image = 4;
+		color = TrapSprite.RED;
+		shape = TrapSprite.DOTS;
 	}
 
 	@Override
@@ -50,5 +50,11 @@ public class AlarmTrap extends Trap {
 		}
 
 		Sample.INSTANCE.play( Assets.SND_ALERT );
+	}
+
+	@Override
+	public String desc() {
+		return "This trap seems to be tied to a loud alarm mechanism. " +
+				"Triggering it will likely alert everything on the level.";
 	}
 }

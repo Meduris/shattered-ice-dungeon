@@ -57,13 +57,14 @@ public class WandOfLightning extends Wand {
 	protected void onZap( Ballistica bolt ) {
 
 		//lightning deals less damage per-target, the more targets that are hit.
-		float multipler = (0.6f + 0.4f*affected.size())/affected.size();
+		float multipler = 0.4f + (0.6f/affected.size());
 		if (Level.water[bolt.collisionPos]) multipler *= 1.5f;
 
 		int min = 5+level;
 		int max = Math.round(10 + (level * level / 4f));
 
 		for (Char ch : affected){
+			processSoulMark(ch, chargesPerCast());
 			ch.damage(Math.round(Random.NormalIntRange(min, max) * multipler), LightningTrap.LIGHTNING);
 
 			if (ch == Dungeon.hero) Camera.main.shake( 2, 0.3f );

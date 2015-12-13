@@ -20,9 +20,12 @@
  */
 package com.shatteredicedungeon.levels.painters;
 
+import com.shatteredicedungeon.Assets;
+import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.levels.Level;
 import com.shatteredicedungeon.levels.Room;
 import com.shatteredicedungeon.levels.Terrain;
+import com.shatteredicedungeon.ui.CustomTileVisual;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
@@ -52,6 +55,37 @@ public class WeakFloorPainter extends Painter {
 			for (int i=room.left + 1; i < room.right; i++) {
 				drawInside( level, room, new Point( i, room.bottom ), Random.IntRange( 1, room.height() - 2 ), Terrain.EMPTY_SP );
 			}
+		}
+
+		Point well = null;
+		if (door.x == room.left) {
+			well = new Point( room.right-1, Random.Int( 2 ) == 0 ? room.top + 2 : room.bottom - 1 );
+		} else if (door.x == room.right) {
+			well = new Point( room.left+1, Random.Int( 2 ) == 0 ? room.top + 2 : room.bottom - 1 );
+		} else if (door.y == room.top) {
+			well = new Point( Random.Int( 2 ) == 0 ? room.left + 1 : room.right - 1, room.bottom-1 );
+		} else if (door.y == room.bottom) {
+			well = new Point( Random.Int( 2 ) == 0 ? room.left + 1 : room.right - 1, room.top+2 );
+		}
+		set(level, well, Terrain.CHASM);
+		CustomTileVisual vis = new HiddenWell();
+		vis.pos(well.x, well.y);
+		level.customTiles.add(vis);
+	}
+
+	public static class HiddenWell extends CustomTileVisual{
+
+		{
+			name = "Distant well";
+
+			tx = Assets.WEAK_FLOOR;
+			txX = Dungeon.depth/5;
+			txY = 0;
+		}
+
+		@Override
+		public String desc() {
+			return "You can just make out a well in the depths below, perhaps there is something down there?";
 		}
 	}
 }

@@ -30,6 +30,7 @@ import com.shatteredicedungeon.actors.blobs.Blob;
 import com.shatteredicedungeon.actors.blobs.GooWarn;
 import com.shatteredicedungeon.actors.blobs.ToxicGas;
 import com.shatteredicedungeon.actors.buffs.Buff;
+import com.shatteredicedungeon.actors.buffs.LockedFloor;
 import com.shatteredicedungeon.actors.buffs.Ooze;
 import com.shatteredicedungeon.effects.CellEmitter;
 import com.shatteredicedungeon.effects.Speck;
@@ -39,10 +40,10 @@ import com.shatteredicedungeon.items.keys.SkeletonKey;
 import com.shatteredicedungeon.items.scrolls.ScrollOfPsionicBlast;
 import com.shatteredicedungeon.items.weapon.enchantments.Death;
 import com.shatteredicedungeon.levels.Level;
-import com.shatteredicedungeon.levels.SewerBossLevel;
 import com.shatteredicedungeon.scenes.GameScene;
 import com.shatteredicedungeon.sprites.CharSprite;
 import com.shatteredicedungeon.sprites.GooSprite;
+import com.shatteredicedungeon.ui.BossHealthBar;
 import com.shatteredicedungeon.utils.GLog;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.audio.Sample;
@@ -52,9 +53,9 @@ import com.watabou.utils.Random;
 public class Goo extends Mob {
 	{
 		name = "Goo";
-		HP = HT = 80;
+		HP = HT = 100;
 		EXP = 10;
-		defenseSkill = 12;
+		defenseSkill = 8;
 		spriteClass = GooSprite.class;
 
 		loot = new LloydsBeacon().identify();
@@ -65,6 +66,8 @@ public class Goo extends Mob {
 
 	@Override
 	public int damageRoll() {
+		int min = (HP*2 <= HT) ? 3 : 2;
+		int max = (HP*2 <= HT) ? 12 : 8;
 		if (pumpedUp > 0) {
 			pumpedUp = 0;
 			for (int i = 0; i < Level.NEIGHBOURS9DIST2.length; i++) {
@@ -73,15 +76,23 @@ public class Goo extends Mob {
 					CellEmitter.get(j).burst(ElmoParticle.FACTORY, 10);
 			}
 			Sample.INSTANCE.play( Assets.SND_BURNING );
-			return Random.NormalIntRange( 5, 30 );
+			return Random.NormalIntRange( min*3, max*3 );
 		} else {
-			return Random.NormalIntRange( 2, 12 );
+			return Random.NormalIntRange( min, max );
 		}
 	}
 
 	@Override
 	public int attackSkill( Char target ) {
-		return (pumpedUp > 0) ? 30 : 15;
+		int attack = 10;
+		if (HP*2 <= HT) attack = 15;
+		if (pumpedUp > 0) attack *= 2;
+		return attack;
+	}
+
+	@Override
+	public int defenseSkill(Char enemy) {
+		return (int)(super.defenseSkill(enemy) * ((HP*2 <= HT)? 1.5 : 1));
 	}
 
 	@Override
@@ -94,6 +105,10 @@ public class Goo extends Mob {
 
 		if (Level.water[pos] && HP < HT) {
 			sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
+			if (HP*2 == HT) {
+				BossHealthBar.bleed(false);
+				((GooSprite)sprite).spray(false);
+			}
 			HP++;
 		}
 
@@ -133,7 +148,7 @@ public class Goo extends Mob {
 			spend( attackDelay() );
 
 			return true;
-		} else if (pumpedUp >= 2 || Random.Int( 3 ) > 0) {
+		} else if (pumpedUp >= 2 || Random.Int( (HP*2 <= HT) ? 2 : 5 ) > 0) {
 
 			boolean visible = Dungeon.visible[pos];
 
@@ -159,8 +174,9 @@ public class Goo extends Mob {
 
 			for (int i=0; i < Level.NEIGHBOURS9.length; i++) {
 				int j = pos + Level.NEIGHBOURS9[i];
-				GameScene.add( Blob.seed( j , 2, GooWarn.class ));
-
+				if (Level.passable[j]) {
+					GameScene.add(Blob.seed(j, 2, GooWarn.class));
+				}
 			}
 
 			if (Dungeon.visible[pos]) {
@@ -192,7 +208,23 @@ public class Goo extends Mob {
 		Dungeon.level.seal();
 		super.move( step );
 	}
-	
+
+	@Override
+	public void damage(int dmg, Object src) {
+		boolean bleeding = (HP*2 <= HT);
+		super.damage(dmg, src);
+		if ((HP*2 <= HT) && !bleeding){
+			BossHealthBar.bleed(true);
+			GLog.w("Goo Becomes Enraged!!");
+			sprite.showStatus(CharSprite.NEGATIVE, "enraged");
+			((GooSprite)sprite).spray(true);
+			yell("GLUUUURP!");
+			spend( TICK );
+		}
+		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
+		if (lock != null) lock.addTime(dmg*2);
+	}
+
 	@Override
 	public void die( Object cause ) {
 		
@@ -211,6 +243,7 @@ public class Goo extends Mob {
 	@Override
 	public void notice() {
 		super.notice();
+		BossHealthBar.assignBoss(this);
 		yell( "GLURP-GLURP!" );
 	}
 	
@@ -240,6 +273,9 @@ public class Goo extends Mob {
 		super.restoreFromBundle( bundle );
 
 		pumpedUp = bundle.getInt( PUMPEDUP );
+		if (state != SLEEPING) BossHealthBar.assignBoss(this);
+		if ((HP*2 <= HT)) BossHealthBar.bleed(true);
+
 	}
 	
 	private static final HashSet<Class<?>> RESISTANCES = new HashSet<Class<?>>();

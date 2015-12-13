@@ -21,6 +21,7 @@
 package com.shatteredicedungeon.items.wands;
 
 import com.shatteredicedungeon.Assets;
+import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.blobs.Blob;
 import com.shatteredicedungeon.actors.blobs.VenomGas;
@@ -47,6 +48,11 @@ public class WandOfVenom extends Wand {
 		Blob venomGas = Blob.seed(bolt.collisionPos, 50 + 10 * level, VenomGas.class);
 		((VenomGas)venomGas).setStrength(level+1);
 		GameScene.add(venomGas);
+
+		Char ch = Actor.findChar(bolt.collisionPos);
+		if (ch != null){
+			processSoulMark(ch, chargesPerCast());
+		}
 	}
 
 	@Override

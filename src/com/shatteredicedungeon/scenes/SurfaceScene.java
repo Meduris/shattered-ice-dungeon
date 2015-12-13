@@ -23,6 +23,14 @@ package com.shatteredicedungeon.scenes;
 import java.nio.FloatBuffer;
 import java.util.Calendar;
 
+import com.shatteredicedungeon.Assets;
+import com.shatteredicedungeon.Badges;
+import com.shatteredicedungeon.Dungeon;
+import com.shatteredicedungeon.ShatteredIceDungeon;
+import com.shatteredicedungeon.actors.hero.HeroClass;
+import com.shatteredicedungeon.sprites.RatSprite;
+import com.shatteredicedungeon.ui.Archs;
+import com.shatteredicedungeon.ui.RedButton;
 import com.watabou.gltextures.Gradient;
 import com.watabou.gltextures.SmartTexture;
 import com.watabou.glwrap.Matrix;
@@ -38,13 +46,6 @@ import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.TouchArea;
 import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Music;
-import com.shatteredicedungeon.Assets;
-import com.shatteredicedungeon.Badges;
-import com.shatteredicedungeon.Dungeon;
-import com.shatteredicedungeon.actors.hero.HeroClass;
-import com.shatteredicedungeon.sprites.RatSprite;
-import com.shatteredicedungeon.ui.Archs;
-import com.shatteredicedungeon.ui.RedButton;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
@@ -71,7 +72,7 @@ public class SurfaceScene extends PixelScene {
 		super.create();
 		
 		Music.INSTANCE.play( Assets.HAPPY, true );
-		Music.INSTANCE.volume( 1f );
+		Music.INSTANCE.volume( ShatteredIceDungeon.musicVol() / 10f );
 		
 		uiCamera.visible = false;
 		
@@ -83,8 +84,8 @@ public class SurfaceScene extends PixelScene {
 		archs.setSize( w, h );
 		add( archs );
 
-		float vx = align( (w - SKY_WIDTH) / 2 );
-		float vy = align( (h - SKY_HEIGHT - BUTTON_HEIGHT) / 2 );
+		float vx = (w - SKY_WIDTH) / 2;
+		float vy = (h - SKY_HEIGHT - BUTTON_HEIGHT) / 2;
 
 		Point s = Camera.main.cameraToScreen( vx, vy );
 		viewport = new Camera( s.x, s.y, SKY_WIDTH, SKY_HEIGHT, defaultZoom );
@@ -128,7 +129,7 @@ public class SurfaceScene extends PixelScene {
 		Avatar a = new Avatar( Dungeon.hero.heroClass );
 		// Removing semitransparent contour
 		a.am = 2; a.aa = -1;
-		a.x = PixelScene.align( (SKY_WIDTH - a.width) / 2 );
+		a.x = (SKY_WIDTH - a.width) / 2;
 		a.y = SKY_HEIGHT - a.height;
 		window.add( a );
 		
