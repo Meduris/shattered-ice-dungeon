@@ -40,6 +40,8 @@ public class Statistics {
 	
 	public static boolean amuletObtained = false;
 	
+	public static boolean[] floorGenerated = new boolean[26];
+	
 	public static void reset() {
 		
 		goldCollected	= 0;
@@ -57,6 +59,9 @@ public class Statistics {
 		
 		amuletObtained = false;
 		
+		for (int i = 0; i < floorGenerated.length; i++) {
+			floorGenerated[i] = false;
+		}
 	}
 	
 	private static final String GOLD		= "score";
@@ -69,6 +74,7 @@ public class Statistics {
 	private static final String ANKHS		= "ankhsUsed";
 	private static final String DURATION	= "duration";
 	private static final String AMULET		= "amuletObtained";
+	private static final String GENERATEDFLOORS = "generatedFloors";
 	
 	public static void storeInBundle( Bundle bundle ) {
 		bundle.put( GOLD,		goldCollected );
@@ -81,6 +87,7 @@ public class Statistics {
 		bundle.put( ANKHS,		ankhsUsed );
 		bundle.put( DURATION,	duration );
 		bundle.put( AMULET,		amuletObtained );
+		bundle.put(GENERATEDFLOORS, floorGenerated);
 	}
 	
 	public static void restoreFromBundle( Bundle bundle ) {
@@ -94,6 +101,7 @@ public class Statistics {
 		ankhsUsed		= bundle.getInt( ANKHS );
 		duration		= bundle.getFloat( DURATION );
 		amuletObtained	= bundle.getBoolean( AMULET );
+		floorGenerated	= bundle.getBooleanArray( GENERATEDFLOORS );
 	}
 
 }
