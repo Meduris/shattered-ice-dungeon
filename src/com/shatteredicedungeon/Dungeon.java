@@ -189,7 +189,7 @@ public class Dungeon {
 	public static boolean isChallenged( int mask ) {
 		return (challenges & mask) != 0;
 	}
-	
+	// TODO has to be changed according to the new conntetion system
 	public static Level newLevel() {
 		
 		Dungeon.level = null;

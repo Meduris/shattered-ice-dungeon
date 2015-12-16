@@ -244,11 +244,9 @@ public class InterlevelScene extends PixelScene {
 		}
 
 		Level level;
-		if (!Level.isLevelGenerated(Level.descendTo(Dungeon.depth))) { // Dungeon.depth
-																		// >=
-																		// Statistics.deepestFloor)
-																		// {
+		if (!Level.isLevelGenerated(Level.descendTo(Dungeon.depth))) {
 			level = Dungeon.newLevel();
+			Level.levelGenerated(Dungeon.depth);
 		} else {
 			Dungeon.depth = Level.descendTo(Dungeon.depth);
 			level = Dungeon.loadLevel(Dungeon.hero.heroClass);

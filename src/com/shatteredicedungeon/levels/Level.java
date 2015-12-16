@@ -445,6 +445,10 @@ public abstract class Level implements Bundlable {
 	public static boolean isLevelGenerated(int depth){
 		return Statistics.floorGenerated[depth - 1];
 	}
+	
+	public static void levelGenerated(int depth){
+		Statistics.floorGenerated[depth - 1] = true;
+	}
 
 	public void create() {
 
