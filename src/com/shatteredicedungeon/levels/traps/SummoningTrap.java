@@ -74,7 +74,7 @@ public class SummoningTrap extends Trap {
 			respawnPoints.add( candidates.remove( index ) );
 			nMobs--;
 		}
-		
+
 		ArrayList<Mob> mobs = new ArrayList<>();
 
 		for (Integer point : respawnPoints) {
@@ -82,13 +82,18 @@ public class SummoningTrap extends Trap {
 			mob.state = mob.WANDERING;
 			mob.pos = point;
 			GameScene.add( mob, DELAY );
-			mobs.add(mob);
+			mobs.add( mob );
 		}
-		
+
 		//important to process the visuals and pressing of cells last, so spawned mobs have a chance to occupy cells first
-		for (Mob mob : mobs) {
+		for (Mob mob : mobs){
 			ScrollOfTeleportation.appear(mob, mob.pos);
 		}
 
+	}
+
+	@Override
+	public String desc() {
+		return "Triggering this trap will summon a number of monsters from the surrounding floors to this location.";
 	}
 }

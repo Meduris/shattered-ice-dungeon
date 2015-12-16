@@ -37,16 +37,22 @@ public class WelcomeScene extends PixelScene {
 
 	private static final String TTL_Welcome = "Welcome!";
 
-	private static final String TTL_Update = "Update to Shattered v0.3.2: The Prison Rework!";
+	private static final String TTL_Update = "Update to Shattered v0.3.2";
 
 	private static final String TTL_Future = "Wait What?";
 
 	private static final String TXT_Welcome =
 			"Shattered Ice Dungeon is a rework/expansion of Evans's Shattered Pixel Dungeon.\n\n"+
-			"Shattered Ice Dungeon will be updated to the newest Shattered Pixel Dungeon version soon!\n\n"+
+			"I will implement more features and new ideas as soon as possible.\n\n"+
 			"Happy Dungeoneering!";
 
 	private static final String TXT_Update =
+				"v0.0.2beta:\n" +
+					"- just updated everything to v0.3.2b of Shattered Pixel Dungeon\n" +
+					"- some rendering issues according to the snow resolved\n\n" +
+					"- please note that saves from older versions will not work\n\n" +
+					"- hopefully I will be able to make a lot more changes the next days and to implement a lot of new ideas.\n\n" +
+				"Implemented updates from Shattered Pixel Dungeon:\n" +
 				"v0.3.2b:\n" +
 					"- Fixed various bugs\n" +
 					"- Floor locking tweaked, now only pauses passive effects when avoiding battle.\n" +

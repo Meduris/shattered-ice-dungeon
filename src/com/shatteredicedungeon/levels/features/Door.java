@@ -29,9 +29,9 @@ import com.shatteredicedungeon.scenes.GameScene;
 
 public class Door {
 
-	public static void enter(int pos) {
-		Level.set(pos, Terrain.OPEN_DOOR);
-		GameScene.updateMap(pos);
+	public static void enter( int pos ) {
+		Level.set( pos, Terrain.OPEN_DOOR );
+		GameScene.updateMap( pos );
 		Dungeon.observe();
 
 		if (Dungeon.visible[pos]) {
