@@ -260,10 +260,11 @@ public class InterlevelScene extends PixelScene {
 		Dungeon.saveLevel();
 
 		Level level;
-		if (Dungeon.depth >= Statistics.deepestFloor) {
+		if (!Level.isLevelGenerated(Level.dropDownTo(Dungeon.depth))) {
 			level = Dungeon.newLevel();
+			Level.levelGenerated(Dungeon.depth);
 		} else {
-			Dungeon.depth++;
+			Dungeon.depth = Level.dropDownTo(Dungeon.depth);
 			level = Dungeon.loadLevel(Dungeon.hero.heroClass);
 		}
 		Dungeon.switchLevel(level,
@@ -274,8 +275,14 @@ public class InterlevelScene extends PixelScene {
 		Actor.fixTime();
 
 		Dungeon.saveLevel();
-		Dungeon.depth--;
-		Level level = Dungeon.loadLevel(Dungeon.hero.heroClass);
+		Level level;
+		if (!Level.isLevelGenerated(Level.ascendTo(Dungeon.depth))) {
+			level = Dungeon.newLevel();
+			Level.levelGenerated(Dungeon.depth);
+		} else {
+			Dungeon.depth = Level.ascendTo(Dungeon.depth);
+			level = Dungeon.loadLevel(Dungeon.hero.heroClass);
+		}
 		Dungeon.switchLevel(level, level.exit);
 	}
 

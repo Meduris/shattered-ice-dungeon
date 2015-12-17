@@ -442,7 +442,128 @@ public abstract class Level implements Bundlable {
 		}
 	}
 	
+	public static int numberExits(int currDepth){
+		switch (currDepth) {
+		case 1:
+			return 2;
+		case 2:
+			return 1;
+		case 3:
+			return 1;
+		case 4:
+			return 2;
+		case 5:
+			return 1;
+		case 6:
+			return 2;
+		case 7:
+			return 1;
+		case 8:
+			return 1;
+		case 9:
+			return 2;
+		case 10:
+			return 1;
+		case 11:
+			return 2;
+		case 12:
+			return 1;
+		case 13:
+			return 1;
+		case 14:
+			return 2;
+		case 15:
+			return 1;
+		case 16:
+			return 2;
+		case 17:
+			return 1;
+		case 18:
+			return 1;
+		case 19:
+			return 2;
+		case 20:
+			return 1;
+		case 21:
+			return 2;
+		case 22:
+			return 1;
+		case 23:
+			return 1;
+		case 24:
+			return 2;
+		case 25:
+			return 1;
+		case 26:
+			return 0;
+		default:
+			return 0;
+		}
+	}
+	
+	public static int numberEntrances(int currDepth){
+		switch (currDepth) {
+		case 1:
+			return 0;
+		case 2:
+			return 1;
+		case 3:
+			return 2;
+		case 4:
+			return 1;
+		case 5:
+			return 2;
+		case 6:
+			return 1;
+		case 7:
+			return 1;
+		case 8:
+			return 2;
+		case 9:
+			return 1;
+		case 10:
+			return 2;
+		case 11:
+			return 1;
+		case 12:
+			return 1;
+		case 13:
+			return 2;
+		case 14:
+			return 1;
+		case 15:
+			return 2;
+		case 16:
+			return 1;
+		case 17:
+			return 1;
+		case 18:
+			return 2;
+		case 19:
+			return 1;
+		case 20:
+			return 2;
+		case 21:
+			return 1;
+		case 22:
+			return 1;
+		case 23:
+			return 2;
+		case 24:
+			return 1;
+		case 25:
+			return 2;
+		case 26:
+			return 1;
+		default:
+			return 0;
+		}
+	}
+	
 	public static boolean isLevelGenerated(int depth){
+		if(depth == 0){
+			return true;
+		}
 		return Statistics.floorGenerated[depth - 1];
 	}
 	
