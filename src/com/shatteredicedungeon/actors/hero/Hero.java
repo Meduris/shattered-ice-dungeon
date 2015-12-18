@@ -474,6 +474,16 @@ public class Hero extends Char {
 				return actUnlock((HeroAction.Unlock) curAction);
 				
 			} else
+			if (curAction instanceof HeroAction.WanderUp){
+					
+				return actWanderUp((HeroAction.WanderUp)curAction);
+					
+			} else
+			if (curAction instanceof HeroAction.WanderDown){
+					
+				return actWanderDown((HeroAction.WanderDown)curAction);
+					
+			} else
 			if (curAction instanceof HeroAction.Descend) {
 
 				return actDescend( (HeroAction.Descend)curAction );
@@ -824,6 +834,79 @@ public class Hero extends Char {
 		}
 	}
 	
+	private boolean actWanderUp( HeroAction.WanderUp action){
+		int stairs = action.dst;
+		if (pos == stairs && pos == Dungeon.level.entrance) {
+			
+			if (Dungeon.depth == 1) {
+				
+				if (belongings.getItem( Amulet.class ) == null) {
+					GameScene.show( new WndMessage( TXT_LEAVE ) );
+					ready();
+				} else {
+					Dungeon.win( ResultDescriptions.WIN );
+					Dungeon.deleteGame( Dungeon.hero.heroClass, true );
+					Game.switchScene( SurfaceScene.class );
+				}
+				
+			} else {
+				
+				curAction = null;
+				
+				Hunger hunger = buff( Hunger.class );
+				if (hunger != null && !hunger.isStarving()) {
+					hunger.reduceHunger( -Hunger.STARVING / 10 );
+				}
+
+				Buff buff = buff(TimekeepersHourglass.timeFreeze.class);
+				if (buff != null) buff.detach();
+
+				for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] ))
+					if (mob instanceof DriedRose.GhostHero) mob.destroy();
+
+				InterlevelScene.mode = InterlevelScene.Mode.WANDERING_UP;
+				Game.switchScene( InterlevelScene.class );
+			}
+
+			return false;
+
+		} else if (getCloser( stairs )) {
+
+			return true;
+
+		} else {
+			ready();
+			return false;
+		}
+	}
+	
+	private boolean actWanderDown(HeroAction.WanderDown action){
+		int stairs = action.dst;
+		if (pos == stairs && pos == Dungeon.level.exit) {
+			
+			curAction = null;
+
+			Buff buff = buff(TimekeepersHourglass.timeFreeze.class);
+			if (buff != null) buff.detach();
+
+			for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] ))
+				if (mob instanceof DriedRose.GhostHero) mob.destroy();
+			
+			InterlevelScene.mode = InterlevelScene.Mode.WANDERING_DOWN;
+			Game.switchScene( InterlevelScene.class );
+
+			return false;
+
+		} else if (getCloser( stairs )) {
+
+			return true;
+
+		} else {
+			ready();
+			return false;
+		}
+	}
+	
 	private boolean actAttack( HeroAction.Attack action ) {
 
 		enemy = action.target;
@@ -1075,7 +1158,13 @@ public class Hero extends Char {
 		} else if (Dungeon.level.map[cell] == Terrain.LOCKED_DOOR || Dungeon.level.map[cell] == Terrain.LOCKED_EXIT) {
 			
 			curAction = new HeroAction.Unlock( cell );
+
+		} else if (cell == Dungeon.level.entrance){
 			
+			curAction = new HeroAction.WanderUp(cell);
+		} else if (cell == Dungeon.level.exit && Dungeon.depth < 26) {
+			
+			curAction = new HeroAction.WanderDown(cell);
 		} else if (cell == Dungeon.level.exit && Dungeon.depth < 26) {
 			
 			curAction = new HeroAction.Descend( cell );
@@ -1083,7 +1172,6 @@ public class Hero extends Char {
 		} else if (cell == Dungeon.level.entrance) {
 			
 			curAction = new HeroAction.Ascend( cell );
-			
 		} else  {
 			
 			curAction = new HeroAction.Move( cell );

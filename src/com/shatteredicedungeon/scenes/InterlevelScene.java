@@ -27,6 +27,7 @@ import com.shatteredicedungeon.Statistics;
 import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.items.Generator;
 import com.shatteredicedungeon.levels.Level;
+import com.shatteredicedungeon.utils.Utils;
 import com.shatteredicedungeon.windows.WndError;
 import com.shatteredicedungeon.windows.WndStory;
 import com.watabou.noosa.BitmapText;
@@ -49,6 +50,9 @@ public class InterlevelScene extends PixelScene {
 	private static final String TXT_RETURNING = "Returning...";
 	private static final String TXT_FALLING = "Falling...";
 	private static final String TXT_RESETTING = "Resetting...";
+	
+	// use the destination floor instead of "%s"
+	private static final String TXT_WANDERING = "Wandering to floor %s...";
 
 	private static final String ERR_FILE_NOT_FOUND = "Save file not found. If this error persists after restarting, "
 			+ "it may mean this save game is corrupted. Sorry about that.";
@@ -56,7 +60,7 @@ public class InterlevelScene extends PixelScene {
 			+ "it may mean this save game is corrupted. Sorry about that.";
 
 	public static enum Mode {
-		DESCEND, ASCEND, CONTINUE, RESURRECT, RETURN, FALL, RESET
+		DESCEND, ASCEND, CONTINUE, RESURRECT, RETURN, FALL, RESET, WANDERING_UP, WANDERING_DOWN
 	};
 	public static Mode mode;
 	
@@ -105,6 +109,12 @@ public class InterlevelScene extends PixelScene {
 		case RESET:
 			text = TXT_RESETTING;
 			break;
+		case WANDERING_UP:
+			text = Utils.format(TXT_WANDERING, Level.ascendTo(Dungeon.depth));
+			break;
+		case WANDERING_DOWN:
+			text = Utils.format(TXT_WANDERING, Level.descendTo(Dungeon.depth));
+			break;
 		}
 		
 		message = PixelScene.createText( text, 9 );
@@ -145,6 +155,14 @@ public class InterlevelScene extends PixelScene {
 						break;
 					case RESET:
 						reset();
+						break;
+					case WANDERING_DOWN:
+						wanderDown();
+						break;
+					case WANDERING_UP:
+						wanderUp();
+						break;
+					default:
 						break;
 					}
 					
@@ -345,6 +363,48 @@ public class InterlevelScene extends PixelScene {
 		Dungeon.depth--;
 		Level level = Dungeon.newLevel();
 		Dungeon.switchLevel( level, level.entrance );
+	}
+	
+	private void wanderUp() throws IOException {
+		int currDepth = Dungeon.depth;
+		int destDepth = Level.ascendTo(currDepth);
+		
+		Actor.fixTime();
+		
+		Dungeon.saveLevel();
+		Level level;
+		if (Level.isLevelGenerated(destDepth)) {
+			Dungeon.depth = destDepth;
+			level = Dungeon.loadLevel( Dungeon.hero.heroClass );
+		} else {
+			level = Dungeon.newLevel(destDepth);
+		}		
+		Dungeon.switchLevel(level, level.exit);
+	}
+	
+	private void wanderDown() throws IOException {
+		int currDepth = Dungeon.depth;
+		int destDepth = Level.descendTo(currDepth);
+		
+		Actor.fixTime();
+		if(Dungeon.hero == null){
+			Dungeon.init();
+			if(noStory){
+				Dungeon.chapters.add(WndStory.ID_SEWERS);
+				noStory = false;
+			} else {
+				Dungeon.saveLevel();
+			}
+		}
+		
+		Level level;
+		if(Level.isLevelGenerated(destDepth)){
+			Dungeon.depth = destDepth;
+			level = Dungeon.loadLevel(Dungeon.hero.heroClass);
+		} else {
+			level = Dungeon.newLevel(destDepth);
+		}
+		Dungeon.switchLevel(level, level.entrance);
 	}
 	
 	@Override

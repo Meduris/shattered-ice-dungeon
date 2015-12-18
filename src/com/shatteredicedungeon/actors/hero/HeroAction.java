@@ -77,6 +77,18 @@ public class HeroAction {
 		}
 	}
 	
+	public static class WanderUp extends HeroAction {
+		public WanderUp(int beacon){
+			this.dst = beacon;
+		}
+	}
+	
+	public static class WanderDown extends HeroAction {
+		public WanderDown(int beacon){
+			this.dst = beacon;
+		}
+	}
+	
 	public static class Cook extends HeroAction {
 		public Cook( int pot ) {
 			this.dst = pot;
