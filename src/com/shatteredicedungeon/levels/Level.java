@@ -149,9 +149,9 @@ public abstract class Level implements Bundlable {
 	public Feeling feeling = Feeling.NONE;
 
 	public int entrance;
-	public int entrance2;
+//	public int entrance2;
 	public int exit;
-	public int exit2;
+//	public int exit2;
 
 	// when a boss level has become locked.
 	public boolean locked = false;
@@ -178,9 +178,9 @@ public abstract class Level implements Bundlable {
 	private static final String VISITED = "visited";
 	private static final String MAPPED = "mapped";
 	private static final String ENTRANCE = "entrance";
-	private static final String ENTRANCE2 = "entrance2";
+//	private static final String ENTRANCE2 = "entrance2";
 	private static final String EXIT = "exit";
-	private static final String EXIT2 = "exit2";
+//	private static final String EXIT2 = "exit2";
 	private static final String LOCKED = "locked";
 	private static final String HEAPS = "heaps";
 	private static final String PLANTS = "plants";
@@ -193,6 +193,8 @@ public abstract class Level implements Bundlable {
 	// Easier to take just a random floor if there are two exits or entrances
 	public static int descendTo(int currDepth) {
 		switch (currDepth) {
+		case 0:
+			return 1;
 		case 1:
 			if (Dungeon.hero.pos == Dungeon.level.exit) {
 				return 2;
@@ -290,6 +292,8 @@ public abstract class Level implements Bundlable {
 
 	public static int ascendTo(int currDepth) {
 		switch (currDepth) {
+		case 0:
+			return 0;
 		case 1:
 			return 0;
 		case 2:
@@ -389,6 +393,8 @@ public abstract class Level implements Bundlable {
 
 	public static int dropDownTo(int currDepth) {
 		switch (currDepth) {
+		case 0:
+			return 1;
 		case 1:
 			return Random.IntRange(2, 3);
 		case 2:
@@ -444,6 +450,8 @@ public abstract class Level implements Bundlable {
 	
 	public static int numberExits(int currDepth){
 		switch (currDepth) {
+		case 0:
+			return 0;
 		case 1:
 			return 2;
 		case 2:
@@ -503,6 +511,8 @@ public abstract class Level implements Bundlable {
 	
 	public static int numberEntrances(int currDepth){
 		switch (currDepth) {
+		case 0:
+			return 0;
 		case 1:
 			return 0;
 		case 2:
@@ -561,9 +571,6 @@ public abstract class Level implements Bundlable {
 	}
 	
 	public static boolean isLevelGenerated(int depth){
-		if(depth == 0){
-			return true;
-		}
 		return Statistics.floorGenerated[depth - 1];
 	}
 	
@@ -700,9 +707,9 @@ public abstract class Level implements Bundlable {
 		mapped = bundle.getBooleanArray(MAPPED);
 
 		entrance = bundle.getInt(ENTRANCE);
-		entrance2 = bundle.getInt(ENTRANCE2);
+//		entrance2 = bundle.getInt(ENTRANCE2);
 		exit = bundle.getInt(EXIT);
-		exit2 = bundle.getInt(EXIT2);
+//		exit2 = bundle.getInt(EXIT2);
 
 		locked = bundle.getBoolean(LOCKED);
 
@@ -796,9 +803,9 @@ public abstract class Level implements Bundlable {
 		bundle.put(VISITED, visited);
 		bundle.put(MAPPED, mapped);
 		bundle.put(ENTRANCE, entrance);
-		bundle.put(ENTRANCE2, entrance2);
+//		bundle.put(ENTRANCE2, entrance2);
 		bundle.put(EXIT, exit);
-		bundle.put(EXIT2, exit2);
+//		bundle.put(EXIT2, exit2);
 		bundle.put(LOCKED, locked);
 		bundle.put(HEAPS, heaps.values());
 		bundle.put(PLANTS, plants.values());
@@ -845,9 +852,9 @@ public abstract class Level implements Bundlable {
 			this.mapped = mapped;
 
 			entrance = adjustPos(entrance);
-			entrance2 = adjustPos(entrance2);
+//			entrance2 = adjustPos(entrance2);
 			exit = adjustPos(exit);
-			exit2 = adjustPos(exit2);
+//			exit2 = adjustPos(exit2);
 		} else {
 			resizingNeeded = false;
 		}
