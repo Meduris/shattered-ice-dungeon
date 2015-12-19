@@ -836,7 +836,7 @@ public class Hero extends Char {
 	
 	private boolean actWanderUp( HeroAction.WanderUp action){
 		int stairs = action.dst;
-		if (pos == stairs && pos == Dungeon.level.entrance) {
+		if (pos == stairs && (pos == Dungeon.level.entrance || pos == Dungeon.level.entrance2)) {
 			
 			if (Dungeon.depth == 1) {
 				
@@ -882,7 +882,7 @@ public class Hero extends Char {
 	
 	private boolean actWanderDown(HeroAction.WanderDown action){
 		int stairs = action.dst;
-		if (pos == stairs && pos == Dungeon.level.exit) {
+		if (pos == stairs && (pos == Dungeon.level.exit || pos == Dungeon.level.exit2)) {
 			
 			curAction = null;
 
@@ -1159,10 +1159,10 @@ public class Hero extends Char {
 			
 			curAction = new HeroAction.Unlock( cell );
 
-		} else if (cell == Dungeon.level.entrance){
+		} else if (cell == Dungeon.level.entrance || cell == Dungeon.level.entrance2){
 			
 			curAction = new HeroAction.WanderUp(cell);
-		} else if (cell == Dungeon.level.exit && Dungeon.depth < 26) {
+		} else if ((cell == Dungeon.level.exit || cell == Dungeon.level.exit2) && Dungeon.depth < 26) {
 			
 			curAction = new HeroAction.WanderDown(cell);
 		} else if (cell == Dungeon.level.exit && Dungeon.depth < 26) {

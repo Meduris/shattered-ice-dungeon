@@ -26,17 +26,21 @@ import com.shatteredicedungeon.levels.Terrain;
 
 public class ExitPainter extends Painter {
 
-	public static void paint( Level level, Room room ) {
+	public static void paint(Level level, Room room) {
 
-		fill( level, room, Terrain.WALL );
-		fill( level, room, 1, Terrain.EMPTY );
-		
+		fill(level, room, Terrain.WALL);
+		fill(level, room, 1, Terrain.EMPTY);
+
 		for (Room.Door door : room.connected.values()) {
-			door.set( Room.Door.Type.REGULAR );
+			door.set(Room.Door.Type.REGULAR);
 		}
-		
-		level.exit = room.random( 1 );
-		set( level, level.exit, Terrain.EXIT );
+		if (room.type == Room.Type.EXIT) {
+			level.exit = room.random(1);
+			set(level, level.exit, Terrain.EXIT);
+		} else if (room.type == Room.Type.EXIT2){
+			level.exit2 = room.random(1);
+			set(level, level.exit2, Terrain.EXIT);
+		}
 	}
-	
+
 }

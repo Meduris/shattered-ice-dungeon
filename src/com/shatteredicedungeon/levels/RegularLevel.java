@@ -84,7 +84,7 @@ public abstract class RegularLevel extends Level {
 			} while (roomExit == roomEntrance || roomExit.width() < 4
 					|| roomExit.height() < 4);
 
-			if (Level.numberExits(Dungeon.depth) == 2) {
+			if (Level.numberEntrances(Dungeon.depth) == 2) {
 				do {
 					roomEntrance2 = Random.element(rooms);
 				} while (roomEntrance2 == roomEntrance
@@ -93,7 +93,7 @@ public abstract class RegularLevel extends Level {
 						|| roomEntrance2.height() < 4);
 			}
 
-			if (Level.numberEntrances(Dungeon.depth) == 2) {
+			if (Level.numberExits(Dungeon.depth) == 2) {
 				do {
 					roomExit2 = Random.element(rooms);
 				} while (roomExit2 == roomEntrance || roomExit2 == roomExit
@@ -111,9 +111,14 @@ public abstract class RegularLevel extends Level {
 		} while (distance < minDistance);
 
 		roomEntrance.type = Type.ENTRANCE;
-		roomEntrance2.type = Type.ENTRANCE;
+
+		if (roomEntrance2 != null) {
+			roomEntrance2.type = Type.ENTRANCE2;
+		}
 		roomExit.type = Type.EXIT;
-		roomExit2.type = Type.EXIT;
+		if (roomExit2 != null) {
+			roomExit2.type = Type.EXIT2;
+		}
 
 		HashSet<Room> connected = new HashSet<Room>();
 		connected.add(roomEntrance);

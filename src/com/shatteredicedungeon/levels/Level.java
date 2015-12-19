@@ -1594,4 +1594,54 @@ public abstract class Level implements Bundlable {
 			return "";
 		}
 	}
+
+	//TODO work on these two functions for correct entrance exit linking
+	public int getDestEntrance(int currDepth, int currPos, int posExit,
+			int posExit2) {
+		int num = currDepth % 5;
+		int mul = currDepth / 5;
+
+		switch (num) {
+		case 0:
+			return this.entrance;
+		case 1:
+			return this.entrance;
+		case 2:
+			return this.entrance;
+		case 3:
+			return this.entrance;
+		case 4:
+			return this.entrance2;
+		default:
+			return this.entrance;
+		}
+	}
+
+	public int getDestExit(int currDepth, int currPos, int posEntrance,
+			int posEntrance2) {
+		int num = currDepth % 5;
+		int mul = currDepth / 5;
+		switch (num) {
+		case 0:
+			if(currPos == posEntrance){
+				return this.exit;
+			} else {
+				return this.exit2;
+			}
+		case 1:
+			return this.exit;
+		case 2:
+			return this.exit;
+		case 3:
+			if(currPos == posEntrance){
+				return this.exit;
+			} else {
+				return this.exit2;
+			}
+		case 4:
+			return this.exit;
+		default:
+			return this.exit;
+		}
+	}
 }

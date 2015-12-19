@@ -22,6 +22,7 @@ package com.shatteredicedungeon.levels.painters;
 
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.levels.Level;
+import com.shatteredicedungeon.levels.RegularLevel;
 import com.shatteredicedungeon.levels.Room;
 import com.shatteredicedungeon.levels.Terrain;
 
@@ -41,13 +42,24 @@ public class EntrancePainter extends Painter {
 		//} while (level.findMob(level.entrance) != null);
 		//set( level, level.entrance, Terrain.ENTRANCE );
 		//
-		if (Dungeon.depth <= 5) {
-			level.entrance = room.top * Level.WIDTH + Level.WIDTH
-					+ (room.right - 1);
-			set(level, level.entrance, Terrain.ENTRANCE);
-		} else {
-			level.entrance = room.random(1);
-			set(level, level.entrance, Terrain.ENTRANCE);
+		if (room.type == Room.Type.ENTRANCE){
+			if (Dungeon.depth <= 5) {
+				level.entrance = room.top * Level.WIDTH + Level.WIDTH
+						+ (room.right - 1);
+				set(level, level.entrance, Terrain.ENTRANCE);
+			} else {
+				level.entrance = room.random(1);
+				set(level, level.entrance, Terrain.ENTRANCE);
+			}
+		} else if (room.type == Room.Type.ENTRANCE2){
+			if (Dungeon.depth <= 5) {
+				level.entrance2 = room.top * Level.WIDTH + Level.WIDTH
+						+ (room.right - 1);
+				set(level, level.entrance2, Terrain.ENTRANCE);
+			} else {
+				level.entrance2 = room.random(1);
+				set(level, level.entrance2, Terrain.ENTRANCE);
+			}
 		}
 	}
 	
