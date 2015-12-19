@@ -28,39 +28,44 @@ import com.shatteredicedungeon.levels.Terrain;
 
 public class EntrancePainter extends Painter {
 
-	public static void paint( Level level, Room room ) {
-		
-		fill( level, room, Terrain.WALL );
-		fill( level, room, 1, Terrain.EMPTY );
-		
+	public static void paint(Level level, Room room) {
+
+		fill(level, room, Terrain.WALL);
+		fill(level, room, 1, Terrain.EMPTY);
+
 		for (Room.Door door : room.connected.values()) {
-			door.set( Room.Door.Type.REGULAR );
+			door.set(Room.Door.Type.REGULAR);
 		}
 		//
 		// do {
-		//	level.entrance = room.random(1);
-		//} while (level.findMob(level.entrance) != null);
-		//set( level, level.entrance, Terrain.ENTRANCE );
+		// level.entrance = room.random(1);
+		// } while (level.findMob(level.entrance) != null);
+		// set( level, level.entrance, Terrain.ENTRANCE );
 		//
-		if (room.type == Room.Type.ENTRANCE){
-			if (Dungeon.depth <= 5) {
-				level.entrance = room.top * Level.WIDTH + Level.WIDTH
-						+ (room.right - 1);
-				set(level, level.entrance, Terrain.ENTRANCE);
-			} else {
-				level.entrance = room.random(1);
-				set(level, level.entrance, Terrain.ENTRANCE);
-			}
-		} else if (room.type == Room.Type.ENTRANCE2){
-			if (Dungeon.depth <= 5) {
-				level.entrance2 = room.top * Level.WIDTH + Level.WIDTH
-						+ (room.right - 1);
-				set(level, level.entrance2, Terrain.ENTRANCE);
-			} else {
-				level.entrance2 = room.random(1);
-				set(level, level.entrance2, Terrain.ENTRANCE);
-			}
+		if (room.type == Room.Type.ENTRANCE) {
+			// if (Dungeon.depth <= 5) {
+			level.entrance = room.top * Level.WIDTH + Level.WIDTH
+					+ (room.right - 1);
+			set(level, level.entrance, Terrain.ENTRANCE);
+			// } else {
+			// level.entrance = room.random(1);
+			// set(level, level.entrance, Terrain.ENTRANCE);
+			// }
+		} else if (room.type == Room.Type.ENTRANCE2) {
+			// if (Dungeon.depth <= 5) {
+			level.entrance2 = room.top * Level.WIDTH + Level.WIDTH
+					+ (room.right - 1);
+			set(level, level.entrance2, Terrain.ENTRANCE);
+			// } else {
+			// level.entrance2 = room.random(1);
+			// set(level, level.entrance2, Terrain.ENTRANCE);
+			// }
+		}
+		if (room.type == Room.Type.ENTRANCE && Dungeon.bossLevel()) {
+			level.entrance2 = room.top * Level.WIDTH + Level.WIDTH
+					+ (room.left);
+			set(level, level.entrance2, Terrain.ENTRANCE);
 		}
 	}
-	
+
 }

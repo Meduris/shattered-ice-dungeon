@@ -202,6 +202,9 @@ public class SewerBossLevel extends RegularLevel {
 			} else if ((i + WIDTH) == entrance) {
 				map[i] = Terrain.WALL;
 				map[i + WIDTH] = Terrain.ENTRANCE;
+			} else if ((i + WIDTH) == entrance2){
+				map[i] = Terrain.WALL;
+				map[i + WIDTH] = Terrain.ENTRANCE;
 			} else {
 				map[i + WIDTH] = Terrain.EMPTY;
 			}

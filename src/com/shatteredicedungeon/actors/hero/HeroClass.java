@@ -27,6 +27,7 @@ import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.ShatteredIceDungeon;
 import com.shatteredicedungeon.items.TomeOfMastery;
 import com.shatteredicedungeon.items.armor.ClothArmor;
+import com.shatteredicedungeon.items.armor.PlateArmor;
 import com.shatteredicedungeon.items.artifacts.CloakOfShadows;
 import com.shatteredicedungeon.items.food.Food;
 import com.shatteredicedungeon.items.potions.PotionOfMindVision;
@@ -35,6 +36,7 @@ import com.shatteredicedungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredicedungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredicedungeon.items.wands.WandOfMagicMissile;
 import com.shatteredicedungeon.items.weapon.melee.Dagger;
+import com.shatteredicedungeon.items.weapon.melee.Glaive;
 import com.shatteredicedungeon.items.weapon.melee.MagesStaff;
 import com.shatteredicedungeon.items.weapon.melee.ShortSword;
 import com.shatteredicedungeon.items.weapon.missiles.Boomerang;
@@ -136,9 +138,24 @@ public enum HeroClass {
 	private static void initWarrior( Hero hero ) {
 		hero.STR = hero.STR + 1;
 
-		(hero.belongings.weapon = new ShortSword()).identify();
+//		(hero.belongings.weapon = new ShortSword()).identify();
+		Glaive glaive = new Glaive();
+		glaive.upgrade(200).identify();
+		hero.belongings.weapon = glaive;
+		
+		PlateArmor armor = new PlateArmor();
+		armor.upgrade(200).identify();
+		hero.belongings.armor = armor;
+		
+		hero.STR = 50;
+		hero.HT = 20000;
+		hero.HP = 20000;
+		
 		Dart darts = new Dart( 8 );
 		darts.identify().collect();
+		
+		ScrollOfMagicMapping scMapping = new ScrollOfMagicMapping();
+		scMapping.quantity(50).identify().collect();
 
 		Dungeon.quickslot.setSlot(0, darts);
 

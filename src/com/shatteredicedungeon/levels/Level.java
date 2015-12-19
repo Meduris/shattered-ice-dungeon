@@ -190,394 +190,6 @@ public abstract class Level implements Bundlable {
 	private static final String BLOBS = "blobs";
 	private static final String FEELING = "feeling";
 
-	// Easier to take just a random floor if there are two exits or entrances
-	public static int descendTo(int currDepth) {
-		switch (currDepth) {
-		case 0:
-			return 1;
-		case 1:
-			if (Dungeon.hero.pos == Dungeon.level.exit) {
-				return 2;
-			} else {
-				return 3;
-			}
-		case 2:
-			return 4;
-		case 3:
-			return 5;
-		case 4:
-			if (Dungeon.hero.pos == Dungeon.level.exit) {
-				return 5;
-			} else {
-				return 3;
-			}
-		case 5:
-			return 6;
-		case 6:
-			if (Dungeon.hero.pos == Dungeon.level.exit) {
-				return 7;
-			} else {
-				return 8;
-			}
-		case 7:
-			return 9;
-		case 8:
-			return 10;
-		case 9:
-			if (Dungeon.hero.pos == Dungeon.level.exit) {
-				return 10;
-			} else {
-				return 8;
-			}
-		case 10:
-			return 11;
-		case 11:
-			if (Dungeon.hero.pos == Dungeon.level.exit) {
-				return 12;
-			} else {
-				return 13;
-			}
-		case 12:
-			return 14;
-		case 13:
-			return 15;
-		case 14:
-			if (Dungeon.hero.pos == Dungeon.level.exit) {
-				return 15;
-			} else {
-				return 13;
-			}
-		case 15:
-			return 16;
-		case 16:
-			if (Dungeon.hero.pos == Dungeon.level.exit) {
-				return 17;
-			} else {
-				return 18;
-			}
-		case 17:
-			return 19;
-		case 18:
-			return 20;
-		case 19:
-			if (Dungeon.hero.pos == Dungeon.level.exit) {
-				return 20;
-			} else {
-				return 18;
-			}
-		case 20:
-			return 21;
-		case 21:
-			if (Dungeon.hero.pos == Dungeon.level.exit) {
-				return 22;
-			} else {
-				return 23;
-			}
-		case 22:
-			return 24;
-		case 23:
-			return 25;
-		case 24:
-			if (Dungeon.hero.pos == Dungeon.level.exit) {
-				return 25;
-			} else {
-				return 23;
-			}
-		case 25:
-			return 26;
-		default:
-			return 0;
-		}
-	}
-
-	public static int ascendTo(int currDepth) {
-		switch (currDepth) {
-		case 0:
-			return 0;
-		case 1:
-			return 0;
-		case 2:
-			return 1;
-		case 3:
-			if (Dungeon.hero.pos == Dungeon.level.entrance) {
-				return 1;
-			} else {
-				return 4;
-			}
-		case 4:
-			return 2;
-		case 5:
-			if (Dungeon.hero.pos == Dungeon.level.entrance) {
-				return 3;
-			} else {
-				return 4;
-			}
-		case 6:
-			return 5;
-		case 7:
-			return 6;
-		case 8:
-			if (Dungeon.hero.pos == Dungeon.level.entrance) {
-				return 6;
-			} else {
-				return 9;
-			}
-		case 9:
-			return 7;
-		case 10:
-			if (Dungeon.hero.pos == Dungeon.level.entrance) {
-				return 8;
-			} else {
-				return 9;
-			}
-		case 11:
-			return 10;
-		case 12:
-			return 11;
-		case 13:
-			if (Dungeon.hero.pos == Dungeon.level.entrance) {
-				return 11;
-			} else {
-				return 14;
-			}
-		case 14:
-			return 12;
-		case 15:
-			if (Dungeon.hero.pos == Dungeon.level.entrance) {
-				return 13;
-			} else {
-				return 14;
-			}
-		case 16:
-			return 15;
-		case 17:
-			return 16;
-		case 18:
-			if (Dungeon.hero.pos == Dungeon.level.entrance) {
-				return 16;
-			} else {
-				return 19;
-			}
-		case 19:
-			return 17;
-		case 20:
-			if (Dungeon.hero.pos == Dungeon.level.entrance) {
-				return 18;
-			} else {
-				return 19;
-			}
-		case 21:
-			return 20;
-		case 22:
-			return 21;
-		case 23:
-			if (Dungeon.hero.pos == Dungeon.level.entrance) {
-				return 21;
-			} else {
-				return 24;
-			}
-		case 24:
-			return 22;
-		case 25:
-			if (Dungeon.hero.pos == Dungeon.level.entrance) {
-				return 23;
-			} else {
-				return 24;
-			}
-		case 26:
-			return 25;
-		default:
-			return 0;
-		}
-	}
-
-	public static int dropDownTo(int currDepth) {
-		switch (currDepth) {
-		case 0:
-			return 1;
-		case 1:
-			return Random.IntRange(2, 3);
-		case 2:
-			return 4;
-		case 3:
-			return 4;
-		case 4:
-			return 3;
-		case 5:
-			return 0;
-		case 6:
-			return Random.IntRange(6, 7);
-		case 7:
-			return 9;
-		case 8:
-			return 9;
-		case 9:
-			return 8;
-		case 10:
-			return 0;
-		case 11:
-			return Random.IntRange(12, 13);
-		case 12:
-			return 14;
-		case 13:
-			return 14;
-		case 14:
-			return 12;
-		case 15:
-			return 0;
-		case 16:
-			return Random.IntRange(17, 18);
-		case 17:
-			return 19;
-		case 18:
-			return 19;
-		case 19:
-			return 17;
-		case 20:
-			return 0;
-		case 21:
-			return Random.IntRange(22, 23);
-		case 22:
-			return 24;
-		case 23:
-			return 24;
-		case 24:
-			return 22;
-		default:
-			return 0;
-		}
-	}
-
-	public static int numberExits(int currDepth) {
-		switch (currDepth) {
-		case 0:
-			return 0;
-		case 1:
-			return 2;
-		case 2:
-			return 1;
-		case 3:
-			return 1;
-		case 4:
-			return 2;
-		case 5:
-			return 1;
-		case 6:
-			return 2;
-		case 7:
-			return 1;
-		case 8:
-			return 1;
-		case 9:
-			return 2;
-		case 10:
-			return 1;
-		case 11:
-			return 2;
-		case 12:
-			return 1;
-		case 13:
-			return 1;
-		case 14:
-			return 2;
-		case 15:
-			return 1;
-		case 16:
-			return 2;
-		case 17:
-			return 1;
-		case 18:
-			return 1;
-		case 19:
-			return 2;
-		case 20:
-			return 1;
-		case 21:
-			return 2;
-		case 22:
-			return 1;
-		case 23:
-			return 1;
-		case 24:
-			return 2;
-		case 25:
-			return 1;
-		case 26:
-			return 0;
-		default:
-			return 0;
-		}
-	}
-
-	public static int numberEntrances(int currDepth) {
-		switch (currDepth) {
-		case 0:
-			return 0;
-		case 1:
-			return 0;
-		case 2:
-			return 1;
-		case 3:
-			return 2;
-		case 4:
-			return 1;
-		case 5:
-			return 2;
-		case 6:
-			return 1;
-		case 7:
-			return 1;
-		case 8:
-			return 2;
-		case 9:
-			return 1;
-		case 10:
-			return 2;
-		case 11:
-			return 1;
-		case 12:
-			return 1;
-		case 13:
-			return 2;
-		case 14:
-			return 1;
-		case 15:
-			return 2;
-		case 16:
-			return 1;
-		case 17:
-			return 1;
-		case 18:
-			return 2;
-		case 19:
-			return 1;
-		case 20:
-			return 2;
-		case 21:
-			return 1;
-		case 22:
-			return 1;
-		case 23:
-			return 2;
-		case 24:
-			return 1;
-		case 25:
-			return 2;
-		case 26:
-			return 1;
-		default:
-			return 0;
-		}
-	}
-
-	public static boolean isLevelGenerated(int depth) {
-		return Statistics.floorGenerated[depth - 1];
-	}
-
-	public static void levelGenerated(int depth) {
-		Statistics.floorGenerated[depth - 1] = true;
-	}
-
 	public void create() {
 
 		resizingNeeded = false;
@@ -1595,11 +1207,399 @@ public abstract class Level implements Bundlable {
 		}
 	}
 
-	//TODO work on these two functions for correct entrance exit linking
+	// Easier to take just a random floor if there are two exits or entrances
+	public static int descendTo(int currDepth) {
+		switch (currDepth) {
+		case 0:
+			return 1;
+		case 1:
+			if (Dungeon.hero.pos == Dungeon.level.exit) {
+				return 2;
+			} else {
+				return 3;
+			}
+		case 2:
+			return 4;
+		case 3:
+			return 5;
+		case 4:
+			if (Dungeon.hero.pos == Dungeon.level.exit) {
+				return 3;
+			} else {
+				return 5;
+			}
+		case 5:
+			return 6;
+		case 6:
+			if (Dungeon.hero.pos == Dungeon.level.exit) {
+				return 7;
+			} else {
+				return 8;
+			}
+		case 7:
+			return 9;
+		case 8:
+			return 10;
+		case 9:
+			if (Dungeon.hero.pos == Dungeon.level.exit) {
+				return 8;
+			} else {
+				return 10;
+			}
+		case 10:
+			return 11;
+		case 11:
+			if (Dungeon.hero.pos == Dungeon.level.exit) {
+				return 12;
+			} else {
+				return 13;
+			}
+		case 12:
+			return 14;
+		case 13:
+			return 15;
+		case 14:
+			if (Dungeon.hero.pos == Dungeon.level.exit) {
+				return 13;
+			} else {
+				return 15;
+			}
+		case 15:
+			return 16;
+		case 16:
+			if (Dungeon.hero.pos == Dungeon.level.exit) {
+				return 17;
+			} else {
+				return 18;
+			}
+		case 17:
+			return 19;
+		case 18:
+			return 20;
+		case 19:
+			if (Dungeon.hero.pos == Dungeon.level.exit) {
+				return 18;
+			} else {
+				return 20;
+			}
+		case 20:
+			return 21;
+		case 21:
+			if (Dungeon.hero.pos == Dungeon.level.exit) {
+				return 22;
+			} else {
+				return 23;
+			}
+		case 22:
+			return 24;
+		case 23:
+			return 25;
+		case 24:
+			if (Dungeon.hero.pos == Dungeon.level.exit) {
+				return 23;
+			} else {
+				return 25;
+			}
+		case 25:
+			return 26;
+		default:
+			return 0;
+		}
+	}
+
+	public static int ascendTo(int currDepth) {
+		switch (currDepth) {
+		case 0:
+			return 0;
+		case 1:
+			return 0;
+		case 2:
+			return 1;
+		case 3:
+			if (Dungeon.hero.pos == Dungeon.level.entrance) {
+				return 1;
+			} else {
+				return 4;
+			}
+		case 4:
+			return 2;
+		case 5:
+			if (Dungeon.hero.pos == Dungeon.level.entrance) {
+				return 3;
+			} else {
+				return 4;
+			}
+		case 6:
+			return 5;
+		case 7:
+			return 6;
+		case 8:
+			if (Dungeon.hero.pos == Dungeon.level.entrance) {
+				return 6;
+			} else {
+				return 9;
+			}
+		case 9:
+			return 7;
+		case 10:
+			if (Dungeon.hero.pos == Dungeon.level.entrance) {
+				return 8;
+			} else {
+				return 9;
+			}
+		case 11:
+			return 10;
+		case 12:
+			return 11;
+		case 13:
+			if (Dungeon.hero.pos == Dungeon.level.entrance) {
+				return 11;
+			} else {
+				return 14;
+			}
+		case 14:
+			return 12;
+		case 15:
+			if (Dungeon.hero.pos == Dungeon.level.entrance) {
+				return 13;
+			} else {
+				return 14;
+			}
+		case 16:
+			return 15;
+		case 17:
+			return 16;
+		case 18:
+			if (Dungeon.hero.pos == Dungeon.level.entrance) {
+				return 16;
+			} else {
+				return 19;
+			}
+		case 19:
+			return 17;
+		case 20:
+			if (Dungeon.hero.pos == Dungeon.level.entrance) {
+				return 18;
+			} else {
+				return 19;
+			}
+		case 21:
+			return 20;
+		case 22:
+			return 21;
+		case 23:
+			if (Dungeon.hero.pos == Dungeon.level.entrance) {
+				return 21;
+			} else {
+				return 24;
+			}
+		case 24:
+			return 22;
+		case 25:
+			if (Dungeon.hero.pos == Dungeon.level.entrance) {
+				return 23;
+			} else {
+				return 24;
+			}
+		case 26:
+			return 25;
+		default:
+			return 0;
+		}
+	}
+
+	public static int dropDownTo(int currDepth) {
+		switch (currDepth) {
+		case 0:
+			return 1;
+		case 1:
+			return Random.IntRange(2, 3);
+		case 2:
+			return 4;
+		case 3:
+			return 4;
+		case 4:
+			return 3;
+		case 5:
+			return 0;
+		case 6:
+			return Random.IntRange(6, 7);
+		case 7:
+			return 9;
+		case 8:
+			return 9;
+		case 9:
+			return 8;
+		case 10:
+			return 0;
+		case 11:
+			return Random.IntRange(12, 13);
+		case 12:
+			return 14;
+		case 13:
+			return 14;
+		case 14:
+			return 12;
+		case 15:
+			return 0;
+		case 16:
+			return Random.IntRange(17, 18);
+		case 17:
+			return 19;
+		case 18:
+			return 19;
+		case 19:
+			return 17;
+		case 20:
+			return 0;
+		case 21:
+			return Random.IntRange(22, 23);
+		case 22:
+			return 24;
+		case 23:
+			return 24;
+		case 24:
+			return 22;
+		default:
+			return 0;
+		}
+	}
+
+	public static int numberExits(int currDepth) {
+		switch (currDepth) {
+		case 0:
+			return 0;
+		case 1:
+			return 2;
+		case 2:
+			return 1;
+		case 3:
+			return 1;
+		case 4:
+			return 2;
+		case 5:
+			return 1;
+		case 6:
+			return 2;
+		case 7:
+			return 1;
+		case 8:
+			return 1;
+		case 9:
+			return 2;
+		case 10:
+			return 1;
+		case 11:
+			return 2;
+		case 12:
+			return 1;
+		case 13:
+			return 1;
+		case 14:
+			return 2;
+		case 15:
+			return 1;
+		case 16:
+			return 2;
+		case 17:
+			return 1;
+		case 18:
+			return 1;
+		case 19:
+			return 2;
+		case 20:
+			return 1;
+		case 21:
+			return 2;
+		case 22:
+			return 1;
+		case 23:
+			return 1;
+		case 24:
+			return 2;
+		case 25:
+			return 1;
+		case 26:
+			return 0;
+		default:
+			return 0;
+		}
+	}
+
+	public static int numberEntrances(int currDepth) {
+		switch (currDepth) {
+		case 0:
+			return 0;
+		case 1:
+			return 0;
+		case 2:
+			return 1;
+		case 3:
+			return 2;
+		case 4:
+			return 1;
+		case 5:
+			return 2;
+		case 6:
+			return 1;
+		case 7:
+			return 1;
+		case 8:
+			return 2;
+		case 9:
+			return 1;
+		case 10:
+			return 2;
+		case 11:
+			return 1;
+		case 12:
+			return 1;
+		case 13:
+			return 2;
+		case 14:
+			return 1;
+		case 15:
+			return 2;
+		case 16:
+			return 1;
+		case 17:
+			return 1;
+		case 18:
+			return 2;
+		case 19:
+			return 1;
+		case 20:
+			return 2;
+		case 21:
+			return 1;
+		case 22:
+			return 1;
+		case 23:
+			return 2;
+		case 24:
+			return 1;
+		case 25:
+			return 2;
+		case 26:
+			return 1;
+		default:
+			return 0;
+		}
+	}
+
+	public static boolean isLevelGenerated(int depth) {
+		return Statistics.floorGenerated[depth - 1];
+	}
+
+	public static void levelGenerated(int depth) {
+		Statistics.floorGenerated[depth - 1] = true;
+	}
+
+	// TODO work on these two functions for correct entrance exit linking
 	public int getDestEntrance(int currDepth, int currPos, int posExit,
 			int posExit2) {
 		int num = currDepth % 5;
-		int mul = currDepth / 5;
+		// int mul = currDepth / 5;
 
 		switch (num) {
 		case 0:
@@ -1620,10 +1620,10 @@ public abstract class Level implements Bundlable {
 	public int getDestExit(int currDepth, int currPos, int posEntrance,
 			int posEntrance2) {
 		int num = currDepth % 5;
-		int mul = currDepth / 5;
+		// int mul = currDepth / 5;
 		switch (num) {
 		case 0:
-			if(currPos == posEntrance){
+			if (currPos == posEntrance) {
 				return this.exit;
 			} else {
 				return this.exit2;
@@ -1633,10 +1633,10 @@ public abstract class Level implements Bundlable {
 		case 2:
 			return this.exit;
 		case 3:
-			if(currPos == posEntrance){
-				return this.exit;
-			} else {
+			if (currPos == posEntrance) {
 				return this.exit2;
+			} else {
+				return this.exit;
 			}
 		case 4:
 			return this.exit;

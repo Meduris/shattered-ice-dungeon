@@ -84,13 +84,15 @@ public abstract class RegularLevel extends Level {
 			} while (roomExit == roomEntrance || roomExit.width() < 4
 					|| roomExit.height() < 4);
 
-			if (Level.numberEntrances(Dungeon.depth) == 2) {
+			if (Level.numberEntrances(Dungeon.depth) == 2 && !Dungeon.bossLevel()) {
 				do {
 					roomEntrance2 = Random.element(rooms);
 				} while (roomEntrance2 == roomEntrance
 						|| roomEntrance2 == roomExit
 						|| roomEntrance2.width() < 4
 						|| roomEntrance2.height() < 4);
+			} else if (Level.numberEntrances(Dungeon.depth) == 2 && Dungeon.bossLevel()) {
+				roomEntrance2 = roomEntrance;
 			}
 
 			if (Level.numberExits(Dungeon.depth) == 2) {
@@ -126,20 +128,20 @@ public abstract class RegularLevel extends Level {
 		Graph.buildDistanceMap(rooms, roomExit);
 		List<Room> path = Graph.buildPath(rooms, roomEntrance, roomExit);
 
-		if (Level.numberEntrances(Dungeon.depth) == 2 && roomEntrance2 != null) {
-			path.add(path.size() / 2, roomEntrance2);
-		}
-
-		if (Level.numberExits(Dungeon.depth) == 2 && roomExit2 != null) {
-			path.add(roomExit2);
-		}
+//		if (Level.numberEntrances(Dungeon.depth) == 2 && roomEntrance2 != null) {
+//			path.add(path.size() / 2, roomEntrance2);
+//		}
+//
+//		if (Level.numberExits(Dungeon.depth) == 2 && roomExit2 != null) {
+//			path.add(roomExit2);
+//		}
 
 		Room room = roomEntrance;
 		for (Room next : path) {
 			room.connect(next);
 			room = next;
 			connected.add(room);
-		}
+		}		
 
 		Graph.setPrice(path, roomEntrance.distance);
 
@@ -153,6 +155,20 @@ public abstract class RegularLevel extends Level {
 			connected.add(room);
 		}
 
+//		if (Level.numberEntrances(Dungeon.depth) == 2 && roomEntrance2 != null) {
+//			room = Random.element(connected);
+//			room.connect(roomEntrance2);
+//			room = roomEntrance2;
+//			connected.add(room);
+//		}
+//		
+//		if (Level.numberEntrances(Dungeon.depth) == 2 && roomExit2 != null){
+//			room = Random.element(connected);
+//			room.connect(roomExit2);
+//			room = roomExit2;
+//			connected.add(room);
+//		}
+		
 		int nConnected = (int) (rooms.size() * Random.Float(0.5f, 0.7f));
 		while (connected.size() < nConnected) {
 
@@ -210,14 +226,14 @@ public abstract class RegularLevel extends Level {
 	protected void placeSign() {
 		while (true) {
 			int pos = roomEntrance.random();
-			if (pos != entrance && traps.get(pos) == null
+			if (pos != entrance && pos != entrance2 && traps.get(pos) == null
 					&& findMob(pos) == null) {
 				map[pos] = Terrain.SIGN;
 				break;
 			}
 		}
 
-		if (Level.numberEntrances(Dungeon.depth) == 2) {
+		if (Level.numberEntrances(Dungeon.depth) == 2 && !Dungeon.bossLevel()) {
 			while (true) {
 				int pos = roomEntrance2.random();
 				if (pos != entrance2 && traps.get(pos) == null
