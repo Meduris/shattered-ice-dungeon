@@ -56,9 +56,9 @@ public abstract class RegularLevel extends Level {
 	protected HashSet<Room> rooms;
 
 	protected Room roomEntrance;
-//	protected Room roomEntrance2;
+	protected Room roomEntrance2 = null;
 	protected Room roomExit;
-//	protected Room roomExit2;
+	protected Room roomExit2 = null;
 
 	protected ArrayList<Room.Type> specials;
 
@@ -83,23 +83,23 @@ public abstract class RegularLevel extends Level {
 				roomExit = Random.element(rooms);
 			} while (roomExit == roomEntrance || roomExit.width() < 4
 					|| roomExit.height() < 4);
-			
-//			if (Level.numberExits(Dungeon.depth) == 2) {
-//				do {
-//					roomEntrance2 = Random.element(rooms);
-//				} while (roomEntrance2 == roomEntrance
-//						|| roomEntrance2 == roomExit
-//						|| roomEntrance2.width() < 4
-//						|| roomEntrance2.height() < 4);
-//			}
 
-//			if (Level.numberEntrances(Dungeon.depth) == 2) {
-//				do {
-//					roomExit2 = Random.element(rooms);
-//				} while (roomExit2 == roomEntrance || roomExit2 == roomExit
-//						|| roomExit2 == roomEntrance2 || roomExit2.width() < 4
-//						|| roomExit2.height() < 4);
-//			}
+			if (Level.numberExits(Dungeon.depth) == 2) {
+				do {
+					roomEntrance2 = Random.element(rooms);
+				} while (roomEntrance2 == roomEntrance
+						|| roomEntrance2 == roomExit
+						|| roomEntrance2.width() < 4
+						|| roomEntrance2.height() < 4);
+			}
+
+			if (Level.numberEntrances(Dungeon.depth) == 2) {
+				do {
+					roomExit2 = Random.element(rooms);
+				} while (roomExit2 == roomEntrance || roomExit2 == roomExit
+						|| roomExit2 == roomEntrance2 || roomExit2.width() < 4
+						|| roomExit2.height() < 4);
+			}
 
 			Graph.buildDistanceMap(rooms, roomExit);
 			distance = roomEntrance.distance();
@@ -111,15 +111,23 @@ public abstract class RegularLevel extends Level {
 		} while (distance < minDistance);
 
 		roomEntrance.type = Type.ENTRANCE;
-//		roomEntrance2.type = Type.ENTRANCE;
+		roomEntrance2.type = Type.ENTRANCE;
 		roomExit.type = Type.EXIT;
-//		roomExit2.type = Type.EXIT;
+		roomExit2.type = Type.EXIT;
 
 		HashSet<Room> connected = new HashSet<Room>();
 		connected.add(roomEntrance);
 
 		Graph.buildDistanceMap(rooms, roomExit);
 		List<Room> path = Graph.buildPath(rooms, roomEntrance, roomExit);
+
+		if (Level.numberEntrances(Dungeon.depth) == 2 && roomEntrance2 != null) {
+			path.add(path.size() / 2, roomEntrance2);
+		}
+
+		if (Level.numberExits(Dungeon.depth) == 2 && roomExit2 != null) {
+			path.add(roomExit2);
+		}
 
 		Room room = roomEntrance;
 		for (Room next : path) {
@@ -204,16 +212,16 @@ public abstract class RegularLevel extends Level {
 			}
 		}
 
-//		if (Level.numberEntrances(Dungeon.depth) == 2) {
-//			while (true) {
-//				int pos = roomEntrance2.random();
-//				if (pos != entrance2 && traps.get(pos) == null
-//						&& findMob(pos) == null) {
-//					map[pos] = Terrain.SIGN;
-//					break;
-//				}
-//			}
-//		}
+		if (Level.numberEntrances(Dungeon.depth) == 2) {
+			while (true) {
+				int pos = roomEntrance2.random();
+				if (pos != entrance2 && traps.get(pos) == null
+						&& findMob(pos) == null) {
+					map[pos] = Terrain.SIGN;
+					break;
+				}
+			}
+		}
 	}
 
 	protected boolean initRooms() {

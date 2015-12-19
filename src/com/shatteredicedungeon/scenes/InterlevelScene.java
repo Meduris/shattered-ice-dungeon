@@ -392,9 +392,9 @@ public class InterlevelScene extends PixelScene {
 			if(noStory){
 				Dungeon.chapters.add(WndStory.ID_SEWERS);
 				noStory = false;
-			} else {
-				Dungeon.saveLevel();
 			}
+		} else {
+			Dungeon.saveLevel();
 		}
 		
 		Level level;
