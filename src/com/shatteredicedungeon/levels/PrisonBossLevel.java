@@ -37,6 +37,7 @@ import com.shatteredicedungeon.levels.traps.Trap;
 import com.shatteredicedungeon.scenes.GameScene;
 import com.shatteredicedungeon.ui.CustomTileVisual;
 import com.shatteredicedungeon.ui.HealthIndicator;
+import com.shatteredicedungeon.utils.GLog;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
@@ -50,52 +51,49 @@ public class PrisonBossLevel extends Level {
 		color2 = 0x88924c;
 	}
 
-	private enum State{
-		START,
-		FIGHT_START,
-		MAZE,
-		FIGHT_ARENA,
-		WON
+	private enum State {
+		START, FIGHT_START, MAZE, FIGHT_ARENA, WON
 	}
-	
+
 	private State state;
 	private Tengu tengu;
 
-	//keep track of that need to be removed as the level is changed. We dump 'em back into the level at the end.
+	// keep track of that need to be removed as the level is changed. We dump
+	// 'em back into the level at the end.
 	private ArrayList<Item> storedItems = new ArrayList<>();
-	
+
 	@Override
 	public String tilesTex() {
 		return Assets.TILES_PRISON;
 	}
-	
+
 	@Override
 	public String waterTex() {
 		return Assets.WATER_PRISON;
 	}
-	
-	private static final String STATE	        = "state";
-	private static final String TENGU	        = "tengu";
-	private static final String STORED_ITEMS    = "storeditems";
-	
+
+	private static final String STATE = "state";
+	private static final String TENGU = "tengu";
+	private static final String STORED_ITEMS = "storeditems";
+
 	@Override
-	public void storeInBundle( Bundle bundle ) {
+	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
 		bundle.put(STATE, state);
-		bundle.put( TENGU, tengu );
-		bundle.put( STORED_ITEMS, storedItems);
+		bundle.put(TENGU, tengu);
+		bundle.put(STORED_ITEMS, storedItems);
 	}
-	
-	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-		super.restoreFromBundle(bundle);
-		state = bundle.getEnum( STATE, State.class );
 
-		//in some states tengu won't be in the world, in others he will be.
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		state = bundle.getEnum(STATE, State.class);
+
+		// in some states tengu won't be in the world, in others he will be.
 		if (state == State.START || state == State.MAZE) {
-			tengu = (Tengu)bundle.get( TENGU );
+			tengu = (Tengu) bundle.get(TENGU);
 		} else {
-			for (Mob mob : mobs){
+			for (Mob mob : mobs) {
 				if (mob instanceof Tengu) {
 					tengu = (Tengu) mob;
 					break;
@@ -103,22 +101,23 @@ public class PrisonBossLevel extends Level {
 			}
 		}
 
-		for (Bundlable item : bundle.getCollection(STORED_ITEMS)){
-			storedItems.add( (Item)item );
+		for (Bundlable item : bundle.getCollection(STORED_ITEMS)) {
+			storedItems.add((Item) item);
 		}
 	}
-	
+
 	@Override
 	protected boolean build() {
-		
+
 		map = MAP_START.clone();
 		decorate();
 
 		buildFlagMaps();
 		cleanWalls();
-
+		
 		state = State.START;
-		entrance = 5+2*32;
+		entrance = 6 + 32;
+		entrance2 = 4 + 32;
 		exit = 0;
 
 		resetTraps();
@@ -128,14 +127,15 @@ public class PrisonBossLevel extends Level {
 
 	@Override
 	protected void decorate() {
-		//do nothing, all decorations are hard-coded.
+		// do nothing, all decorations are hard-coded.
 	}
 
 	@Override
 	protected void createMobs() {
-		tengu = new Tengu(); //We want to keep track of tengu independently of other mobs, he's not always in the level.
+		tengu = new Tengu(); // We want to keep track of tengu independently of
+								// other mobs, he's not always in the level.
 	}
-	
+
 	public Actor respawner() {
 		return null;
 	}
@@ -145,52 +145,52 @@ public class PrisonBossLevel extends Level {
 		drop(new IronKey(10), randomPrisonCell());
 	}
 
-	private int randomPrisonCell(){
-		int pos = 1+8*32; //initial position at top-left room
+	private int randomPrisonCell() {
+		int pos = 1 + 8 * 32; // initial position at top-left room
 
-		//randomly assign a room.
-		pos += Random.Int(4)*(4*32); //one of the 4 rows
-		pos += Random.Int(2)*6; // one of the 2 columns
+		// randomly assign a room.
+		pos += Random.Int(4) * (4 * 32); // one of the 4 rows
+		pos += Random.Int(2) * 6; // one of the 2 columns
 
-		//and then a certain tile in that room.
-		pos += Random.Int(3) + Random.Int(3)*32;
+		// and then a certain tile in that room.
+		pos += Random.Int(3) + Random.Int(3) * 32;
 
 		return pos;
 	}
 
 	@Override
-	public void press( int cell, Char ch ) {
+	public void press(int cell, Char ch) {
 
 		super.press(cell, ch);
 
-		if (ch == Dungeon.hero){
-			//hero enters tengu's chamber
+		if (ch == Dungeon.hero) {
+			// hero enters tengu's chamber
 			if (state == State.START
-					&& ((Room)new Room().set(2, 25, 8, 32)).inside(cell)){
+					&& ((Room) new Room().set(2, 25, 8, 32)).inside(cell)) {
 				progress();
 			}
 
-			//hero finishes the maze
+			// hero finishes the maze
 			else if (state == State.MAZE
-					&& ((Room)new Room().set(4, 1, 7, 4)).inside(cell)){
+					&& ((Room) new Room().set(4, 1, 7, 4)).inside(cell)) {
 				progress();
 			}
 		}
 	}
 
 	@Override
-	public Heap drop( Item item, int cell ) {
-		
-		return super.drop( item, cell );
+	public Heap drop(Item item, int cell) {
+
+		return super.drop(item, cell);
 	}
-	
+
 	@Override
 	public int randomRespawnCell() {
-		return 5+3*32;
+		return 5 + 3 * 32;
 	}
-	
+
 	@Override
-	public String tileName( int tile ) {
+	public String tileName(int tile) {
 		switch (tile) {
 		case Terrain.WATER:
 			return "Dark cold water.";
@@ -198,7 +198,7 @@ public class PrisonBossLevel extends Level {
 			return super.tileName(tile);
 		}
 	}
-	
+
 	@Override
 	public String tileDesc(int tile) {
 		switch (tile) {
@@ -209,13 +209,13 @@ public class PrisonBossLevel extends Level {
 		}
 	}
 
-	private void resetTraps(){
-		for (Trap trap : traps.values()){
+	private void resetTraps() {
+		for (Trap trap : traps.values()) {
 			trap.sprite.kill();
 		}
 		traps.clear();
 
-		for (int i = 0; i < Level.LENGTH; i++){
+		for (int i = 0; i < Level.LENGTH; i++) {
 			if (map[i] == Terrain.INACTIVE_TRAP) {
 				Trap t = new SpearTrap().reveal();
 				t.active = false;
@@ -225,29 +225,34 @@ public class PrisonBossLevel extends Level {
 		}
 	}
 
-	private void changeMap(int[] map){
+	private void changeMap(int[] map) {
 		this.map = map.clone();
 		GameScene.resetMap();
 		buildFlagMaps();
 		cleanWalls();
 
-		exit = entrance = 0;
-		for (int i = 0; i < LENGTH; i ++)
-			if (map[i] == Terrain.ENTRANCE)
+		boolean firstEntranceFound = false;
+
+		exit = entrance = entrance2 = 0;
+		for (int i = 0; i < LENGTH; i++){
+			if (map[i] == Terrain.ENTRANCE && !firstEntranceFound) {
+				entrance2 = i;
+				firstEntranceFound = true;
+			} else if (map[i] == Terrain.ENTRANCE && firstEntranceFound)
 				entrance = i;
 			else if (map[i] == Terrain.EXIT)
 				exit = i;
-
+		}
 		visited = mapped = new boolean[LENGTH];
-		addVisuals(); //this also resets existing visuals
+		addVisuals(); // this also resets existing visuals
 		resetTraps();
 
 		Dungeon.observe();
 	}
 
-	private void clearHeaps(Room safeArea){
-		for (Heap heap : heaps.values()){
-			if (safeArea == null || !safeArea.inside(heap.pos)){
+	private void clearHeaps(Room safeArea) {
+		for (Heap heap : heaps.values()) {
+			if (safeArea == null || !safeArea.inside(heap.pos)) {
 				for (Item item : heap.items)
 					storedItems.add(item);
 				heap.destroy();
@@ -255,86 +260,88 @@ public class PrisonBossLevel extends Level {
 		}
 	}
 
-	public void progress(){
-		switch (state){
-			//moving to the beginning of the fight
-			case START:
-				seal();
-				set(5 + 25 * 32, Terrain.LOCKED_DOOR);
-				GameScene.updateMap(5 + 25 * 32);
+	public void progress() {
+		switch (state) {
+		// moving to the beginning of the fight
+		case START:
+			seal();
+			set(5 + 25 * 32, Terrain.LOCKED_DOOR);
+			GameScene.updateMap(5 + 25 * 32);
 
-				tengu.state = tengu.HUNTING;
-				tengu.pos = 5 + 28*32; //in the middle of the fight room
-				GameScene.add( tengu );
-				tengu.notice();
+			tengu.state = tengu.HUNTING;
+			tengu.pos = 5 + 28 * 32; // in the middle of the fight room
+			GameScene.add(tengu);
+			tengu.notice();
 
-				state = State.FIGHT_START;
-				break;
+			state = State.FIGHT_START;
+			break;
 
-			//halfway through, move to the maze
-			case FIGHT_START:
+		// halfway through, move to the maze
+		case FIGHT_START:
 
-				changeMap(MAP_MAZE);
-				clearHeaps((Room)new Room().set(0, 5, 8, 32)); //clear all but the entrance
+			changeMap(MAP_MAZE);
+			clearHeaps((Room) new Room().set(0, 5, 8, 32)); // clear all but the
+															// entrance
 
-				Actor.remove(tengu);
-				mobs.remove(tengu);
-				HealthIndicator.instance.target(null);
-				tengu.sprite.kill();
+			Actor.remove(tengu);
+			mobs.remove(tengu);
+			HealthIndicator.instance.target(null);
+			tengu.sprite.kill();
 
-				GameScene.flash(0xFFFFFF);
-				Sample.INSTANCE.play(Assets.SND_BLAST);
+			GameScene.flash(0xFFFFFF);
+			Sample.INSTANCE.play(Assets.SND_BLAST);
 
-				state = State.MAZE;
-				break;
+			state = State.MAZE;
+			break;
 
-			//maze beaten, moving to the arena
-			case MAZE:
-				Dungeon.hero.interrupt();
-				Dungeon.hero.pos += 9+3*32;
-				Dungeon.hero.sprite.interruptMotion();
-				Dungeon.hero.sprite.place(Dungeon.hero.pos);
+		// maze beaten, moving to the arena
+		case MAZE:
+			Dungeon.hero.interrupt();
+			Dungeon.hero.pos += 9 + 3 * 32;
+			Dungeon.hero.sprite.interruptMotion();
+			Dungeon.hero.sprite.place(Dungeon.hero.pos);
 
-				changeMap(MAP_ARENA);
-				clearHeaps(null);
+			changeMap(MAP_ARENA);
+			clearHeaps(null);
 
-				tengu.state = tengu.HUNTING;
-				do {
-					tengu.pos = Random.Int(LENGTH);
-				} while (solid[tengu.pos] || distance(tengu.pos, Dungeon.hero.pos) < 8);
-				GameScene.add(tengu);
-				tengu.notice();
+			tengu.state = tengu.HUNTING;
+			do {
+				tengu.pos = Random.Int(LENGTH);
+			} while (solid[tengu.pos]
+					|| distance(tengu.pos, Dungeon.hero.pos) < 8);
+			GameScene.add(tengu);
+			tengu.notice();
 
-				state = State.FIGHT_ARENA;
-				break;
+			state = State.FIGHT_ARENA;
+			break;
 
-			//arena ended, fight over.
-			case FIGHT_ARENA:
-				unseal();
+		// arena ended, fight over.
+		case FIGHT_ARENA:
+			unseal();
 
-				CustomTileVisual vis = new exitVisual();
-				vis.pos(7, 7);
-				customTiles.add(vis);
-				((GameScene)ShatteredIceDungeon.scene()).addCustomTile(vis);
+			CustomTileVisual vis = new exitVisual();
+			vis.pos(7, 7);
+			customTiles.add(vis);
+			((GameScene) ShatteredIceDungeon.scene()).addCustomTile(vis);
 
-				Dungeon.hero.interrupt();
-				Dungeon.hero.pos = 5+27*32;
-				Dungeon.hero.sprite.interruptMotion();
-				Dungeon.hero.sprite.place(Dungeon.hero.pos);
+			Dungeon.hero.interrupt();
+			Dungeon.hero.pos = 5 + 27 * 32;
+			Dungeon.hero.sprite.interruptMotion();
+			Dungeon.hero.sprite.place(Dungeon.hero.pos);
 
-				tengu.pos = 5+28*32;
-				tengu.sprite.place(5 + 28 * 32);
+			tengu.pos = 5 + 28 * 32;
+			tengu.sprite.place(5 + 28 * 32);
 
-				changeMap(MAP_END);
-				clearHeaps(null);
+			changeMap(MAP_END);
+			clearHeaps(null);
 
-				tengu.die(Dungeon.hero);
+			tengu.die(Dungeon.hero);
 
-				for (Item item : storedItems)
-					drop(item, randomPrisonCell());
+			for (Item item : storedItems)
+				drop(item, randomPrisonCell());
 
-				state = State.WON;
-				break;
+			state = State.WON;
+			break;
 		}
 	}
 
@@ -348,7 +355,7 @@ public class PrisonBossLevel extends Level {
 	private static final int W = Terrain.WALL;
 	private static final int D = Terrain.DOOR;
 	private static final int L = Terrain.LOCKED_DOOR;
-	private static final int _ = Terrain.EMPTY; //for readability
+	private static final int _ = Terrain.EMPTY; // for readability
 	private static final int S = Terrain.SIGN;
 
 	private static final int T = Terrain.INACTIVE_TRAP;
@@ -361,8 +368,8 @@ public class PrisonBossLevel extends Level {
 
 	private static final int[] MAP_START =
 			{       W, W, W, W, W, M, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
+					W, W, W, W, E, _, E, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
 					W, W, W, W, _, _, _, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
-					W, W, W, W, _, E, _, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
 					W, W, W, W, _, _, _, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
 					W, W, W, W, S, _, _, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
 					W, W, W, W, W, D, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
@@ -464,8 +471,8 @@ public class PrisonBossLevel extends Level {
 
 	private static final int[] MAP_END =
 			{       W, W, W, W, W, M, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
+					W, W, W, W, E, _, E, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
 					W, W, W, W, _, _, _, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
-					W, W, W, W, _, E, _, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
 					W, W, W, W, _, _, _, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
 					W, W, W, W, S, _, _, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
 					W, W, W, W, W, D, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
@@ -496,8 +503,7 @@ public class PrisonBossLevel extends Level {
 					W, W, W, T, T, T, T, T, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,
 					W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W};
 
-
-	public static class exitVisual extends CustomTileVisual{
+	public static class exitVisual extends CustomTileVisual {
 
 		{
 			name = "prison exit";

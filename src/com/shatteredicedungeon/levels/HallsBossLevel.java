@@ -52,6 +52,7 @@ public class HallsBossLevel extends Level {
 	private static final int ROOM_BOTTOM	= HEIGHT / 2 + 1;
 	
 	private int stairs = -1;
+	private int stairs2 = -1;
 	private boolean enteredArena = false;
 	private boolean keyDropped = false;
 	
@@ -66,6 +67,7 @@ public class HallsBossLevel extends Level {
 	}
 	
 	private static final String STAIRS	= "stairs";
+	private static final String STAIRS2 = "stairs2";
 	private static final String ENTERED	= "entered";
 	private static final String DROPPED	= "droppped";
 	
@@ -73,6 +75,7 @@ public class HallsBossLevel extends Level {
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle( bundle );
 		bundle.put( STAIRS, stairs );
+		bundle.put(STAIRS2, stairs2);
 		bundle.put( ENTERED, enteredArena );
 		bundle.put( DROPPED, keyDropped );
 	}
@@ -81,6 +84,7 @@ public class HallsBossLevel extends Level {
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
 		stairs = bundle.getInt( STAIRS );
+		stairs2 = bundle.getInt(STAIRS2);
 		enteredArena = bundle.getBoolean( ENTERED );
 		keyDropped = bundle.getBoolean( DROPPED );
 	}
@@ -113,9 +117,12 @@ public class HallsBossLevel extends Level {
 		Painter.fill( this, ROOM_LEFT, ROOM_TOP,
 			ROOM_RIGHT - ROOM_LEFT + 1, ROOM_BOTTOM - ROOM_TOP + 1, Terrain.EMPTY );
 		
-		entrance = Random.Int( ROOM_LEFT + 1, ROOM_RIGHT - 1 ) +
-			Random.Int( ROOM_TOP + 1, ROOM_BOTTOM - 1 ) * WIDTH;
+//		entrance = Random.Int( ROOM_LEFT + 1, ROOM_RIGHT - 1 ) +
+//			Random.Int( ROOM_TOP + 1, ROOM_BOTTOM - 1 ) * WIDTH;
+		entrance = ROOM_RIGHT + ROOM_TOP * WIDTH;
+		entrance2 = ROOM_LEFT + ROOM_TOP * WIDTH;
 		map[entrance] = Terrain.ENTRANCE;
+		map[entrance2] = Terrain.ENTRANCE;
 		
 		boolean[] patch = Patch.generate( 0.45f, 6 );
 		for (int i=0; i < LENGTH; i++) {
@@ -152,7 +159,7 @@ public class HallsBossLevel extends Level {
 			int pos;
 			do {
 				pos = Random.IntRange( ROOM_LEFT, ROOM_RIGHT ) + Random.IntRange( ROOM_TOP + 1, ROOM_BOTTOM ) * WIDTH;
-			} while (pos == entrance || map[pos] == Terrain.SIGN);
+			} while (pos == entrance || pos == entrance2 || map[pos] == Terrain.SIGN);
 			drop( item, pos ).type = Heap.Type.REMAINS;
 		}
 	}
@@ -172,7 +179,7 @@ public class HallsBossLevel extends Level {
 		
 		super.press( cell, hero );
 		
-		if (!enteredArena && hero == Dungeon.hero && cell != entrance) {
+		if (!enteredArena && hero == Dungeon.hero && cell != entrance && cell != entrance2) {
 			
 			enteredArena = true;
 			seal();
@@ -186,6 +193,7 @@ public class HallsBossLevel extends Level {
 				doMagic( i * WIDTH + ROOM_RIGHT + 1 );
 			}
 			doMagic( entrance );
+			doMagic(entrance2);
 			GameScene.updateMap();
 
 			Dungeon.observe();
@@ -200,7 +208,9 @@ public class HallsBossLevel extends Level {
 			boss.spawnFists();
 			
 			stairs = entrance;
+			stairs2 = entrance2; 
 			entrance = -1;
+			entrance2 = -1;
 		}
 	}
 	
@@ -217,8 +227,11 @@ public class HallsBossLevel extends Level {
 			unseal();
 			
 			entrance = stairs;
+			entrance2 = stairs2;
 			set( entrance, Terrain.ENTRANCE );
+			set( entrance2, Terrain.ENTRANCE );
 			GameScene.updateMap( entrance );
+			GameScene.updateMap(entrance2);
 		}
 		
 		return super.drop( item, cell );

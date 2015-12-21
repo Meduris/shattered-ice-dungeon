@@ -1285,11 +1285,7 @@ public abstract class Level implements Bundlable {
 		case 20:
 			return 21;
 		case 21:
-			if (Dungeon.hero.pos == Dungeon.level.exit) {
-				return 22;
-			} else {
-				return 23;
-			}
+			return 22;
 		case 22:
 			return 24;
 		case 23:
@@ -1388,11 +1384,7 @@ public abstract class Level implements Bundlable {
 		case 22:
 			return 21;
 		case 23:
-			if (Dungeon.hero.pos == Dungeon.level.entrance) {
-				return 21;
-			} else {
-				return 24;
-			}
+			return 24;
 		case 24:
 			return 22;
 		case 25:
@@ -1408,62 +1400,62 @@ public abstract class Level implements Bundlable {
 		}
 	}
 
-	public static int dropDownTo(int currDepth) {
-		switch (currDepth) {
-		case 0:
-			return 1;
-		case 1:
-			return Random.IntRange(2, 3);
-		case 2:
-			return 4;
-		case 3:
-			return 4;
-		case 4:
-			return 3;
-		case 5:
-			return 0;
-		case 6:
-			return Random.IntRange(6, 7);
-		case 7:
-			return 9;
-		case 8:
-			return 9;
-		case 9:
-			return 8;
-		case 10:
-			return 0;
-		case 11:
-			return Random.IntRange(12, 13);
-		case 12:
-			return 14;
-		case 13:
-			return 14;
-		case 14:
-			return 12;
-		case 15:
-			return 0;
-		case 16:
-			return Random.IntRange(17, 18);
-		case 17:
-			return 19;
-		case 18:
-			return 19;
-		case 19:
-			return 17;
-		case 20:
-			return 0;
-		case 21:
-			return Random.IntRange(22, 23);
-		case 22:
-			return 24;
-		case 23:
-			return 24;
-		case 24:
-			return 22;
-		default:
-			return 0;
-		}
-	}
+	// public static int dropDownTo(int currDepth) {
+	// switch (currDepth) {
+	// case 0:
+	// return 1;
+	// case 1:
+	// return Random.IntRange(2, 3);
+	// case 2:
+	// return 4;
+	// case 3:
+	// return 4;
+	// case 4:
+	// return 3;
+	// case 5:
+	// return 0;
+	// case 6:
+	// return Random.IntRange(6, 7);
+	// case 7:
+	// return 9;
+	// case 8:
+	// return 9;
+	// case 9:
+	// return 8;
+	// case 10:
+	// return 0;
+	// case 11:
+	// return Random.IntRange(12, 13);
+	// case 12:
+	// return 14;
+	// case 13:
+	// return 14;
+	// case 14:
+	// return 12;
+	// case 15:
+	// return 0;
+	// case 16:
+	// return Random.IntRange(17, 18);
+	// case 17:
+	// return 19;
+	// case 18:
+	// return 19;
+	// case 19:
+	// return 17;
+	// case 20:
+	// return 0;
+	// case 21:
+	// return Random.IntRange(22, 23);
+	// case 22:
+	// return 24;
+	// case 23:
+	// return 24;
+	// case 24:
+	// return 22;
+	// default:
+	// return 0;
+	// }
+	// }
 
 	public static int numberExits(int currDepth) {
 		switch (currDepth) {
@@ -1510,7 +1502,7 @@ public abstract class Level implements Bundlable {
 		case 20:
 			return 1;
 		case 21:
-			return 2;
+			return 1;
 		case 22:
 			return 1;
 		case 23:
@@ -1575,7 +1567,7 @@ public abstract class Level implements Bundlable {
 		case 22:
 			return 1;
 		case 23:
-			return 2;
+			return 1;
 		case 24:
 			return 1;
 		case 25:
@@ -1617,6 +1609,7 @@ public abstract class Level implements Bundlable {
 		}
 	}
 
+	// TODO rework this descending from floor 24 to 25 stuck in wall and also from floor 23 to 24
 	public int getDestExit(int currDepth, int currPos, int posEntrance,
 			int posEntrance2) {
 		int num = currDepth % 5;

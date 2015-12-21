@@ -116,8 +116,11 @@ public class CityBossLevel extends Level {
 		Painter.fill( this, LEFT, TOP + HALL_HEIGHT + 1, 1, CHAMBER_HEIGHT, Terrain.BOOKSHELF );
 		Painter.fill( this, LEFT + HALL_WIDTH - 1, TOP + HALL_HEIGHT + 1, 1, CHAMBER_HEIGHT, Terrain.BOOKSHELF );
 		
-		entrance = (TOP + HALL_HEIGHT + 2 + Random.Int( CHAMBER_HEIGHT - 1 )) * WIDTH + LEFT + (/*1 +*/ Random.Int( HALL_WIDTH-2 ));
+//		entrance = (TOP + HALL_HEIGHT + 2 + Random.Int( CHAMBER_HEIGHT - 1 )) * WIDTH + LEFT + (/*1 +*/ Random.Int( HALL_WIDTH-2 ));
+		entrance = (TOP + HALL_HEIGHT + 1) * WIDTH + (TOP + HALL_HEIGHT);
+		entrance2 = (TOP + HALL_HEIGHT + 1) * WIDTH + (LEFT+ 1);
 		map[entrance] = Terrain.ENTRANCE;
+		map[entrance2] = Terrain.ENTRANCE;
 		
 		return true;
 	}
@@ -162,7 +165,7 @@ public class CityBossLevel extends Level {
 				pos =
 					Random.IntRange( LEFT + 1, LEFT + HALL_WIDTH - 2 ) +
 					Random.IntRange( TOP + HALL_HEIGHT + 1, TOP + HALL_HEIGHT  + CHAMBER_HEIGHT ) * WIDTH;
-			} while (pos == entrance || map[pos] == Terrain.SIGN);
+			} while (pos == entrance || pos == entrance2 || map[pos] == Terrain.SIGN);
 			drop( item, pos ).type = Heap.Type.REMAINS;
 		}
 	}

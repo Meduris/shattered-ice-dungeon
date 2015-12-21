@@ -133,9 +133,12 @@ public class CavesBossLevel extends Level {
 		arenaDoor = Random.Int( ROOM_LEFT, ROOM_RIGHT ) + (ROOM_BOTTOM + 1) * WIDTH;
 		map[arenaDoor] = Terrain.DOOR;
 		
-		entrance = Random.Int( ROOM_LEFT + 1, ROOM_RIGHT - 1 ) +
-			Random.Int( ROOM_TOP + 1, ROOM_BOTTOM - 1 ) * WIDTH;
+//		entrance = Random.Int( ROOM_LEFT + 1, ROOM_RIGHT - 1 ) +
+//			Random.Int( ROOM_TOP + 1, ROOM_BOTTOM - 1 ) * WIDTH;
+		entrance = (ROOM_RIGHT) + (ROOM_TOP + 1) * WIDTH;
+		entrance2 = (ROOM_LEFT) + (ROOM_TOP + 1) * WIDTH;
 		map[entrance] = Terrain.ENTRANCE;
+		map[entrance2] = Terrain.ENTRANCE;
 		
 		boolean[] patch = Patch.generate( 0.45f, 6 );
 		for (int i=0; i < LENGTH; i++) {
@@ -189,7 +192,7 @@ public class CavesBossLevel extends Level {
 		int sign;
 		do {
 			sign = Random.Int( ROOM_LEFT, ROOM_RIGHT ) + Random.Int( ROOM_TOP, ROOM_BOTTOM ) * WIDTH;
-		} while (sign == entrance || map[sign] == Terrain.INACTIVE_TRAP);
+		} while (sign == entrance || sign == entrance2 || map[sign] == Terrain.INACTIVE_TRAP);
 		map[sign] = Terrain.SIGN;
 	}
 	
@@ -208,7 +211,7 @@ public class CavesBossLevel extends Level {
 			int pos;
 			do {
 				pos = Random.IntRange( ROOM_LEFT, ROOM_RIGHT ) + Random.IntRange( ROOM_TOP + 1, ROOM_BOTTOM ) * WIDTH;
-			} while (pos == entrance || map[pos] == Terrain.SIGN);
+			} while (pos == entrance || pos == entrance2 || map[pos] == Terrain.SIGN);
 			drop( item, pos ).type = Heap.Type.REMAINS;
 		}
 	}

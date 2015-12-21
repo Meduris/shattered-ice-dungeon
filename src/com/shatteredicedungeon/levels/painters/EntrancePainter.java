@@ -63,7 +63,7 @@ public class EntrancePainter extends Painter {
 		}
 		if (room.type == Room.Type.ENTRANCE && Dungeon.bossLevel()) {
 			level.entrance2 = room.top * Level.WIDTH + Level.WIDTH
-					+ (room.left);
+					+ (room.left + 1);
 			set(level, level.entrance2, Terrain.ENTRANCE);
 		}
 	}

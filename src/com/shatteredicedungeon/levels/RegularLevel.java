@@ -46,6 +46,7 @@ import com.shatteredicedungeon.levels.painters.ShopPainter;
 import com.shatteredicedungeon.levels.traps.FireTrap;
 import com.shatteredicedungeon.levels.traps.Trap;
 import com.shatteredicedungeon.levels.traps.WornTrap;
+import com.shatteredicedungeon.utils.GLog;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Graph;
 import com.watabou.utils.Random;
@@ -84,24 +85,26 @@ public abstract class RegularLevel extends Level {
 			} while (roomExit == roomEntrance || roomExit.width() < 4
 					|| roomExit.height() < 4);
 
-			if (Level.numberEntrances(Dungeon.depth) == 2 && !Dungeon.bossLevel()) {
-				do {
-					roomEntrance2 = Random.element(rooms);
-				} while (roomEntrance2 == roomEntrance
-						|| roomEntrance2 == roomExit
-						|| roomEntrance2.width() < 4
-						|| roomEntrance2.height() < 4);
-			} else if (Level.numberEntrances(Dungeon.depth) == 2 && Dungeon.bossLevel()) {
-				roomEntrance2 = roomEntrance;
-			}
-
-			if (Level.numberExits(Dungeon.depth) == 2) {
-				do {
-					roomExit2 = Random.element(rooms);
-				} while (roomExit2 == roomEntrance || roomExit2 == roomExit
-						|| roomExit2 == roomEntrance2 || roomExit2.width() < 4
-						|| roomExit2.height() < 4);
-			}
+			// if (Level.numberEntrances(Dungeon.depth) == 2
+			// && !Dungeon.bossLevel()) {
+			// do {
+			// roomEntrance2 = Random.element(rooms);
+			// } while (roomEntrance2 == roomEntrance
+			// || roomEntrance2 == roomExit
+			// || roomEntrance2.width() < 4
+			// || roomEntrance2.height() < 4);
+			// } else if (Level.numberEntrances(Dungeon.depth) == 2
+			// && Dungeon.bossLevel()) {
+			// roomEntrance2 = roomEntrance;
+			// }
+			//
+			// if (Level.numberExits(Dungeon.depth) == 2) {
+			// do {
+			// roomExit2 = Random.element(rooms);
+			// } while (roomExit2 == roomEntrance || roomExit2 == roomExit
+			// || roomExit2 == roomEntrance2 || roomExit2.width() < 4
+			// || roomExit2.height() < 4);
+			// }
 
 			Graph.buildDistanceMap(rooms, roomExit);
 			distance = roomEntrance.distance();
@@ -114,13 +117,13 @@ public abstract class RegularLevel extends Level {
 
 		roomEntrance.type = Type.ENTRANCE;
 
-		if (roomEntrance2 != null) {
-			roomEntrance2.type = Type.ENTRANCE2;
-		}
+		// if (roomEntrance2 != null) {
+		// roomEntrance2.type = Type.ENTRANCE2;
+		// }
 		roomExit.type = Type.EXIT;
-		if (roomExit2 != null) {
-			roomExit2.type = Type.EXIT2;
-		}
+		// if (roomExit2 != null) {
+		// roomExit2.type = Type.EXIT2;
+		// }
 
 		HashSet<Room> connected = new HashSet<Room>();
 		connected.add(roomEntrance);
@@ -128,20 +131,21 @@ public abstract class RegularLevel extends Level {
 		Graph.buildDistanceMap(rooms, roomExit);
 		List<Room> path = Graph.buildPath(rooms, roomEntrance, roomExit);
 
-//		if (Level.numberEntrances(Dungeon.depth) == 2 && roomEntrance2 != null) {
-//			path.add(path.size() / 2, roomEntrance2);
-//		}
-//
-//		if (Level.numberExits(Dungeon.depth) == 2 && roomExit2 != null) {
-//			path.add(roomExit2);
-//		}
+		// if (Level.numberEntrances(Dungeon.depth) == 2 && roomEntrance2 !=
+		// null) {
+		// path.add(path.size() / 2, roomEntrance2);
+		// }
+		//
+		// if (Level.numberExits(Dungeon.depth) == 2 && roomExit2 != null) {
+		// path.add(roomExit2);
+		// }
 
 		Room room = roomEntrance;
 		for (Room next : path) {
 			room.connect(next);
 			room = next;
 			connected.add(room);
-		}		
+		}
 
 		Graph.setPrice(path, roomEntrance.distance);
 
@@ -155,20 +159,21 @@ public abstract class RegularLevel extends Level {
 			connected.add(room);
 		}
 
-//		if (Level.numberEntrances(Dungeon.depth) == 2 && roomEntrance2 != null) {
-//			room = Random.element(connected);
-//			room.connect(roomEntrance2);
-//			room = roomEntrance2;
-//			connected.add(room);
-//		}
-//		
-//		if (Level.numberEntrances(Dungeon.depth) == 2 && roomExit2 != null){
-//			room = Random.element(connected);
-//			room.connect(roomExit2);
-//			room = roomExit2;
-//			connected.add(room);
-//		}
-		
+		// if (Level.numberEntrances(Dungeon.depth) == 2 && roomEntrance2 !=
+		// null) {
+		// room = Random.element(connected);
+		// room.connect(roomEntrance2);
+		// room = roomEntrance2;
+		// connected.add(room);
+		// }
+		//
+		// if (Level.numberEntrances(Dungeon.depth) == 2 && roomExit2 != null){
+		// room = Random.element(connected);
+		// room.connect(roomExit2);
+		// room = roomExit2;
+		// connected.add(room);
+		// }
+
 		int nConnected = (int) (rooms.size() * Random.Float(0.5f, 0.7f));
 		while (connected.size() < nConnected) {
 
@@ -179,6 +184,13 @@ public abstract class RegularLevel extends Level {
 				cr.connect(or);
 				connected.add(or);
 			}
+		}
+
+		if (roomEntrance2 != null && !connected.contains(roomEntrance2)) {
+			GLog.w("roomEntrance2 not connected", (Object) null);
+		}
+		if (roomExit2 != null && !connected.contains(roomExit2)) {
+			GLog.w("roomExit2 not connected", (Object) null);
 		}
 
 		if (Dungeon.shopOnLevel()) {
@@ -196,6 +208,85 @@ public abstract class RegularLevel extends Level {
 				return false;
 			} else {
 				shop.type = Room.Type.SHOP;
+			}
+		}
+
+		// Chooses the additional entrance and exit rooms from the connected
+		// rooms as it didn't work on using non connected rooms
+		if (Level.numberEntrances(Dungeon.depth) == 2 && !Dungeon.bossLevel()) {
+			do {
+				roomEntrance2 = Random.element(connected);
+			} while (roomEntrance2 == roomEntrance || roomEntrance2 == roomExit
+					|| roomEntrance2.width() < 4 || roomEntrance2.height() < 4);
+		} else if (Level.numberEntrances(Dungeon.depth) == 2
+				&& Dungeon.bossLevel()) {
+			roomEntrance2 = roomEntrance;
+		}
+		if (roomEntrance2 != null) {
+			roomEntrance2.type = Type.ENTRANCE2;
+		}
+
+		if (Level.numberExits(Dungeon.depth) == 2) {
+			do {
+				roomExit2 = Random.element(connected);
+			} while (roomExit2 == roomEntrance || roomExit2 == roomExit
+					|| roomExit2 == roomEntrance2 || roomExit2.width() < 4
+					|| roomExit2.height() < 4);
+		}
+		if (roomExit2 != null) {
+			roomExit2.type = Type.EXIT2;
+		}
+
+		// These messages are just for debugging as sometimes there may be
+		// issues with the additional entrance and exit rooms
+		if (Level.numberEntrances(Dungeon.depth) == 2) {
+			if (roomEntrance2 == null) {
+				GLog.w("Needed RoomEntrance2 was not generated", (Object) null);
+			} else if (roomEntrance2.connected == null) {
+				GLog.w("RoomEntrance2 is not connected to any other rooms",
+						(Object) null);
+				if (roomEntrance2.neigbours.isEmpty()) {
+					GLog.w("RoomEntrance2 has no neighbours", (Object) null);
+				} else {
+					GLog.w("RoomEntrance2 has "
+							+ roomEntrance2.neigbours.size() + " neighbours",
+							(Object) null);
+				}
+			} else {
+				GLog.w("RoomEntrance2 is connected to "
+						+ roomEntrance2.connected.size() + " rooms",
+						(Object) null);
+				if (roomEntrance2.neigbours.isEmpty()) {
+					GLog.w("RoomEntrance2 has no neighbours", (Object) null);
+				} else {
+					GLog.w("RoomEntrance2 has "
+							+ roomEntrance2.neigbours.size() + " neighbours",
+							(Object) null);
+				}
+			}
+		}
+
+		if (Level.numberExits(Dungeon.depth) == 2) {
+			if (roomExit2 == null) {
+				GLog.w("Needed RoomExit2 was not generated", (Object) null);
+			} else if (roomExit2.connected == null) {
+				GLog.w("RoomExit2 is not connected to any other rooms",
+						(Object) null);
+				if (roomExit2.neigbours.isEmpty()) {
+					GLog.w("RoomExit2 has no neighbours", (Object) null);
+				} else {
+					GLog.w("RoomExit2 has " + roomExit2.neigbours.size()
+							+ " neighbours", (Object) null);
+				}
+			} else {
+				GLog.w("RoomExit2 is connected to "
+						+ roomExit2.connected.size() + " rooms", (Object) null);
+				if (roomExit2.neigbours.isEmpty()) {
+					GLog.w("RoomExit2 has no neighbours", (Object) null);
+				} else {
+					GLog.w("RoomExit2 has " + roomExit2.neigbours.size()
+							+ " neighbours", (Object) null);
+				}
 			}
 		}
 

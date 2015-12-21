@@ -46,6 +46,7 @@ public class SewerBossLevel extends RegularLevel {
 	}
 	
 	private int stairs = 0;
+	private int stairs2 = 0;
 	
 	@Override
 	public String tilesTex() {
@@ -196,7 +197,7 @@ public class SewerBossLevel extends RegularLevel {
 		int start = roomExit.top * WIDTH + roomExit.left + 1;
 		int end = start + roomExit.width() - 1;
 		for (int i = start; i < end; i++) {
-			if (i != exit && map[i] == Terrain.WALL && (i + WIDTH) != entrance) {
+			if (i != exit && map[i] == Terrain.WALL && (i + WIDTH) != entrance && (i+WIDTH) != entrance2) {
 				map[i] = Terrain.WALL_DECO;
 				map[i + WIDTH] = Terrain.WATER;
 			} else if ((i + WIDTH) == entrance) {
@@ -242,7 +243,7 @@ public class SewerBossLevel extends RegularLevel {
 			int pos;
 			do {
 				pos = roomEntrance.random();
-			} while (pos == entrance || map[pos] == Terrain.SIGN);
+			} while (pos == entrance || pos == entrance2 || map[pos] == Terrain.SIGN);
 			drop( item, pos ).type = Heap.Type.REMAINS;
 		}
 	}
@@ -265,6 +266,16 @@ public class SewerBossLevel extends RegularLevel {
 			stairs = entrance;
 			entrance = 0;
 		}
+		if(entrance2 != 0){
+			super.seal();
+			
+			set( entrance2, Terrain.WATER_TILES);
+			GameScene.updateMap(entrance2);
+			GameScene.ripple(entrance2);
+			
+			stairs2 = entrance2;
+			entrance2 = 0;
+		}
 	}
 	
 	public void unseal() {
@@ -279,20 +290,32 @@ public class SewerBossLevel extends RegularLevel {
 			GameScene.updateMap( entrance );
 
 		}
+		if(stairs2 != 0){
+			super.unseal();
+			
+			entrance2 = stairs2;
+			stairs2 = 0;
+			
+			set(entrance2, Terrain.ENTRANCE);
+			GameScene.updateMap(entrance2);
+		}
 	}
 	
 	private static final String STAIRS	= "stairs";
+	private static final String STAIRS2 = "stairs2";
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle( bundle );
 		bundle.put( STAIRS, stairs );
+		bundle.put(STAIRS2, stairs2);
 	}
 	
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
 		stairs = bundle.getInt( STAIRS );
+		stairs2 = bundle.getInt(STAIRS2);
 		roomExit = roomEntrance;
 	}
 	
