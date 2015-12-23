@@ -59,9 +59,10 @@ public class SewerLevel extends RegularLevel {
 		return Assets.WATER_SEWERS;
 	}
 	
-	public String snowTex(){
-		return Assets.SNOW_SEWERS;
-	}
+//	@Override
+//	public String snowTex(){
+//		return Assets.SNOW_ALL;
+//	}
 	
 	protected boolean[] water() {
 		return Patch.generate( feeling == Feeling.WATER ? 0.60f : 0.45f, 5 );

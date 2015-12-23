@@ -115,7 +115,7 @@ public class Assets {
 	public static final String PRISON_QUEST = "custom_tiles/prison_quests.png";
 	public static final String PRISON_EXIT  = "custom_tiles/prison_exit.png";
 	
-	public static final String SNOW_SEWERS 	= "snow0.png";
+	public static final String SNOW_ALL 	= "snow0.png";
 	
 	public static final String BUFFS_SMALL	= "buffs.png";
 	public static final String BUFFS_LARGE	= "large_buffs.png";

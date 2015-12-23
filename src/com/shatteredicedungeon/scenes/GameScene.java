@@ -170,11 +170,11 @@ public class GameScene extends PixelScene {
 
 		if (Dungeon.depth <= 5) {
 			snow = new SkinnedBlock(Level.WIDTH * DungeonTilemap.SIZE,
-					Level.HEIGHT * DungeonTilemap.SIZE, Dungeon.level.snowTex());
+					Level.HEIGHT * DungeonTilemap.SIZE, Assets.SNOW_ALL);
 			add(snow);
-			
+		
 			snow2 = new SkinnedBlock(Level.WIDTH * DungeonTilemap.SIZE,
-					Level.HEIGHT * DungeonTilemap.SIZE, Dungeon.level.snowTex());
+					Level.HEIGHT * DungeonTilemap.SIZE, Assets.SNOW_ALL);
 			add(snow);
 			add(snow2);
 		}
@@ -340,6 +340,7 @@ public class GameScene extends PixelScene {
 			Chasm.heroLand();
 			break;
 		case DESCEND:
+		case WANDERING_DOWN: // should be shown here
 			switch (Dungeon.depth) {
 			case 1:
 				WndStory.showChapter( WndStory.ID_SEWERS );
@@ -420,6 +421,7 @@ public class GameScene extends PixelScene {
 			water.offset(0, -5 * Game.elapsed);
 
 		if (Dungeon.depth <= 5 && !freezeEmitters) {
+//		if (!freezeEmitters) {
 			snow.offset(1 * Game.elapsed, -6 * Game.elapsed);
 			snow2.offset(2 * Game.elapsed, -10 * Game.elapsed);
 		}

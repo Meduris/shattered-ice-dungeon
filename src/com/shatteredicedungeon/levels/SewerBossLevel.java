@@ -58,10 +58,10 @@ public class SewerBossLevel extends RegularLevel {
 		return Assets.WATER_SEWERS;
 	}
 
-	@Override
-	public String snowTex(){
-		return Assets.SNOW_SEWERS;
-	}
+//	@Override
+//	public String snowTex(){
+//		return Assets.SNOW_ALL;
+//	}
 	
 	@Override
 	protected boolean build() {

@@ -491,9 +491,9 @@ public abstract class Level implements Bundlable {
 		return null;
 	}
 
-	public String snowTex() {
-		return null;
-	}
+//	public String snowTex() {
+//		return null;
+//	}
 
 	abstract protected boolean build();
 
