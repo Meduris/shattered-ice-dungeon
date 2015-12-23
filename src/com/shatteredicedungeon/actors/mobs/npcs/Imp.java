@@ -22,7 +22,6 @@ package com.shatteredicedungeon.actors.mobs.npcs;
 
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.Journal;
-import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.buffs.Buff;
 import com.shatteredicedungeon.actors.mobs.Golem;
@@ -32,7 +31,6 @@ import com.shatteredicedungeon.items.Generator;
 import com.shatteredicedungeon.items.quest.DwarfToken;
 import com.shatteredicedungeon.items.rings.Ring;
 import com.shatteredicedungeon.levels.CityLevel;
-import com.shatteredicedungeon.levels.Room;
 import com.shatteredicedungeon.scenes.GameScene;
 import com.shatteredicedungeon.sprites.ImpSprite;
 import com.shatteredicedungeon.utils.Utils;

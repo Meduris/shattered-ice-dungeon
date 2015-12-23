@@ -25,7 +25,6 @@ import com.shatteredicedungeon.ResultDescriptions;
 import com.shatteredicedungeon.levels.Level;
 import com.shatteredicedungeon.ui.BuffIndicator;
 import com.shatteredicedungeon.utils.GLog;
-import com.shatteredicedungeon.utils.Utils;
 import com.watabou.utils.Random;
 
 public class Ooze extends Buff {

@@ -36,7 +36,6 @@ import com.shatteredicedungeon.scenes.GameScene;
 import com.shatteredicedungeon.scenes.InterlevelScene;
 import com.shatteredicedungeon.sprites.MobSprite;
 import com.shatteredicedungeon.utils.GLog;
-import com.shatteredicedungeon.utils.Utils;
 import com.shatteredicedungeon.windows.WndOptions;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;

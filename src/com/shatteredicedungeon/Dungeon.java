@@ -20,6 +20,13 @@
  */
 package com.shatteredicedungeon;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+
 import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.buffs.Amok;
@@ -63,13 +70,6 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 import com.watabou.utils.SparseArray;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 
 public class Dungeon {
 
@@ -469,7 +469,7 @@ public static Level newLevel(int depthToGenerate) {
 	private static final String DROPPED     = "dropped%d";
 	private static final String LEVEL		= "level";
 	private static final String LIMDROPS    = "limiteddrops";
-	private static final String DV			= "dewVial";
+//	private static final String DV			= "dewVial";
 	private static final String WT			= "transmutation";
 	private static final String CHAPTERS	= "chapters";
 	private static final String QUESTS		= "quests";

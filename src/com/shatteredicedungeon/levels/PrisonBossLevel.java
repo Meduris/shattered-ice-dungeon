@@ -37,7 +37,6 @@ import com.shatteredicedungeon.levels.traps.Trap;
 import com.shatteredicedungeon.scenes.GameScene;
 import com.shatteredicedungeon.ui.CustomTileVisual;
 import com.shatteredicedungeon.ui.HealthIndicator;
-import com.shatteredicedungeon.utils.GLog;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;

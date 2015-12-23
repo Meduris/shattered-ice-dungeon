@@ -21,7 +21,6 @@
 package com.shatteredicedungeon.actors.mobs;
 
 import com.shatteredicedungeon.actors.Char;
-import com.shatteredicedungeon.actors.mobs.npcs.Ghost;
 import com.shatteredicedungeon.items.food.MysteryMeat;
 import com.shatteredicedungeon.sprites.CrabSprite;
 import com.watabou.utils.Random;

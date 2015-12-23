@@ -36,7 +36,6 @@ import com.shatteredicedungeon.items.artifacts.SandalsOfNature;
 import com.shatteredicedungeon.levels.Level;
 import com.shatteredicedungeon.levels.Terrain;
 import com.shatteredicedungeon.plants.BlandfruitBush;
-import com.shatteredicedungeon.plants.Plant;
 import com.shatteredicedungeon.scenes.GameScene;
 import com.watabou.utils.Random;
 

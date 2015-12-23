@@ -20,7 +20,6 @@
  */
 package com.shatteredicedungeon.actors;
 
-import java.util.Arrays;
 import java.util.HashSet;
 
 import android.util.SparseArray;

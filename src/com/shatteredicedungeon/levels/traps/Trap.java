@@ -22,9 +22,6 @@ package com.shatteredicedungeon.levels.traps;
 
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Dungeon;
-import com.shatteredicedungeon.levels.Level;
-import com.shatteredicedungeon.levels.Terrain;
-import com.shatteredicedungeon.scenes.GameScene;
 import com.shatteredicedungeon.sprites.TrapSprite;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.tweeners.AlphaTweener;

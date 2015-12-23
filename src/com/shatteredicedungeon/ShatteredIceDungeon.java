@@ -104,7 +104,6 @@ public class ShatteredIceDungeon extends Game {
 
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
 		super.onCreate(savedInstanceState);

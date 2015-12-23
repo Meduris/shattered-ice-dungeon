@@ -28,7 +28,6 @@ import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.blobs.ToxicGas;
 import com.shatteredicedungeon.actors.buffs.Poison;
 import com.shatteredicedungeon.items.Generator;
-import com.shatteredicedungeon.items.scrolls.ScrollOfPsionicBlast;
 import com.shatteredicedungeon.items.weapon.Weapon;
 import com.shatteredicedungeon.items.weapon.Weapon.Enchantment;
 import com.shatteredicedungeon.items.weapon.enchantments.Death;

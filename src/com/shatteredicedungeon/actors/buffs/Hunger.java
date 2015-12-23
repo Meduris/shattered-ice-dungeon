@@ -26,14 +26,11 @@ import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.ResultDescriptions;
 import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.actors.hero.HeroClass;
-import com.shatteredicedungeon.actors.hero.HeroSubClass;
 import com.shatteredicedungeon.items.artifacts.Artifact;
 import com.shatteredicedungeon.items.artifacts.HornOfPlenty;
-import com.shatteredicedungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredicedungeon.ui.BuffIndicator;
 import com.shatteredicedungeon.utils.GLog;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.Random;
 
 public class Hunger extends Buff implements Hero.Doom {
 

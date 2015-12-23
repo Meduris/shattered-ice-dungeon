@@ -37,7 +37,7 @@ import com.watabou.noosa.audio.Sample;
 public class WndSettings extends WndTabbed {
 	private static final String TXT_SWITCH_PORT	= "Switch to portrait";
 	private static final String TXT_SWITCH_LAND	= "Switch to landscape";
-	private static final String TXT_SWITCH_COUNTER_LAND = "reverse landscape";
+//	private static final String TXT_SWITCH_COUNTER_LAND = "reverse landscape";
 
 	private static final int WIDTH		    = 112;
 	private static final int HEIGHT         = 112;

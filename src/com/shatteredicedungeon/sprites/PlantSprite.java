@@ -20,14 +20,13 @@
  */
 package com.shatteredicedungeon.sprites;
 
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Image;
-import com.watabou.noosa.TextureFilm;
 import com.shatteredicedungeon.Assets;
-import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.DungeonTilemap;
 import com.shatteredicedungeon.levels.Level;
 import com.shatteredicedungeon.plants.Plant;
+import com.watabou.noosa.Game;
+import com.watabou.noosa.Image;
+import com.watabou.noosa.TextureFilm;
 
 public class PlantSprite extends Image {
 

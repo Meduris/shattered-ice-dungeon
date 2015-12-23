@@ -21,7 +21,6 @@
 package com.shatteredicedungeon.sprites;
 
 import com.shatteredicedungeon.Assets;
-import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.DungeonTilemap;
 import com.shatteredicedungeon.levels.Level;
 import com.shatteredicedungeon.levels.traps.Trap;

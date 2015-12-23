@@ -44,7 +44,6 @@ import com.shatteredicedungeon.items.bags.WandHolster;
 import com.shatteredicedungeon.items.potions.Potion;
 import com.shatteredicedungeon.items.rings.Ring;
 import com.shatteredicedungeon.items.scrolls.Scroll;
-import com.shatteredicedungeon.items.wands.Wand;
 import com.shatteredicedungeon.scenes.PixelScene;
 import com.shatteredicedungeon.utils.GLog;
 import com.watabou.noosa.Game;

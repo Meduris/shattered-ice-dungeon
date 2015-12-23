@@ -20,7 +20,6 @@
  */
 package com.shatteredicedungeon.actors.buffs;
 
-import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.ui.BuffIndicator;
 
 public class Bless extends FlavourBuff {

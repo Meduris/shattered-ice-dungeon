@@ -26,7 +26,6 @@ import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.mobs.Mob;
 import com.shatteredicedungeon.levels.Level;
-import com.shatteredicedungeon.scenes.PixelScene;
 import com.shatteredicedungeon.sprites.CharSprite;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Random;

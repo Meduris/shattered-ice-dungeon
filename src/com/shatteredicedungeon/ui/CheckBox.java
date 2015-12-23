@@ -20,7 +20,6 @@
  */
 package com.shatteredicedungeon.ui;
 
-import com.shatteredicedungeon.scenes.PixelScene;
 
 public class CheckBox extends RedButton {
 

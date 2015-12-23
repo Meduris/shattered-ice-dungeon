@@ -29,7 +29,6 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.annotation.SuppressLint;
 import android.opengl.GLES20;
-import android.util.FloatMath;
 
 import com.watabou.gltextures.Gradient;
 import com.watabou.gltextures.SmartTexture;

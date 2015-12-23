@@ -29,8 +29,6 @@ import com.shatteredicedungeon.ui.BuffIndicator;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
-import java.util.HashSet;
-
 public class FireImbue extends Buff {
 
 	public static final float DURATION	= 30f;

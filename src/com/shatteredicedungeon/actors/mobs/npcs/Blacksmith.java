@@ -22,7 +22,6 @@ package com.shatteredicedungeon.actors.mobs.npcs;
 
 import java.util.Collection;
 
-import com.watabou.noosa.audio.Sample;
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Badges;
 import com.shatteredicedungeon.Dungeon;
@@ -30,7 +29,6 @@ import com.shatteredicedungeon.Journal;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.buffs.Buff;
 import com.shatteredicedungeon.actors.hero.Hero;
-import com.shatteredicedungeon.actors.mobs.Mob;
 import com.shatteredicedungeon.items.EquipableItem;
 import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.items.quest.DarkGold;
@@ -43,6 +41,7 @@ import com.shatteredicedungeon.sprites.BlacksmithSprite;
 import com.shatteredicedungeon.utils.GLog;
 import com.shatteredicedungeon.windows.WndBlacksmith;
 import com.shatteredicedungeon.windows.WndQuest;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 

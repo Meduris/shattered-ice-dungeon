@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.actors.hero.HeroClass;
 import com.shatteredicedungeon.utils.Utils;
 import com.watabou.noosa.Game;

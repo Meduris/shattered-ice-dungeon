@@ -22,7 +22,6 @@ package com.shatteredicedungeon.actors.mobs.npcs;
 
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.actors.buffs.Buff;
-import com.shatteredicedungeon.actors.mobs.Mob;
 import com.shatteredicedungeon.effects.CellEmitter;
 import com.shatteredicedungeon.effects.particles.ElmoParticle;
 import com.shatteredicedungeon.items.Heap;

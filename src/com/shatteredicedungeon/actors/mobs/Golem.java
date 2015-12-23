@@ -27,7 +27,6 @@ import com.shatteredicedungeon.actors.buffs.Amok;
 import com.shatteredicedungeon.actors.buffs.Sleep;
 import com.shatteredicedungeon.actors.buffs.Terror;
 import com.shatteredicedungeon.actors.mobs.npcs.Imp;
-import com.shatteredicedungeon.items.scrolls.ScrollOfPsionicBlast;
 import com.shatteredicedungeon.sprites.GolemSprite;
 import com.watabou.utils.Random;
 

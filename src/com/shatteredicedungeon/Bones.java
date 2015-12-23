@@ -20,22 +20,21 @@
  */
 package com.shatteredicedungeon;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.items.Generator;
 import com.shatteredicedungeon.items.Gold;
 import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.items.artifacts.Artifact;
 import com.shatteredicedungeon.items.weapon.missiles.MissileWeapon;
-import com.shatteredicedungeon.ui.QuickSlotButton;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Bones {
 

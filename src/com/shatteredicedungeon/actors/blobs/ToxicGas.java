@@ -29,7 +29,6 @@ import com.shatteredicedungeon.actors.hero.Hero;
 import com.shatteredicedungeon.effects.BlobEmitter;
 import com.shatteredicedungeon.effects.Speck;
 import com.shatteredicedungeon.utils.GLog;
-import com.shatteredicedungeon.utils.Utils;
 import com.watabou.utils.Random;
 
 public class ToxicGas extends Blob implements Hero.Doom {

@@ -24,9 +24,6 @@ import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.effects.CellEmitter;
 import com.shatteredicedungeon.effects.particles.EarthParticle;
 import com.shatteredicedungeon.ui.BuffIndicator;
-import com.watabou.utils.Bundle;
-
-import java.util.HashSet;
 
 public class EarthImbue extends FlavourBuff {
 

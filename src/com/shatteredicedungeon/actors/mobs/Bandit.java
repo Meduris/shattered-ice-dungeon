@@ -22,7 +22,6 @@ package com.shatteredicedungeon.actors.mobs;
 
 import com.shatteredicedungeon.Badges;
 import com.shatteredicedungeon.Dungeon;
-import com.shatteredicedungeon.actors.buffs.Bleeding;
 import com.shatteredicedungeon.actors.buffs.Blindness;
 import com.shatteredicedungeon.actors.buffs.Buff;
 import com.shatteredicedungeon.actors.buffs.Cripple;

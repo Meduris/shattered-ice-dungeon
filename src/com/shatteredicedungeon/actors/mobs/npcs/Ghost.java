@@ -20,10 +20,11 @@
  */
 package com.shatteredicedungeon.actors.mobs.npcs;
 
+import java.util.HashSet;
+
 import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.Journal;
-import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.Char;
 import com.shatteredicedungeon.actors.blobs.Blob;
 import com.shatteredicedungeon.actors.blobs.Fire;
@@ -65,8 +66,6 @@ import com.shatteredicedungeon.windows.WndSadGhost;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
-
-import java.util.HashSet;
 
 public class Ghost extends NPC {
 

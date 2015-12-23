@@ -20,14 +20,13 @@
  */
 package com.shatteredicedungeon.actors.buffs;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.items.weapon.missiles.MissileWeapon;
 import com.watabou.utils.Bundle;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 
 public class PinCushion extends Buff {
 

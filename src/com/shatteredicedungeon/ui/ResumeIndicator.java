@@ -21,7 +21,6 @@
 package com.shatteredicedungeon.ui;
 
 import com.shatteredicedungeon.Dungeon;
-import com.shatteredicedungeon.scenes.PixelScene;
 import com.watabou.noosa.Image;
 
 public class ResumeIndicator extends Tag {

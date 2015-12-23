@@ -20,7 +20,6 @@
  */
 package com.shatteredicedungeon.windows;
 
-import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.levels.traps.Trap;
 import com.shatteredicedungeon.sprites.TrapSprite;
 

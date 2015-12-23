@@ -20,11 +20,8 @@
  */
 package com.shatteredicedungeon.effects;
 
-import com.shatteredicedungeon.Assets;
 import com.shatteredicedungeon.sprites.CharSprite;
-import com.watabou.noosa.Game;
 import com.watabou.noosa.Gizmo;
-import com.watabou.noosa.audio.Sample;
 
 public class DarkBlock extends Gizmo{
 

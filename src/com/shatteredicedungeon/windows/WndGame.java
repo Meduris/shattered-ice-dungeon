@@ -22,7 +22,6 @@ package com.shatteredicedungeon.windows;
 
 import java.io.IOException;
 
-import com.watabou.noosa.Game;
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.ShatteredIceDungeon;
 import com.shatteredicedungeon.scenes.GameScene;
@@ -32,6 +31,7 @@ import com.shatteredicedungeon.scenes.TitleScene;
 import com.shatteredicedungeon.ui.Icons;
 import com.shatteredicedungeon.ui.RedButton;
 import com.shatteredicedungeon.ui.Window;
+import com.watabou.noosa.Game;
 
 public class WndGame extends Window {
 	

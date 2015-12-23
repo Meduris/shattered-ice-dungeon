@@ -20,15 +20,13 @@
  */
 package com.shatteredicedungeon.windows;
 
-import com.watabou.noosa.BitmapTextMultiline;
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.items.Item;
 import com.shatteredicedungeon.scenes.PixelScene;
-import com.shatteredicedungeon.sprites.ItemSprite;
 import com.shatteredicedungeon.ui.ItemSlot;
 import com.shatteredicedungeon.ui.RedButton;
 import com.shatteredicedungeon.ui.Window;
-import com.shatteredicedungeon.utils.Utils;
+import com.watabou.noosa.BitmapTextMultiline;
 
 public class WndItem extends Window {
 

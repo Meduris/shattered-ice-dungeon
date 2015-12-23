@@ -25,7 +25,6 @@ import com.shatteredicedungeon.ResultDescriptions;
 import com.shatteredicedungeon.effects.Splash;
 import com.shatteredicedungeon.ui.BuffIndicator;
 import com.shatteredicedungeon.utils.GLog;
-import com.shatteredicedungeon.utils.Utils;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
