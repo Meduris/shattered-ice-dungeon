@@ -20,7 +20,6 @@
  */
 package com.shatteredicedungeon.levels.painters;
 
-import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.mobs.Piranha;
 import com.shatteredicedungeon.items.Generator;
 import com.shatteredicedungeon.items.Heap;

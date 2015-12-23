@@ -20,6 +20,7 @@
  */
 package com.shatteredicedungeon.levels.painters;
 
+import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.levels.Level;
 import com.shatteredicedungeon.levels.Room;
 import com.shatteredicedungeon.levels.Terrain;
@@ -37,8 +38,17 @@ public class ExitPainter extends Painter {
 		if (room.type == Room.Type.EXIT) {
 			level.exit = room.random(1);
 			set(level, level.exit, Terrain.EXIT);
-		} else if (room.type == Room.Type.EXIT2){
+		} else if (room.type == Room.Type.EXIT2) {
 			level.exit2 = room.random(1);
+			set(level, level.exit2, Terrain.EXIT);
+		}
+		if (room.type == Room.Type.EXIT && Dungeon.depth == 21) {
+			do {
+				level.exit2 = room.random(1);
+			} while (level.exit2 == level.exit
+			// Modify this if the distance between the two exits should be
+			// bigger
+					|| Level.distance(level.exit, level.exit2) < 2);
 			set(level, level.exit2, Terrain.EXIT);
 		}
 	}

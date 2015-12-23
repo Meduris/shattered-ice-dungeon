@@ -21,7 +21,6 @@
 package com.shatteredicedungeon.levels.painters;
 
 import com.shatteredicedungeon.Dungeon;
-import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.mobs.Statue;
 import com.shatteredicedungeon.items.keys.IronKey;
 import com.shatteredicedungeon.levels.Level;

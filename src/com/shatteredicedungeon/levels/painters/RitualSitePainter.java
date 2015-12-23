@@ -21,8 +21,6 @@
 package com.shatteredicedungeon.levels.painters;
 
 import com.shatteredicedungeon.Assets;
-import com.shatteredicedungeon.Dungeon;
-import com.shatteredicedungeon.items.keys.IronKey;
 import com.shatteredicedungeon.items.quest.CeremonialCandle;
 import com.shatteredicedungeon.levels.Level;
 import com.shatteredicedungeon.levels.Room;

@@ -1285,7 +1285,11 @@ public abstract class Level implements Bundlable {
 		case 20:
 			return 21;
 		case 21:
-			return 22;
+			if (Dungeon.hero.pos == Dungeon.level.exit) {
+				return 22;
+			} else {
+				return 23;
+			}
 		case 22:
 			return 24;
 		case 23:
@@ -1384,7 +1388,11 @@ public abstract class Level implements Bundlable {
 		case 22:
 			return 21;
 		case 23:
-			return 24;
+			if (Dungeon.hero.pos == Dungeon.level.entrance) {
+				return 21;
+			} else {
+				return 24;
+			}
 		case 24:
 			return 22;
 		case 25:
@@ -1502,7 +1510,7 @@ public abstract class Level implements Bundlable {
 		case 20:
 			return 1;
 		case 21:
-			return 1;
+			return 2;
 		case 22:
 			return 1;
 		case 23:
@@ -1567,7 +1575,7 @@ public abstract class Level implements Bundlable {
 		case 22:
 			return 1;
 		case 23:
-			return 1;
+			return 2;
 		case 24:
 			return 1;
 		case 25:

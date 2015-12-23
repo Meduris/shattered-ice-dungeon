@@ -22,7 +22,6 @@ package com.shatteredicedungeon.levels.painters;
 
 import com.shatteredicedungeon.Dungeon;
 import com.shatteredicedungeon.levels.Level;
-import com.shatteredicedungeon.levels.RegularLevel;
 import com.shatteredicedungeon.levels.Room;
 import com.shatteredicedungeon.levels.Terrain;
 

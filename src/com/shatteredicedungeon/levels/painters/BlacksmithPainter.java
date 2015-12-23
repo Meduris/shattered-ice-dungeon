@@ -20,14 +20,12 @@
  */
 package com.shatteredicedungeon.levels.painters;
 
-import com.shatteredicedungeon.actors.Actor;
 import com.shatteredicedungeon.actors.mobs.npcs.Blacksmith;
 import com.shatteredicedungeon.items.Generator;
 import com.shatteredicedungeon.levels.Level;
 import com.shatteredicedungeon.levels.Room;
 import com.shatteredicedungeon.levels.Terrain;
 import com.shatteredicedungeon.levels.traps.FireTrap;
-import com.shatteredicedungeon.levels.traps.Trap;
 import com.watabou.utils.Random;
 
 public class BlacksmithPainter extends Painter {
