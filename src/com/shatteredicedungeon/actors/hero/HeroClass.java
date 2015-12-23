@@ -138,24 +138,24 @@ public enum HeroClass {
 	private static void initWarrior( Hero hero ) {
 		hero.STR = hero.STR + 1;
 
-//		(hero.belongings.weapon = new ShortSword()).identify();
-		Glaive glaive = new Glaive();
-		glaive.upgrade(200).identify();
-		hero.belongings.weapon = glaive;
+		(hero.belongings.weapon = new ShortSword()).identify();
+//		Glaive glaive = new Glaive();
+//		glaive.upgrade(200).identify();
+//		hero.belongings.weapon = glaive;
 		
-		PlateArmor armor = new PlateArmor();
-		armor.upgrade(200).identify();
-		hero.belongings.armor = armor;
+//		PlateArmor armor = new PlateArmor();
+//		armor.upgrade(200).identify();
+//		hero.belongings.armor = armor;
 		
-		hero.STR = 50;
-		hero.HT = 20000;
-		hero.HP = 20000;
+//		hero.STR = 50;
+//		hero.HT = 20000;
+//		hero.HP = 20000;
 		
 		Dart darts = new Dart( 8 );
 		darts.identify().collect();
 		
-		ScrollOfMagicMapping scMapping = new ScrollOfMagicMapping();
-		scMapping.quantity(50).identify().collect();
+//		ScrollOfMagicMapping scMapping = new ScrollOfMagicMapping();
+//		scMapping.quantity(50).identify().collect();
 
 		Dungeon.quickslot.setSlot(0, darts);
 
