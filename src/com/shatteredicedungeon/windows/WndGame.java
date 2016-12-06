@@ -53,7 +53,7 @@ public class WndGame extends Window {
 		
 		super();
 		
-		addButton(new RedButton("Settings") {
+		addButton(new RedButton( TXT_SETTINGS ) {
 			@Override
 			protected void onClick() {
 				hide();
